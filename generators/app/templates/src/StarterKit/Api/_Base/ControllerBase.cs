@@ -1,10 +1,12 @@
 ﻿using System;
-using Digipolis.Helpers;
-using Digipolis.WebApi;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.ModelBinding;
-using Microsoft.Framework.Logging;
+using Microsoft.Extensions.Logging;
 using StarterKit.Business.Exceptions;
+using Toolbox.Common.Helpers;
+using Toolbox.Errors;
+using Toolbox.Errors.Exceptions;
+using Toolbox.WebApi.QueryString;
 
 namespace StarterKit.Api.Controllers
 {

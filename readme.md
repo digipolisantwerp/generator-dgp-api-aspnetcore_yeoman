@@ -1,6 +1,6 @@
 # generator-dgp-api-aspnet5
 
-> Yeoman generator for a new ASP.NET 5 Api project.
+> Yeoman generator for an ASP.NET 5 Api project.
 
 ## Installation
 

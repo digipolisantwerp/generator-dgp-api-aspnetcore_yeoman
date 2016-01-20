@@ -21,8 +21,12 @@ module.exports = yeoman.generators.Base.extend({
       message: "Enter the name of the new project (don't forget the Pascal-casing):"
     }, {
       type: 'input',
-      name: 'port',
-      message: 'Enter the port of the new project:'
+      name: 'httpPort',
+      message: 'Enter the HTTP port of the new project:'
+    }, {
+      type: 'input',
+      name: 'httpsPort',
+      message: 'Enter the HTTPS port of the new project:'
     }];
 
     this.prompt(prompts, function (props) {
@@ -47,6 +51,9 @@ module.exports = yeoman.generators.Base.extend({
     var integrationGuid = Guid.create();
     var unitGuid = Guid.create();
     
+    var httpPort = this.props.httpPort;
+    var httpsPort = this.props.httpsPort;
+    
     var copyOptions = { 
       process: function(contents) {
         var str = contents.toString();
@@ -57,28 +64,19 @@ module.exports = yeoman.generators.Base.extend({
                         .replace(/079636FA-0D93-4251-921A-013355153BF5/g, testGuid.value.toUpperCase())
                         .replace(/BD79C050-331F-4733-87DE-F650976253B5/g, starterKitGuid.value.toUpperCase())
                         .replace(/948E75FD-C478-4001-AFBE-4D87181E1BEC/g, integrationGuid.value.toUpperCase())
-                        .replace(/0A3016FD-A06C-4AA1-A843-DEA6A2F01696/g, unitGuid.value.toUpperCase());
+                        .replace(/0A3016FD-A06C-4AA1-A843-DEA6A2F01696/g, unitGuid.value.toUpperCase())
+                        .replace(/http:\/\/localhost:51002/g, "http://localhost:" + httpPort)
+                        .replace(/http:\/\/localhost:51003/g, "http://localhost:" + httpsPort);
         return result;
       }
     };
-      
-    //  this.fs.copy(
-    //     this.templatePath('**/**.*'),
-    //     this.destinationPath(),
-    //     copyOptions
-    //  );
-     
-     //this.fs.move(this.destinationPath('StarterKit.sln'), this.destinationPath(this.props.projectName + '.sln'));
      
      var source = this.sourceRoot();
      var dest = this.destinationRoot();
      var fs = this.fs;
      
-     //console.log('source: ' + source);
-     //console.log('dest: ' + dest);
-     
      // copy files and rename starterkit to projectName
-     
+    
      console.log('Creation project skeleton...');
      
      nd.files(source, function (err, files) {

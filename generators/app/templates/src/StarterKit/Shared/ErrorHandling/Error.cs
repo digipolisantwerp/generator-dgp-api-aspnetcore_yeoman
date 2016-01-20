@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace StarterKit
+namespace Toolbox.Errors
 {
 	public class Error
 	{

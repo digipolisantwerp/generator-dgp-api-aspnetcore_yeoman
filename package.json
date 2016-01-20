@@ -1,7 +1,7 @@
 {
   "name": "generator-dgp-api-aspnet5",
   "version": "0.0.1",
-  "description": "Generator for a new ASP.NET 5 Api project.",
+  "description": "Generator for an ASP.NET 5 Api project.",
   "homepage": "",
   "author": {
     "name": "digipolis.be",
