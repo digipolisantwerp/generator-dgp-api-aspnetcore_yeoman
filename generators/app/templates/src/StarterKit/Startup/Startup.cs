@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Runtime;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using StarterKit.AppStart;
 using Digipolis.Utilities;
 using Digipolis.WebApi;
 

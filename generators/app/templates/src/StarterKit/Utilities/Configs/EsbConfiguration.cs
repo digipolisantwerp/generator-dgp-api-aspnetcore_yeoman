@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Text;
-using Microsoft.Framework.Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace StarterKit.Utilities.Configs
 {
@@ -22,7 +22,7 @@ namespace StarterKit.Utilities.Configs
 			get
 			{
 				if ( _authScheme == null )
-					_authScheme = _config.Get(Prefix + ":AuthScheme");
+					_authScheme = _config[Prefix + ":AuthScheme"];
 				return _authScheme;
 			}
 		}
@@ -33,7 +33,7 @@ namespace StarterKit.Utilities.Configs
             get
             {
                 if (_domain == null)
-                    _domain = _config.Get(Prefix + ":Domain");
+                    _domain = _config[Prefix + ":Domain"];
                 return _domain;
             }
         }
@@ -44,7 +44,7 @@ namespace StarterKit.Utilities.Configs
 			get
             {
                 if ( _user == null )
-                    _user = _config.Get(Prefix + ":User");
+                    _user = _config[Prefix + ":User"];
                 return _user;
             }
         }
@@ -55,7 +55,7 @@ namespace StarterKit.Utilities.Configs
 			get
             {
                 if ( _password == null )
-                    _password = _config.Get(Prefix + ":Password");
+                    _password = _config[Prefix + ":Password"];
                 return _password;
             }
         }
@@ -66,7 +66,7 @@ namespace StarterKit.Utilities.Configs
             get
             {
                 if ( _url == null )
-                    _url = _config.Get(Prefix + ":Scheme") + _config.Get(Prefix + ":Host") + ":" + _config.Get(Prefix + ":Port") + _config.Get(Prefix + ":Path");
+                    _url = _config[Prefix + ":Scheme"] + _config[Prefix + ":Host"] + ":" + _config[Prefix + ":Port"] + _config[Prefix + ":Path"];
                 return _url;
             }
         }

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using StarterKit.DataAccess;
-using StarterKit.Entities;
+using Toolbox.DataAccess.Entities;
+using Toolbox.DataAccess.Query;
 
 namespace StarterKit
 {

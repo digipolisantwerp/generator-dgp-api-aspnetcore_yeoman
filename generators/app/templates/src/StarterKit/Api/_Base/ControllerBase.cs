@@ -2,7 +2,6 @@
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
-using StarterKit.Business.Exceptions;
 using Toolbox.Common.Helpers;
 using Toolbox.Errors;
 using Toolbox.Errors.Exceptions;
@@ -22,17 +21,17 @@ namespace StarterKit.Api.Controllers
 
 		protected virtual IActionResult BadRequestResult(ModelStateDictionary modelState)
 		{
-			// ToDo : moet dit gelogd worden ?
+			// ToDo : log this error
 			return new BadRequestObjectResult(modelState);
 		}
 
 		protected virtual IActionResult BadRequestResult(BusinessValidationException validationEx)
 		{
-			// ToDo : moet dit gelogd worden ?
+			// ToDo : log this error
 			var modelState = new ModelStateDictionary();
 			foreach ( var message in validationEx.Error.Messages )
 			{
-				modelState.AddModelError(String.Empty, message);
+				modelState.AddModelError(message.Key, message.Message);
 			}
 			return new BadRequestObjectResult(modelState);
 		}
@@ -47,14 +46,16 @@ namespace StarterKit.Api.Controllers
 			if ( ex == null )
 			{
 				Logger.LogError(message, args);
-				var error = new Error(message, args);
-				return new ObjectResult(error) { StatusCode = 500 };
+                var error = new Error();
+                error.AddMessage(String.Format(message, args));
+                return new ObjectResult(error) { StatusCode = 500 };
 			}
 			else
 			{
 				var errorMessage = String.Format(message, args);
 				Logger.LogError("{0} : {1}", errorMessage, ExceptionHelper.GetAllToStrings(ex));
-				var error = new Error("{0} : {1}", errorMessage, ex.Message);
+				var error = new Error();
+                error.AddMessage(String.Format("{0} : {1}", errorMessage, ex.Message));
 				return new ObjectResult(error) { StatusCode = 500 };
 			}
 		}
@@ -63,7 +64,7 @@ namespace StarterKit.Api.Controllers
 		{
 			if ( error == null ) throw new ArgumentNullException(nameof(error), nameof(error) + " is null");
 			foreach ( var message in error.Messages )
-				Logger.LogError(message);
+				Logger.LogError("{0} : {1}", message.Key, message.Message);
 			return new ObjectResult(error) { StatusCode = 500 };
 		}
 
@@ -80,7 +81,9 @@ namespace StarterKit.Api.Controllers
 		protected virtual IActionResult NotFoundResult(string message, params object[] args)
 		{
 			Logger.LogWarning(message, args);
-			return new ObjectResult(new Error(message, args)) { StatusCode = 404 };
+            var error = new Error();
+            error.AddMessage(String.Format(message, args));
+			return new ObjectResult(error) { StatusCode = 404 };
 		}
 	}
 }

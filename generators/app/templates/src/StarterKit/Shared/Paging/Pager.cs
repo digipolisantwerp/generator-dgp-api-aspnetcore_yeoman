@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
-using StarterKit.DataAccess;
-using StarterKit.DataAccess.Repositories;
-using StarterKit.Entities;
+using Toolbox.DataAccess;
+using Toolbox.DataAccess.Entities;
+using Toolbox.DataAccess.Query;
+using Toolbox.DataAccess.Repositories;
+
 
 namespace StarterKit
 {

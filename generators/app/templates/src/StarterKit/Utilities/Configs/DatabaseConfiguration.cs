@@ -1,4 +1,4 @@
-﻿using Microsoft.Framework.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace StarterKit.Utilities.Configs
 {
@@ -18,11 +18,11 @@ namespace StarterKit.Utilities.Configs
             {
                 if (_connectionString == null)
                     _connectionString = string.Format("Server={0};Port={1};Database={2};User Id={3};Password={4}",
-                                                _config.Get("starterkit:Host"), 
-                                                _config.Get("starterkit:Port"), 
-                                                _config.Get("starterkit:Name"), 
-                                                _config.Get("starterkit:Userid"), 
-                                                _config.Get("starterkit:Password"));
+                                                _config["ConnectionString:Host"], 
+                                                _config["ConnectionString:Port"], 
+                                                _config["ConnectionString:Name"], 
+                                                _config["ConnectionString:Userid"], 
+                                                _config["ConnectionString:Password"]);
                 return _connectionString;
 
             }

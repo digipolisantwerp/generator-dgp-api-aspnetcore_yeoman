@@ -1,4 +1,4 @@
-﻿using Microsoft.Framework.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace StarterKit.Utilities.Configs
 {
@@ -17,7 +17,7 @@ namespace StarterKit.Utilities.Configs
             get
             {
                 if ( _name == null )
-                    _name = _config.Get("Name");
+                    _name = _config["Name"];
                 return _name;
             }
         }
@@ -31,11 +31,11 @@ namespace StarterKit.Utilities.Configs
                 {
                     _fileTarget = new LoggingFileTargetConfiguration()
                     {
-                        FileName = _config.Get("FileTarget:FileName"),
-                        Layout = _config.Get("FileTarget:Layout"),
-                        Level = _config.Get("FileTarget:Level"),
-                        Name = _config.Get("FileTarget:Name"),
-						Path = _config.Get("FileTarget:Path")
+                        FileName = _config["FileTarget:FileName"],
+                        Layout = _config["FileTarget:Layout"],
+                        Level = _config["FileTarget:Level"],
+                        Name = _config["FileTarget:Name"],
+						Path = _config["FileTarget:Path"]
                     };
                 }
                 return _fileTarget;

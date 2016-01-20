@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using StarterKit.Utilities.Configs;
-using Microsoft.Framework.Configuration;
-using Microsoft.Framework.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace StarterKit.AppStart
+namespace StarterKit
 {
     public class ConfigurationConfig
     {

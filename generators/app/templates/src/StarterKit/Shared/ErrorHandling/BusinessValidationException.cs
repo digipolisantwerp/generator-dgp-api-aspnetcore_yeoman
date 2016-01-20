@@ -12,12 +12,14 @@ namespace Toolbox.Errors.Exceptions
 
         public BusinessValidationException(string message, params object[] args) : this(new Error())
         {
-            this.Error = new Error(message, args);
+            this.Error = new Error();
+            this.Error.AddMessage(String.Format(message, args));
         }
 
         public BusinessValidationException(IEnumerable<string> messages)
         {
-            this.Error = new Error(messages);
+            this.Error = new Error();
+            this.Error.AddMessages(messages);
         }
 
         public Error Error { get; private set; }

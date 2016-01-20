@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using System;
 
-namespace StarterKit.AppStart
+namespace StarterKit
 {
     public class AutoMapperConfiguration
     {

@@ -1,5 +1,5 @@
 ﻿{
-    "starterkit": {
+    "Connectionstring": {
 		"Host": "starterkit-sql1-o.antwerpen.be",
 		"Port": "99999",
 		"Name": "starterkit",

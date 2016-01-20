@@ -1,5 +1,5 @@
 ﻿{
-	"starterkit": {
+	"ConnectionString": {
 		"Host": "%%db.postgresql.connection.host%%",
 		"Port": "%%db.postgresql.connection.port%%",
 		"Name": "%%db.postgresql.connection.name%%",

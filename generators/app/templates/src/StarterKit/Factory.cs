@@ -1,8 +1,4 @@
-﻿using Microsoft.Framework.DependencyInjection;
-using StarterKit.DataAccess;
-using StarterKit.DataAccess.Repositories;
-using StarterKit.DataAccess.Repositories.Base;
-using StarterKit.DataAccess.Uow;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace StarterKit
 {
@@ -23,8 +19,7 @@ namespace StarterKit
 
 		private static void ConfigureDataAccess(IServiceCollection services)
 		{
-			services.AddSingleton<IUowProvider, UowProvider>();
-			services.AddTransient(typeof(IRepository<>), typeof(GenericEntityRepository<>));
+
         }
 
 		private static void ConfigureServiceAgents(IServiceCollection services)

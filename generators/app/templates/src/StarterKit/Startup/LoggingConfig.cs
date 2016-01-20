@@ -1,13 +1,13 @@
 ﻿using System;
 using StarterKit.Utilities.Configs;
-using Microsoft.Framework.DependencyInjection;
-using Microsoft.Framework.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using NLog.Config;
 using NLog.Layouts;
 using NLog.Targets;
 using System.IO;
 
-namespace StarterKit.AppStart
+namespace StarterKit
 {
     public class LoggingConfig
     {
