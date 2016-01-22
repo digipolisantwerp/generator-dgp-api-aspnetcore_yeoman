@@ -1,15 +1,13 @@
 ﻿using System.IO;
-using System.Runtime.CompilerServices;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.StaticFiles;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Runtime;
+using Microsoft.Extensions.PlatformAbstractions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Digipolis.Utilities;
-using Digipolis.WebApi;
+using Toolbox.WebApi;
 
 namespace StarterKit
 {
@@ -66,7 +64,7 @@ namespace StarterKit
 			{
 				routes.MapRoute(
 					name: "default",
-					template: "api/{controller}/{id?}"
+					template: "api/{controller}/{id?}");
 			});
 		}
         

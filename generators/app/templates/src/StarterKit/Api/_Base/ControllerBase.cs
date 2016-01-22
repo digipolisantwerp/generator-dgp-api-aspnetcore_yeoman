@@ -25,7 +25,7 @@ namespace StarterKit.Api.Controllers
 			return new BadRequestObjectResult(modelState);
 		}
 
-		protected virtual IActionResult BadRequestResult(BusinessValidationException validationEx)
+		protected virtual IActionResult BadRequestResult(ValidationException validationEx)
 		{
 			// ToDo : log this error
 			var modelState = new ModelStateDictionary();
