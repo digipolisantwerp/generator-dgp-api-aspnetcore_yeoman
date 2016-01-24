@@ -22,7 +22,7 @@ namespace StarterKit
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var configPath = Path.Combine(_applicationBasePath, "Configs");
+            var configPath = Path.Combine(_applicationBasePath, "_config");
 			var config = new ConfigurationConfig(configPath);
 			config.Configure(services);
 			
@@ -32,7 +32,7 @@ namespace StarterKit
             Factory.Configure(services);
 
 			// camelCase JSON + RootObject
-			services.AddMvc().Configure<MvcOptions>(options =>
+			services.AddMvc(options =>
 			{
 				var settings = new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() };
 				

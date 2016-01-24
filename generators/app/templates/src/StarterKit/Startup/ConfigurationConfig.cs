@@ -18,10 +18,6 @@ namespace StarterKit
         
         public void Configure(IServiceCollection services)
         {
-            var dbConfigSection = CreateConfigurationSection("dbconfig.json");
-			var dbConfig = new DatabaseConfiguration(dbConfigSection);
-            services.AddInstance<IDatabaseConfiguration>(dbConfig);
-
             var logConfigFilename = GetLoggingConfigFileName(); 
             var logConfigSection = CreateConfigurationSection(logConfigFilename);            
             var logConfig = new LoggingConfiguration(logConfigSection);

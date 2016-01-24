@@ -14,7 +14,7 @@ namespace StarterKit
 
 		private static void ConfigureBusiness(IServiceCollection services)
 		{
-			services.AddScoped(typeof(IPager<>), typeof(Pager<>));
+			
 		}
 
 		private static void ConfigureDataAccess(IServiceCollection services)
