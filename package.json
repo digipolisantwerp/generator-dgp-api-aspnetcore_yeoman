@@ -1,7 +1,7 @@
 {
-  "name": "generator-dgp-api-aspnet5",
+  "name": "generator-dgp-api-aspnetcore1",
   "version": "0.0.1",
-  "description": "Generator for an ASP.NET 5 Api project.",
+  "description": "Generator for an ASP.NET Core 1.0 API project.",
   "homepage": "",
   "author": {
     "name": "digipolis.be",
@@ -34,7 +34,7 @@
     "gulp-plumber": "^1.0.0",
     "gulp-nsp": "^2.1.0"
   },
-  "repository": "/generator-dgp-api-aspnet5",
+  "repository": "/generator-dgp-api-aspnetcore1",
   "scripts": {
     "prepublish": "gulp prepublish",
     "test": "gulp"

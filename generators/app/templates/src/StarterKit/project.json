@@ -26,7 +26,7 @@
         "Toolbox.DataAccess": "1.5.0",
         "Toolbox.DataAccess.Postgres": "1.0.0",
         "Toolbox.Errors": "1.2.0",
-        "Toolbox.WebApi": "1.0.6"
+        "Toolbox.WebApi": "1.0.8"
 	},
     "frameworks" : {
         "dnx451" : { 

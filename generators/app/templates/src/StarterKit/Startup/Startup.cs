@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Digipolis.Utilities;
 using Toolbox.WebApi;
 
 namespace StarterKit
@@ -31,21 +30,10 @@ namespace StarterKit
 
             Factory.Configure(services);
 
-			// camelCase JSON + RootObject
-			services.AddMvc(options =>
-			{
-				var settings = new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-				
-				ListHelper.RemoveTypes(options.OutputFormatters, typeof(JsonOutputFormatter));
-				
-				var outputFormatter = new RootObjectJsonOutputFormatter() { SerializerSettings = settings };
-				options.OutputFormatters.Insert(0, outputFormatter);
-				
-				ListHelper.RemoveTypes(options.InputFormatters, typeof(JsonInputFormatter));
-				
-				var inputFormatter = new RootObjectJsonInputFormatter() { SerializerSettings = settings };
-				options.InputFormatters.Insert(0, inputFormatter);
-			});
+			services.AddMvc()
+                .AddActionOverloading()
+                .AddRootObjectInputFormatter()
+                .AddRootObjectOutputFormatter();
 		}
         
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
