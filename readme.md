@@ -1,4 +1,4 @@
-# generator-dgp-api-aspnetcore1
+# generator-dgp-api-aspnetcore
 
 > Yeoman generator for an ASP.NET Core 1.0 API project.
 
@@ -17,7 +17,7 @@ The _**-g**_ flags install it globally so you can run yeoman from anywhere.
 Install the generator :
 
 ``` bash
-npm install generator-dgp-api-aspnetcore1 -g
+npm install generator-dgp-api-aspnetcore -g
 ```
 
 ## Generate a new ASP.NET Core 1.0 API project
@@ -25,7 +25,7 @@ npm install generator-dgp-api-aspnetcore1 -g
 In a command prompt, navigate to the directory where you want to create the new project and type :
 
 ``` bash
-yo dgp-api-aspnetcore1
+yo dgp-api-aspnetcore
 ```
 
 Answer the questions :-)
