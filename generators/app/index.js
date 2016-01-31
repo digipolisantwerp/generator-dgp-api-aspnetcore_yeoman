@@ -76,7 +76,7 @@ module.exports = yeoman.generators.Base.extend({
                         .replace(/948E75FD-C478-4001-AFBE-4D87181E1BEC/g, integrationGuid.value.toUpperCase())
                         .replace(/0A3016FD-A06C-4AA1-A843-DEA6A2F01696/g, unitGuid.value.toUpperCase())
                         .replace(/http:\/\/localhost:51002/g, "http://localhost:" + httpPort)
-                        .replace(/https:\/\/localhost:51003/g, "http://localhost:" + httpsPort);
+                        .replace(/https:\/\/localhost:51003/g, "https://localhost:" + httpsPort);
         return result;
       }
     };

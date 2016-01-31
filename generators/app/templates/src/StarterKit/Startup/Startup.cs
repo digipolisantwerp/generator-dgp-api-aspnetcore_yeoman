@@ -1,11 +1,8 @@
 ﻿using System.IO;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Toolbox.WebApi;
 
 namespace StarterKit
@@ -32,8 +29,9 @@ namespace StarterKit
 
 			services.AddMvc()
                 .AddActionOverloading()
-                .AddRootObjectInputFormatter()
-                .AddRootObjectOutputFormatter();
+                .AddVersioning();
+                
+            services.AddSwaggerGen();
 		}
         
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -54,6 +52,10 @@ namespace StarterKit
 					name: "default",
 					template: "api/{controller}/{id?}");
 			});
+            
+            app.UseSwaggerGen();
+            app.UseSwaggerUi();
+            app.UseSwaggerUiRedirect();
 		}
         
         public static void Main(string[] args) => WebApplication.Run<Startup>(args);

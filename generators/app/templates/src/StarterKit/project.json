@@ -21,12 +21,14 @@
 		"Microsoft.Extensions.Logging": "1.0.0-rc1-final",
 		"Microsoft.Extensions.Logging.NLog": "1.0.0-rc1-final",
 		"Microsoft.Extensions.OptionsModel": "1.0.0-rc1-final",
+        "Swashbuckle.SwaggerGen": "6.0.0-rc1-final",
+		"Swashbuckle.SwaggerUi": "6.0.0-rc1-final",
 		"System.Linq.Dynamic": "1.0.4.0",
         "Toolbox.Common": "1.1.0",
         "Toolbox.DataAccess": "1.5.0",
         "Toolbox.DataAccess.Postgres": "1.0.0",
         "Toolbox.Errors": "1.2.0",
-        "Toolbox.WebApi": "1.0.8"
+        "Toolbox.WebApi": "1.2.0"
 	},
     "frameworks" : {
         "dnx451" : { 
