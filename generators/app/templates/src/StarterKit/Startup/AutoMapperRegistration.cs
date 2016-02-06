@@ -3,13 +3,15 @@ using System;
 
 namespace StarterKit
 {
-    public class AutoMapperConfiguration
+    public static class AutoMapperRegistration
     {
-        public static void Configure()
+        public static IServiceCollection AddAutoMapper(this IServiceCollection services)
         {
             BusinessEntitiesToDataContracts();
             AgentToBusinessEntities();
 			AgentToDataContracts();
+            
+            return services;
         }
 
         private static void BusinessEntitiesToDataContracts()

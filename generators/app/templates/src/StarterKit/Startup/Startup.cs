@@ -25,11 +25,12 @@ namespace StarterKit
             LoggingConfig.Configure(services);
             AutoMapperConfiguration.Configure();
 
-            Factory.Configure(services);
-
 			services.AddMvc()
                 .AddActionOverloading()
                 .AddVersioning();
+            
+            services.AddBusinessServices();
+            services.AddAutoMapper();
                 
             services.AddSwaggerGen();
 		}
