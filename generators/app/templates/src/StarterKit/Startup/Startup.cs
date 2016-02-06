@@ -2,8 +2,11 @@
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.PlatformAbstractions;
 using Toolbox.WebApi;
+using SeriLog;
+using SeriLog.Sinks.RollingFile;
 
 namespace StarterKit
 {
@@ -11,19 +14,29 @@ namespace StarterKit
     {
 		public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
 		{
-		    _applicationBasePath = appEnv.ApplicationBasePath;
+            var configPath = Path.Combine(appEnv.ApplicationBasePath, "_config");
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(configPath)
+                .AddJsonFile("logging.json")
+                .AddJsonFile("app.json")
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
+            
+            ApplicationBasePath = appEnv.ApplicationBasePath;     
+            
+            Log.Logger = new LoggerConfiguration().WriteTo.RollingFile("pathToLogFile").CreateLogger();       
 		}
 		
-		private readonly string _applicationBasePath;
-
+        public IConfigurationRoot Configuration { get; private set; }
+        public string ApplicationBasePath { get; private set; }
+        
         public void ConfigureServices(IServiceCollection services)
         {
-            var configPath = Path.Combine(_applicationBasePath, "_config");
+            var configPath = Path.Combine(ApplicationBasePath, "_config");
 			var config = new ConfigurationConfig(configPath);
 			config.Configure(services);
 			
             LoggingConfig.Configure(services);
-            AutoMapperConfiguration.Configure();
 
 			services.AddMvc()
                 .AddActionOverloading()
@@ -35,8 +48,13 @@ namespace StarterKit
             services.AddSwaggerGen();
 		}
         
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 		{
+            loggerFactory.MinimumLevel = LogLevel.Debug;    // ToDo: to config file
+            loggerFactory.AddConsole(Configuration.GetSection("ConsoleLogging"));
+            loggerFactory.AddDebug(LogLevel.Debug);
+            loggerFactory.AddSeriLog();
+            
 			// CORS
             app.UseCors((policy) => {
                 policy.AllowAnyHeader();
