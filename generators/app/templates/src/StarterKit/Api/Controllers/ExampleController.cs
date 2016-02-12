@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Hello02.Api.Models;
-using Hello02.Options;
+using StarterKit.Api.Models;
+using StarterKit.Options;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.OptionsModel;
