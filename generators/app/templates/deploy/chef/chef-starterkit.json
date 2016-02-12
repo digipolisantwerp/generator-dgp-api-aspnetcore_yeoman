@@ -3,9 +3,9 @@
     	"version": "",
     	"artifact": "",
         "port": "51003",
-        "enablelogging": true,
-        "enabledebug": true,
-        "templatepath": "/views/",
+        "appname": "StarterKit",
+        "datadirectory": "/data/",
+        "tempdirectory": "/temp/",
         "apiroot": {
             "uri": {
                 "scheme": "http://",
@@ -34,19 +34,6 @@
                 "userid": "starterkit_o",
                 "password": "pwd"
             }
-        }
-    },
-    "log": {
-        "name": "starterkitLogFile",
-        "layout": "${date:format=yyyy-MM-dd HH\\:mm\\:ss.fff} ${message}",
-        "level": "Debug",
-        "linux": {
-            "path": "/data/projectname/starterkit_aspnet5/log/",
-            "filename": "starterkit.log"
-        },
-        "windows": {
-            "path": "C:/LogDigipolis/starterkit/",
-            "filename": "starterkit.log"
         }
     }
 }

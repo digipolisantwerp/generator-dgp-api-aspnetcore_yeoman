@@ -1,3 +1,7 @@
 {
-    "appName": "StarterKit"
+    "AppSettings": {
+        "AppName": "StarterKit",
+        "DataDirectory": "/data/",
+        "TempDirectory": "/temp/"
+    }
 }
