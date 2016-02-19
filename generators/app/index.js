@@ -12,8 +12,8 @@ module.exports = yeoman.generators.Base.extend({
     var done = this.async();
 
     // greet the user
-    this.log(yosay('Welcome to the fantastic Yeoman ' + chalk.green('dgp-api-aspnetcore') + ' generator!'));
-
+    this.log(yosay('Welcome to the fantastic Yeoman ' + chalk.green('dgp-api-aspnetcore') + ' ' + chalk.blue('(1.0.1)') + ' generator!'));
+    
     // ask project parameters
     var prompts = [{
       type: 'input',
@@ -39,7 +39,7 @@ module.exports = yeoman.generators.Base.extend({
     {
       type: 'input',
       name: 'iisHttpPort',
-      message: 'Enter the HTTPS port for the IIS Express server:'
+      message: 'Enter the HTTP port for the IIS Express server:'
     },
     {
       type: 'input',
