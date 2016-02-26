@@ -1,5 +1,4 @@
-﻿/// <binding Clean='clean' />
-"use strict";
+﻿"use strict";
 
 var gulp = require("gulp");
 
@@ -15,6 +14,7 @@ var paths = {
     startupRoot: "./Startup/"
 };
 
-gulp.task("task1", function (cb) {
+gulp.task("prd", function (cb) {
     // ToDo : enter task logic here
+    //        this task is run by the CI system
 });
