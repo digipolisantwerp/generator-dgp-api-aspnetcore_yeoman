@@ -9,6 +9,8 @@
         },
         "LazyLoadingEnabled": false,
         "PluralizeTableNames": false,
-        "DefaultSchema":  "main"
+        "DefaultSchema":  "main",
+        "DisableCascadingDeletes":  true,
+        "UseLowercaseOnTablesAndFields":  true
     }
 }
