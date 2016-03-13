@@ -6,5 +6,8 @@
 
 ## 1.0.1
 
-- typo's
-- added 
+- typo's.
+
+## 1.0.2
+
+- added Correlation Toolbox. 
