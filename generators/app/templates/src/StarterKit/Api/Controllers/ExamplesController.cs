@@ -6,13 +6,14 @@ using StarterKit.Options;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.OptionsModel;
+using Toolbox.WebApi.Filters;
 
 namespace StarterKit.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class ExampleController : Controller
+    public class ExamplesController : Controller
     {
-        public ExampleController(ILogger<ExampleController> logger, IOptions<AppSettings> appSettings)
+        public ExamplesController(ILogger<ExamplesController> logger, IOptions<AppSettings> appSettings)
         {
             Logger = logger;
 
@@ -20,7 +21,7 @@ namespace StarterKit.Api.Controllers
             AppSettings = appSettings.Value;
         }
 
-        public ILogger<ExampleController> Logger { get; private set; }
+        public ILogger<ExamplesController> Logger { get; private set; }
         public AppSettings AppSettings { get; private set; }
 
         // Normally this data would come from an injected business or repository class
@@ -31,7 +32,7 @@ namespace StarterKit.Api.Controllers
             new Example() { Id = 3, Name = "Bruce Wayne" }
         };
 
-        // GET /api/example
+        // GET /api/examples
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -42,7 +43,7 @@ namespace StarterKit.Api.Controllers
             return Ok(_examples);
         }
 
-        // GET /api/example/2
+        // GET /api/examples/2
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -61,19 +62,12 @@ namespace StarterKit.Api.Controllers
             return Ok(example);
         }
 
+        // POST /api/examples
         [HttpPost]
+        [ValidateModelState]
         public IActionResult Create(Example example)
         {
-            // try posting an example object with no name to get a non-valid model
-            
-            if ( !ModelState.IsValid )
-            {
-                // This is how you log a warning message
-                Logger.LogWarning("Consumer tried to add an invalid example.");
-
-                // this will return a HTTP Status Code 400 (Bad Request) along with the failed validations
-                return HttpBadRequest(ModelState);
-            }
+            // try posting an example object with no name to get a non-valid model           
 
             Logger.LogInformation("Consumer added an example with Name = {0}", example.Name);
 

@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.PlatformAbstractions;
 using StarterKit.Options;
+using Toolbox.Correlation;
 using Toolbox.WebApi;
 
 namespace StarterKit
@@ -35,6 +36,8 @@ namespace StarterKit
             // Check out ExampleController to find out how these configs are injected into other classes
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             
+            services.AddCorrelation();
+            
 			services.AddMvc()
                 .AddActionOverloading()
                 .AddVersioning();
@@ -50,6 +53,8 @@ namespace StarterKit
             loggerFactory.AddSeriLog(Configuration.GetSection("SeriLog"));
             loggerFactory.AddConsole(Configuration.GetSection("ConsoleLogging"));
             loggerFactory.AddDebug(LogLevel.Debug);
+            
+            app.UseCorrelation("StarterKit");
             
 			// CORS
             app.UseCors((policy) => {
