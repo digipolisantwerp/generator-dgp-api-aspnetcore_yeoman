@@ -33,11 +33,6 @@ module.exports = yeoman.generators.Base.extend({
     }, 
     {
       type: 'input',
-      name: 'kestrelHttpsPort',
-      message: 'Enter the HTTPS port for the kestrel server:'
-    },
-    {
-      type: 'input',
       name: 'iisHttpPort',
       message: 'Enter the HTTP port for the IIS Express server:'
     },
@@ -72,7 +67,6 @@ module.exports = yeoman.generators.Base.extend({
     var unitGuid = Guid.create();
     
     var kestrelHttpPort = this.props.kestrelHttpPort;
-    var kestrelHttpsPort = this.props.kestrelHttpsPort;
     var iisHttpPort = this.props.iisHttpPort;
     var iisHttpsPort = this.props.iisHttpsPort;
     
@@ -88,7 +82,6 @@ module.exports = yeoman.generators.Base.extend({
                         .replace(/948E75FD-C478-4001-AFBE-4D87181E1BEC/g, integrationGuid.value.toUpperCase())
                         .replace(/0A3016FD-A06C-4AA1-A843-DEA6A2F01696/g, unitGuid.value.toUpperCase())
                         .replace(/http:\/\/localhost:51002/g, "http://localhost:" + kestrelHttpPort)
-                        .replace(/https:\/\/localhost:51003/g, "https://localhost:" + kestrelHttpsPort)
                         .replace(/http:\/\/localhost:51001/g, "http://localhost:" + iisHttpPort)
                         .replace(/"sslPort": 44300/g, "\"sslPort\": " + iisHttpsPort);
         return result;
