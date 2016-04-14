@@ -47,3 +47,7 @@
 ## 1.0.11
 
 - more tests update notifier
+
+## 1.0.12
+
+- added version file
