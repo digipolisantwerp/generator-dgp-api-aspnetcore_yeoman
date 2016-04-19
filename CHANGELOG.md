@@ -51,3 +51,11 @@
 ## 1.0.12
 
 - added version file
+
+## 1.0.13
+
+- added exception handling middleware in Startup
+
+## 1.0.14
+
+- added runtimeinfo page in DEV environment

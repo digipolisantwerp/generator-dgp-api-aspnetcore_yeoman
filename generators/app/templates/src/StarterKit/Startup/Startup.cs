@@ -53,9 +53,7 @@ namespace StarterKit
             loggerFactory.AddSeriLog(Configuration.GetSection("SeriLog"));
             loggerFactory.AddConsole(Configuration.GetSection("ConsoleLogging"));
             loggerFactory.AddDebug(LogLevel.Debug);
-            
-            app.UseCorrelation("StarterKit");
-            
+                       
 			// CORS
             app.UseCors((policy) => {
                 policy.AllowAnyHeader();
@@ -63,6 +61,12 @@ namespace StarterKit
                 policy.AllowAnyOrigin();
                 policy.AllowCredentials();
             });
+            
+            app.UseExceptionHandling(options => {
+                // add your custom exception mappings here
+            });
+
+            app.UseCorrelation("StarterKit");
 
             app.UseIISPlatformHandler();
 
@@ -72,6 +76,11 @@ namespace StarterKit
 					name: "default",
 					template: "api/{controller}/{id?}");
 			});
+
+            if (env.IsDevelopment())
+            {
+                app.UseRuntimeInfoPage("/admin/runtimeinfo");
+            }
             
             app.UseSwaggerGen();
             app.UseSwaggerUi();
