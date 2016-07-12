@@ -59,3 +59,7 @@
 ## 1.0.14
 
 - added runtimeinfo page in DEV environment
+
+## 2.0.0
+
+- upgrade to .Net Core 1.0 (RTM)

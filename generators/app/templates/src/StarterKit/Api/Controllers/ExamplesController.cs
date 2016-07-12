@@ -1,12 +1,12 @@
+using Digipolis.Web.Filters;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using StarterKit.Api.Models;
+using StarterKit.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using StarterKit.Api.Models;
-using StarterKit.Options;
-using Microsoft.AspNet.Mvc;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.OptionsModel;
-using Toolbox.WebApi.Filters;
 
 namespace StarterKit.Api.Controllers
 {
@@ -55,7 +55,7 @@ namespace StarterKit.Api.Controllers
                 Logger.LogWarning("Consumer requested example {0} that does not exist.", id);
 
                 // this will return a HTTP Status Code 404 (Not Found) along with the message
-                return HttpNotFound($"No example found with id = {id}");
+                return NotFound($"No example found with id = {id}");
             }
 
             // this will return a HTTP Status Code 200 (OK) along with the data

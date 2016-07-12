@@ -1,46 +1,43 @@
 ﻿using System.IO;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.PlatformAbstractions;
 using StarterKit.Options;
-using Toolbox.Correlation;
 using Toolbox.WebApi;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Digipolis.Web;
 
 namespace StarterKit
 {
     public class Startup
     {
-		public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
-		{
+        public Startup(IHostingEnvironment env)
+        {
+            var appEnv = PlatformServices.Default.Application;
             ApplicationBasePath = appEnv.ApplicationBasePath;
-            ConfigPath = Path.Combine(ApplicationBasePath, "_config");
-            
+            ConfigPath = Path.Combine(env.ContentRootPath, "_config");
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(ConfigPath)
                 .AddJsonFile("logging.json")
                 .AddJsonFile("app.json")
                 .AddEnvironmentVariables();
-            
+
             Configuration = builder.Build();
-		}
-		
+        }
+
         public IConfigurationRoot Configuration { get; private set; }
         public string ApplicationBasePath { get; private set; }
         public string ConfigPath { get; private set; }
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
             // Check out ExampleController to find out how these configs are injected into other classes
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-            
-            services.AddCorrelation();
-            
-			services.AddMvc()
-                .AddActionOverloading()
-                .AddVersioning();
+
+            services.AddMvc();
             
             services.AddBusinessServices();
             services.AddAutoMapper();
@@ -49,8 +46,7 @@ namespace StarterKit
 		}
         
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
-		{
-            loggerFactory.AddSeriLog(Configuration.GetSection("SeriLog"));
+        {
             loggerFactory.AddConsole(Configuration.GetSection("ConsoleLogging"));
             loggerFactory.AddDebug(LogLevel.Debug);
                        
@@ -66,10 +62,6 @@ namespace StarterKit
                 // add your custom exception mappings here
             });
 
-            app.UseCorrelation("StarterKit");
-
-            app.UseIISPlatformHandler();
-
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute(
@@ -77,16 +69,9 @@ namespace StarterKit
 					template: "api/{controller}/{id?}");
 			});
 
-            if (env.IsDevelopment())
-            {
-                app.UseRuntimeInfoPage("/admin/runtimeinfo");
-            }
-            
-            app.UseSwaggerGen();
+            app.UseSwagger();
             app.UseSwaggerUi();
             app.UseSwaggerUiRedirect();
-		}
-        
-        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
+        }
     }
 }
