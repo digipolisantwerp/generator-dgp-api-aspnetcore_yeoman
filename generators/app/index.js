@@ -14,7 +14,7 @@ module.exports = yeoman.generators.Base.extend({
     var done = this.async();
 
     // greet the user
-    this.log(yosay('Welcome to the fantastic Yeoman ' + chalk.green('dgp-api-aspnetcore') + ' ' + chalk.blue('(1.0.14)') + ' generator!'));
+    this.log(yosay('Welcome to the fantastic Yeoman ' + chalk.green('dgp-api-aspnetcore') + ' ' + chalk.blue('(2.0.0)') + ' generator!'));
     
     var notifier = updateNotifier({
         pkg,
