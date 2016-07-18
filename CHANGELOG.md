@@ -63,3 +63,7 @@
 ## 2.0.0
 
 - upgrade to .Net Core 1.0 (RTM)
+
+## 2.0.1
+
+- Digipolis.Web toolbox v2.0.1
