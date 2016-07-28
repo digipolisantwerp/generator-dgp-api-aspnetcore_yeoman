@@ -71,3 +71,8 @@
 ## 2.0.2
 
 - correction startup method : AddVersionEndpoint
+
+## 2.0.3
+
+- Added version in project.json
+- Removed tools section from project.json
