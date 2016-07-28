@@ -76,3 +76,7 @@
 
 - Added version in project.json
 - Removed tools section from project.json
+
+## 2.0.4
+
+- package version in index.js
