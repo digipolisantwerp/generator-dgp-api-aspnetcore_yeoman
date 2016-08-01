@@ -48,6 +48,7 @@
 
   "publishOptions": {
     "include": [
+      "_config",
       "wwwroot",
       "Views",
       "Areas/**/Views",

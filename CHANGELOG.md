@@ -80,3 +80,7 @@
 ## 2.0.4
 
 - package version in index.js
+
+## 2.0.5
+
+- added _config to include on publish in project.json
