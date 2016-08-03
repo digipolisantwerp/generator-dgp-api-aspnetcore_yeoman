@@ -37,9 +37,8 @@ namespace StarterKit
             // Check out ExampleController to find out how these configs are injected into other classes
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
-            services.AddMvc();
-            //TODO : as of Web Toolbox v2.0.1 this throws an InvalidOperationException
-                //.AddVersionEndpoint();
+            services.AddMvc()
+                .AddVersionEndpoint();
 
             services.AddBusinessServices();
             services.AddAutoMapper();

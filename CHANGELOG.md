@@ -84,3 +84,13 @@
 ## 2.0.5
 
 - added _config to include on publish in project.json
+
+## 2.0.6
+
+- update web toolbox version
+- added kestrel port
+
+## 2.0.7
+
+- correct generation of SSL port
+
