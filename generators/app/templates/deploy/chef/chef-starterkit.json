@@ -1,4 +1,5 @@
 {
+    "appsgroup": "cluster1aspnetcore",
     "app": {
     	"version": "",
     	"artifact": "",

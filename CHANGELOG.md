@@ -94,3 +94,7 @@
 
 - correct generation of SSL port
 
+## 2.0.8
+
+- added appsgroup property to chef config
+- changes needed for hosting the app
