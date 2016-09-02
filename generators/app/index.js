@@ -7,6 +7,7 @@ var nd = require('node-dir');
 var Guid = require('guid');
 var updateNotifier = require('update-notifier');
 var pkg = require('./../../package.json');
+var path = require('path');
 
 module.exports = yeoman.generators.Base.extend({
   
@@ -49,6 +50,12 @@ module.exports = yeoman.generators.Base.extend({
       type: 'input',
       name: 'iisHttpsPort',
       message: 'Enter the HTTPS port for the IIS Express server:'
+    },
+    {
+      type: 'input',
+      name: 'dataProvider',
+      message: 'Will you be using Entity Framework with MSSQL, PostgreSQL or Not ? (m/p/n):',
+      default: 'p'
     }];
 
     this.prompt(prompts, function (props) {
@@ -78,6 +85,7 @@ module.exports = yeoman.generators.Base.extend({
     var kestrelHttpPort = this.props.kestrelHttpPort;
     var iisHttpPort = this.props.iisHttpPort;
     var iisHttpsPort = this.props.iisHttpsPort;
+    var dataProvider = getDataProvider(this.props.dataProvider);
     
     var copyOptions = { 
       process: function(contents) {
@@ -92,7 +100,12 @@ module.exports = yeoman.generators.Base.extend({
                         .replace(/0A3016FD-A06C-4AA1-A843-DEA6A2F01696/g, unitGuid.value.toUpperCase())
                         .replace(/http:\/\/localhost:51002/g, "http://localhost:" + kestrelHttpPort)
                         .replace(/http:\/\/localhost:51001/g, "http://localhost:" + iisHttpPort)
-                        .replace(/"sslPort": 44300/g, "\"sslPort\": " + iisHttpsPort);
+                        .replace(/"sslPort": 44300/g, "\"sslPort\": " + iisHttpsPort)
+                        .replace(/\/\/--dataaccess-package--/g, dataProvider.package)
+                        .replace(/\/\/--dataaccess-startupImports--/g, dataProvider.startupImports)
+                        .replace(/\/\/--dataaccess-startupServices--/g, dataProvider.startupServices)
+                        .replace(/\.AddJsonFile\("app\.json"\)/g, dataProvider.startupCtor)
+                        .replace(/\/\/--dataaccess-connString--/g, dataProvider.connString);
         return result;
       }
     };
@@ -103,17 +116,49 @@ module.exports = yeoman.generators.Base.extend({
      
      // copy files and rename starterkit to projectName
     
-     console.log('Creation project skeleton...');
-     
+     console.log('Creating project skeleton...');
+
      nd.files(source, function (err, files) {
       for ( var i = 0; i < files.length; i++ ) {
         var filename = files[i].replace(/StarterKit/g, projectName)
                                .replace(/starterkit/g, lowerProjectName)
-                               .replace(".npmignore", ".gitignore")
+                               .replace('.npmignore', '.gitignore')
+                               .replace('dataaccess.ms.json', 'dataaccess.json')
+                               .replace('dataaccess.npg.json', 'dataaccess.json')
                                .replace(source, dest);
-        fs.copy(files[i], filename, copyOptions);
+        switch (dataProvider.input)
+        {
+          case 'p':
+            if (files[i].indexOf('dataaccess.ms.json') > -1 ||
+                files[i].indexOf('dataaccess.ms.json.dist') > -1 ) {
+              console.log(files[i] + ' not created');
+            } else {
+              fs.copy(files[i], filename, copyOptions);
+            }
+            break;
+          case 'm':
+            if (files[i].indexOf('dataaccess.npg.json') > -1 ||
+                files[i].indexOf('dataaccess.npg.json.dist') > -1 ) {
+              console.log(files[i] + ' not created');
+            } else {
+              fs.copy(files[i], filename, copyOptions);
+            }
+            break;
+          default:
+            if (files[i].indexOf('EntityContext.cs') > -1 ||
+                files[i].indexOf('dataaccess.ms.json.dist') > -1 ||
+                files[i].indexOf('dataaccess.npg.json.dist') > -1 ||
+                files[i].indexOf('dataaccess.ms.json') > -1 || 
+                files[i].indexOf('dataaccess.npg.json') > -1 ) {
+              console.log(files[i] + ' not created');
+            }
+            else {
+              fs.copy(files[i], filename, copyOptions);            
+            }
+        }
       }
     });
+
   },
 
   install: function () {
@@ -121,3 +166,66 @@ module.exports = yeoman.generators.Base.extend({
     //this.log('----');
   }
 });
+
+function getDataProvider(input) {
+  var efCorePackage = '"Microsoft.EntityFrameworkCore": "1.0.0",\n';
+  var npgSqlPackage = '    "Npgsql.EntityFrameworkCore.PostgreSQL": "1.0.1",\n';
+  var sqlServerPackage = '    "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",\n';
+  var dataAccessPackage = '    "Digipolis.DataAccess": "2.3.1",';
+  var usings = 'using Microsoft.EntityFrameworkCore;\nusing Microsoft.EntityFrameworkCore.Infrastructure;\nusing Digipolis.DataAccess;';
+  var ctor = '.AddJsonFile("app.json")\n                .AddJsonFile("dataaccess.json")';
+
+  var dataProvider = { input: input, package: '', startupServices: '', startupImports: '', startupCtor: '.AddJsonFile("app.json")', connString: '' };
+
+  if (input.toLowerCase() === 'p') {
+      dataProvider.package = efCorePackage + npgSqlPackage + dataAccessPackage;
+      dataProvider.startupServices = 'services.AddDataAccess<EntityContext>();\n' +
+                                     '            var connString = GetConnectionString();\n' +
+                                     '            services.AddDbContext<EntityContext>(options => {\n' +
+                                     '                options.UseNpgsql(connString);\n' +
+                                     '                options.ConfigureWarnings(config => config.Throw(RelationalEventId.QueryClientEvaluationWarning));\n' +
+                                     '            });';
+      dataProvider.startupImports = usings;
+      dataProvider.startupCtor = ctor;
+      dataProvider.connString = getConnectionString();
+  }
+  else if (input.toLowerCase() === 'm') {
+      dataProvider.package = efCorePackage + sqlServerPackage + dataAccessPackage;
+      dataProvider.startupServices = 'services.AddDataAccess<EntityContext>();\n' +
+                                     '            var connString = GetConnectionString();\n' +
+                                     '            services.AddDbContext<EntityContext>(options => {\n' +
+                                     '                options.UseSqlServer(connString);\n' +
+                                     '                options.ConfigureWarnings(config => config.Throw(RelationalEventId.QueryClientEvaluationWarning));\n' +
+                                     '            });';
+      dataProvider.startupImports = usings;
+      dataProvider.startupCtor = ctor;
+      dataProvider.connString = getConnectionString();
+  };
+
+  return dataProvider;
+}
+
+function getConnectionString()
+{
+   var code = 'private string GetConnectionString()\n' +
+          '        {\n' +
+          '            try\n' +
+          '            {\n' +   
+          '                var configSection = Configuration.GetSection("ConnectionString");\n' +
+          '                var host = configSection.GetValue<string>("Host");\n' +
+          '                var port = Convert.ToUInt16(configSection.GetValue<string>("Port"));\n' +
+          '                var dbname = configSection.GetValue<string>("DbName");\n' +
+          '                var user = configSection.GetValue<string>("User");\n' +
+          '                var password = configSection.GetValue<string>("Password");\n\n' +
+          '                var connectionString = new ConnectionString(host, port, dbname, user, password);\n' +
+          '                return connectionString.ToString();\n' +
+          '            }\n' + 
+          '            catch (FormatException ex)\n' +
+          '            {\n' +
+          '                throw new Exception("Port must be a number from 0 to 65536.", ex);\n' +
+          '           }\n' +
+          '        }\n';
+
+   return code;
+}
+

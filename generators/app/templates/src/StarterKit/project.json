@@ -15,15 +15,15 @@
     "Microsoft.Extensions.Logging": "1.0.0",
     "Microsoft.Extensions.Logging.Console": "1.0.0",
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
-    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
-    "Swashbuckle": "6.0.0-beta901",
+    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",  
+    //--dataaccess-package--
     "Digipolis.Common": "2.0.0",
     "Digipolis.Correlation": "2.0.0",
-    "Digipolis.DataAccess": "2.0.0",
     "Digipolis.Errors": "2.0.0",
     "Digipolis.Json": "2.0.0",
     "Digipolis.ServiceAgents": "3.0.0",
-    "Digipolis.Web": "2.0.3"
+    "Digipolis.Web": "2.0.3",
+    "Swashbuckle": "6.0.0-beta901"
   },
 
   "frameworks": {

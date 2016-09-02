@@ -3,7 +3,7 @@
         "ConnectionString": {
             "Host": "localhost",
             "Port": "5432",
-            "DbName": "dbname",
+            "DbName": "starterkit",
             "User": "postgres",
             "Password": "postgres"
         }

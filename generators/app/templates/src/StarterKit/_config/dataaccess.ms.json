@@ -1,0 +1,9 @@
+{
+    "DataAccess": {
+        "ConnectionString": {
+            "Host": ".\\SQLEXPRESS",
+            "Port": "0",
+            "DbName": "starterkit"
+        }
+    }
+}
