@@ -98,3 +98,7 @@
 
 - added appsgroup property to chef config
 - changes needed for hosting the app
+
+## 2.0.9
+
+- generation of  dataaccess files 

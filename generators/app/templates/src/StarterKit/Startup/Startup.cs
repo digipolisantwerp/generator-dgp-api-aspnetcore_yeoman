@@ -1,12 +1,14 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.PlatformAbstractions;
-using StarterKit.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+//--dataaccess-startupImports--
 using Digipolis.Web;
+using StarterKit.Options;
 
 namespace StarterKit
 {
@@ -35,6 +37,8 @@ namespace StarterKit
         {
             // Check out ExampleController to find out how these configs are injected into other classes
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
+            //--dataaccess-startupServices--
 
             services.AddMvc()
                 .AddVersionEndpoint();
@@ -73,5 +77,7 @@ namespace StarterKit
             app.UseSwaggerUi();
             app.UseSwaggerUiRedirect();
         }
+
+        //--dataaccess-connString--
     }
 }
