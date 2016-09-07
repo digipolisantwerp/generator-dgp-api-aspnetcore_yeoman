@@ -101,4 +101,16 @@
 
 ## 2.0.9
 
-- generation of  dataaccess files 
+- generation of  data access files 
+
+## 2.0.10
+
+- fix in db connection string handling
+
+## 2.0.11
+
+- more fixes in db connection string handling
+
+## 2.1.0
+
+- generation of data access completed with tooling

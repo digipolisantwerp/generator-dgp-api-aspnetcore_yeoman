@@ -1,63 +1,69 @@
 {
-  "version": "1.0.0-*",
-  "dependencies": {
-    "Microsoft.NETCore.App": {
-      "version": "1.0.0",
-      "type": "platform"
+    "version": "1.0.0-*",
+    "dependencies": {
+        "Microsoft.NETCore.App": {
+            "version": "1.0.0",
+            "type": "platform"
+        },
+        "AutoMapper": "5.0.2",
+        "Microsoft.AspNetCore.Mvc": "1.0.0",
+        "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
+        "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
+        "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.0.0",
+        "Microsoft.Extensions.Configuration.FileExtensions": "1.0.0",
+        "Microsoft.Extensions.Configuration.Json": "1.0.0",
+        "Microsoft.Extensions.Logging": "1.0.0",
+        "Microsoft.Extensions.Logging.Console": "1.0.0",
+        "Microsoft.Extensions.Logging.Debug": "1.0.0",
+        "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",  
+        //--dataaccess-package--
+        "Digipolis.Common": "2.0.0",
+        "Digipolis.Correlation": "2.0.0",
+        "Digipolis.Errors": "2.0.0",
+        "Digipolis.Json": "2.0.0",
+        "Digipolis.ServiceAgents": "3.0.0",
+        "Digipolis.Web": "2.0.3",
+        "Swashbuckle": "6.0.0-beta901"
     },
-    "AutoMapper": "5.0.2",
-    "Microsoft.AspNetCore.Mvc": "1.0.0",
-    "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
-    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
-    "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.0.0",
-    "Microsoft.Extensions.Configuration.FileExtensions": "1.0.0",
-    "Microsoft.Extensions.Configuration.Json": "1.0.0",
-    "Microsoft.Extensions.Logging": "1.0.0",
-    "Microsoft.Extensions.Logging.Console": "1.0.0",
-    "Microsoft.Extensions.Logging.Debug": "1.0.0",
-    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",  
-    //--dataaccess-package--
-    "Digipolis.Common": "2.0.0",
-    "Digipolis.Correlation": "2.0.0",
-    "Digipolis.Errors": "2.0.0",
-    "Digipolis.Json": "2.0.0",
-    "Digipolis.ServiceAgents": "3.0.0",
-    "Digipolis.Web": "2.0.3",
-    "Swashbuckle": "6.0.0-beta901"
-  },
 
-  "frameworks": {
-    "netcoreapp1.0": {
-      "imports": [
-        "dotnet5.6",
-        "portable-net45+win8"
-      ]
+    "frameworks": {
+        "netcoreapp1.0": {
+            "imports": [
+                "dotnet5.6",
+                "portable-net45+win8"
+            ]
+        }
+    },
+
+    "tools": {
+        //--dataaccess-tools--
+        "Microsoft.DotNet.Watcher.Tools": { "version": "1.0.0-*", "imports": "portable-net451+win8" }
+    },
+
+    "buildOptions": {
+        "emitEntryPoint": true,
+        "preserveCompilationContext": true
+    },
+
+    "runtimeOptions": {
+        "configProperties": {
+            "System.GC.Server": true
+        }
+    },
+
+    "publishOptions": {
+        "include": [
+            "_config",
+            "wwwroot",
+            "Views",
+            "Areas/**/Views",
+            "appsettings.json",
+            "web.config"
+        ]
+    },
+
+    "scripts": {
+        
     }
-  },
-
-  "buildOptions": {
-    "emitEntryPoint": true,
-    "preserveCompilationContext": true
-  },
-
-  "runtimeOptions": {
-    "configProperties": {
-      "System.GC.Server": true
-    }
-  },
-
-  "publishOptions": {
-    "include": [
-      "_config",
-      "wwwroot",
-      "Views",
-      "Areas/**/Views",
-      "appsettings.json",
-      "web.config"
-    ]
-  },
-
-  "scripts": {
-  }
 }
 

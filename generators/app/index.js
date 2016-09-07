@@ -105,7 +105,8 @@ module.exports = yeoman.generators.Base.extend({
                         .replace(/\/\/--dataaccess-startupImports--/g, dataProvider.startupImports)
                         .replace(/\/\/--dataaccess-startupServices--/g, dataProvider.startupServices)
                         .replace(/\.AddJsonFile\("app\.json"\)/g, dataProvider.startupCtor)
-                        .replace(/\/\/--dataaccess-connString--/g, dataProvider.connString);
+                        .replace(/\/\/--dataaccess-connString--/g, dataProvider.connString)
+                        .replace(/\/\/--dataaccess-tools--/g, dataProvider.tools);
         return result;
       }
     };
@@ -169,16 +170,18 @@ module.exports = yeoman.generators.Base.extend({
 
 function getDataProvider(input) {
   var efCorePackage = '"Microsoft.EntityFrameworkCore": "1.0.0",\n';
-  var npgSqlPackage = '    "Npgsql.EntityFrameworkCore.PostgreSQL": "1.0.1",\n';
-  var sqlServerPackage = '    "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",\n';
-  var dataAccessPackage = '    "Digipolis.DataAccess": "2.3.1",';
+  var efDesignPackage = '        "Microsoft.EntityFrameworkCore.Design": "1.0.0-preview2-final",'
+  var npgSqlPackage = '        "Npgsql.EntityFrameworkCore.PostgreSQL": "1.0.1",\n';
+  var sqlServerPackage = '        "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",\n';
+  var dataAccessPackage = '        "Digipolis.DataAccess": "2.3.1",';
   var usings = 'using Microsoft.EntityFrameworkCore;\nusing Microsoft.EntityFrameworkCore.Infrastructure;\nusing Digipolis.DataAccess;';
   var ctor = '.AddJsonFile("app.json")\n                .AddJsonFile("dataaccess.json")';
+  var tools = '"Microsoft.EntityFrameworkCore.Tools": { "version": "1.0.0-preview2-final", "type": "build" },';
 
-  var dataProvider = { input: input, package: '', startupServices: '', startupImports: '', startupCtor: '.AddJsonFile("app.json")', connString: '' };
+  var dataProvider = { input: input, package: '', startupServices: '', startupImports: '', startupCtor: '.AddJsonFile("app.json")', connString: '', tools: '' };
 
   if (input.toLowerCase() === 'p') {
-      dataProvider.package = efCorePackage + npgSqlPackage + dataAccessPackage;
+      dataProvider.package = efCorePackage + efDesignPackage + npgSqlPackage + dataAccessPackage;
       dataProvider.startupServices = 'services.AddDataAccess<EntityContext>();\n' +
                                      '            var connString = GetConnectionString();\n' +
                                      '            services.AddDbContext<EntityContext>(options => {\n' +
@@ -188,9 +191,10 @@ function getDataProvider(input) {
       dataProvider.startupImports = usings;
       dataProvider.startupCtor = ctor;
       dataProvider.connString = getConnectionString();
+      dataProvider.tools = tools;
   }
   else if (input.toLowerCase() === 'm') {
-      dataProvider.package = efCorePackage + sqlServerPackage + dataAccessPackage;
+      dataProvider.package = efCorePackage + efDesignPackage + sqlServerPackage + dataAccessPackage;
       dataProvider.startupServices = 'services.AddDataAccess<EntityContext>();\n' +
                                      '            var connString = GetConnectionString();\n' +
                                      '            services.AddDbContext<EntityContext>(options => {\n' +
@@ -200,6 +204,7 @@ function getDataProvider(input) {
       dataProvider.startupImports = usings;
       dataProvider.startupCtor = ctor;
       dataProvider.connString = getConnectionString();
+      dataProvider.tools = tools;
   };
 
   return dataProvider;
@@ -209,21 +214,22 @@ function getConnectionString()
 {
    var code = 'private string GetConnectionString()\n' +
           '        {\n' +
+          '            var configSection = Configuration.GetSection("DataAccess").GetSection("ConnectionString");\n\n' +
+          '            var host = configSection.GetValue<string>("Host");\n' +
+          '            var dbname = configSection.GetValue<string>("DbName");\n' +
+          '            var user = configSection.GetValue<string>("User");\n' +
+          '            var password = configSection.GetValue<string>("Password");\n\n' +
+          '            ushort port = 0;\n' +
           '            try\n' +
-          '            {\n' +   
-          '                var configSection = Configuration.GetSection("ConnectionString");\n' +
-          '                var host = configSection.GetValue<string>("Host");\n' +
-          '                var port = Convert.ToUInt16(configSection.GetValue<string>("Port"));\n' +
-          '                var dbname = configSection.GetValue<string>("DbName");\n' +
-          '                var user = configSection.GetValue<string>("User");\n' +
-          '                var password = configSection.GetValue<string>("Password");\n\n' +
-          '                var connectionString = new ConnectionString(host, port, dbname, user, password);\n' +
-          '                return connectionString.ToString();\n' +
-          '            }\n' + 
-          '            catch (FormatException ex)\n' +
+          '            {\n' + 
+          '                port = configSection.GetValue<ushort>("Port");\n' +
+          '            }\n' +
+          '            catch (InvalidOperationException ex)\n' +
           '            {\n' +
-          '                throw new Exception("Port must be a number from 0 to 65536.", ex);\n' +
-          '           }\n' +
+          '                throw new InvalidOperationException("Database port must be a number from 0 to 65536.", ex.InnerException ?? ex);\n' +
+          '            }\n\n' +
+          '            var connectionString = new ConnectionString(host, port, dbname, user, password);\n' +
+          '            return connectionString.ToString();\n' +
           '        }\n';
 
    return code;
