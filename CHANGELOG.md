@@ -114,3 +114,7 @@
 ## 2.1.0
 
 - generation of data access completed with tooling
+
+## 2.1.1
+
+- BUILDNUMBER placeholder in project.json
