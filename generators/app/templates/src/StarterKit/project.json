@@ -19,10 +19,10 @@
         //--dataaccess-package--
         "Digipolis.Common": "2.0.0",
         "Digipolis.Correlation": "2.0.0",
-        "Digipolis.Errors": "2.0.0",
+        "Digipolis.Errors": "3.0.0",
         "Digipolis.Json": "2.0.0",
-        "Digipolis.ServiceAgents": "3.0.0",
-        "Digipolis.Web": "2.0.3",
+        "Digipolis.ServiceAgents": "4.0.0",
+        "Digipolis.Web": "3.0.0",
         "Swashbuckle": "6.0.0-beta901"
     },
 

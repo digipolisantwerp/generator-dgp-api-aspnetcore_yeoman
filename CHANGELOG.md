@@ -118,3 +118,7 @@
 ## 2.1.1
 
 - BUILDNUMBER placeholder in project.json
+
+## 2.1.2
+
+- Updated toolbox versions

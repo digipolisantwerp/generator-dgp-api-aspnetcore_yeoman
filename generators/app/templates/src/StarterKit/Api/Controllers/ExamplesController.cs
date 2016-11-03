@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Digipolis.Web.Api;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Digipolis.Web.Filters;
 using StarterKit.Api.Models;
 using StarterKit.Options;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace StarterKit.Api.Controllers
 {
