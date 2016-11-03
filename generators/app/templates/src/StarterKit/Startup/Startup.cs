@@ -47,6 +47,8 @@ namespace StarterKit
             services.AddAutoMapper();
                 
             services.AddSwaggerGen();
+
+            services.AddGlobalErrorHandling<ApiExceptionMapper>();
 		}
         
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -62,9 +64,7 @@ namespace StarterKit
                 policy.AllowCredentials();
             });
             
-            app.UseExceptionHandling(options => {
-                // add your custom exception mappings here
-            });
+            app.UseApiExtensions();
 
 			app.UseMvc(routes =>
 			{

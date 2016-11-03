@@ -122,3 +122,7 @@
 ## 2.1.2
 
 - Updated toolbox versions
+
+## 2.1.3
+
+- Modified template to support changes to Digipolis.Web toolbox
