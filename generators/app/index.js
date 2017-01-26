@@ -173,7 +173,7 @@ function getDataProvider(input) {
   var efDesignPackage = '        "Microsoft.EntityFrameworkCore.Design": "1.0.0-preview2-final",'
   var npgSqlPackage = '        "Npgsql.EntityFrameworkCore.PostgreSQL": "1.0.1",\n';
   var sqlServerPackage = '        "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",\n';
-  var dataAccessPackage = '        "Digipolis.DataAccess": "2.3.1",';
+  var dataAccessPackage = '        "Digipolis.DataAccess": "2.5.2",';
   var usings = 'using Microsoft.EntityFrameworkCore;\nusing Microsoft.EntityFrameworkCore.Infrastructure;\nusing Digipolis.DataAccess;';
   var ctor = '.AddJsonFile("app.json")\n                .AddJsonFile("dataaccess.json")';
   var tools = '"Microsoft.EntityFrameworkCore.Tools": { "version": "1.0.0-preview2-final", "type": "build" },';

@@ -8,7 +8,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 //--dataaccess-startupImports--
 using Digipolis.Web;
+using Digipolis.Web.Startup;
 using StarterKit.Options;
+using Digipolis.ApplicationServices;
+using Digipolis.Correlation;
 
 namespace StarterKit
 {
@@ -38,9 +41,27 @@ namespace StarterKit
             // Check out ExampleController to find out how these configs are injected into other classes
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
+            services.AddApplicationServices(opt => {
+                opt.ApplicationId = "enter-your-application-id-here";
+                opt.ApplicationName = "StarterKit";
+            });
+
+            services.AddCorrelation();
+
+            services.AddLoggingEngine();
+
             //--dataaccess-startupServices--
 
             services.AddMvc()
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                })
+                .AddApiExtensions(null, options =>
+                {
+                    options.DisableVersioning = true;
+                    options.DisableGlobalErrorHandling = true;
+                })
                 .AddVersionEndpoint();
 
             services.AddBusinessServices();
@@ -51,10 +72,11 @@ namespace StarterKit
             services.AddGlobalErrorHandling<ApiExceptionMapper>();
 		}
         
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime)
         {
             loggerFactory.AddConsole(Configuration.GetSection("ConsoleLogging"));
             loggerFactory.AddDebug(LogLevel.Debug);
+            loggerFactory.AddLoggingEngine(app, appLifetime, Configuration);
                        
 			// CORS
             app.UseCors((policy) => {
