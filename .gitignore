@@ -1,2 +1,6 @@
 node_modules
 coverage
+npm-debug.log
+
+generators/app/templates/src/StarterKit/bin/
+generators/app/templates/src/StarterKit/obj/

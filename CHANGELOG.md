@@ -1,5 +1,9 @@
 # generator-dgp-api-aspnetcore
 
+## 2.2.4
+
+- removed elasticsearch bufferByteSizeLimit from config.
+
 ## 2.2.3
 
 - more serilog elasticsearch settings in config file.
