@@ -1,9 +1,12 @@
 # generator-dgp-api-aspnetcore
 
+## 2.2.3
+
+- more serilog elasticsearch settings in config file.
+
 ## 2.2.2
 
 - registration of API extensions added in Startup.
-
 
 ## 2.2.1
 
