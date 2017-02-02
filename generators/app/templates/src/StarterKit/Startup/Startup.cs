@@ -60,7 +60,6 @@ namespace StarterKit
                 .AddApiExtensions(null, options =>
                 {
                     options.DisableVersioning = true;
-                    options.DisableGlobalErrorHandling = true;
                 })
                 .AddVersionEndpoint();
 

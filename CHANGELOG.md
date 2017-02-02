@@ -1,5 +1,9 @@
 # generator-dgp-api-aspnetcore
 
+## 2.2.6
+
+- global error handling on by default.
+
 ## 2.2.5
 
 - docker elasticsearch tooling added.
