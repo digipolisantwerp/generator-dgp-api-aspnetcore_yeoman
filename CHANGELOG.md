@@ -1,5 +1,9 @@
 # generator-dgp-api-aspnetcore
 
+## 2.2.9
+
+- replace 'StarterKit' in dynamically added code. 
+
 ## 2.2.8
 
 - use database schema 'main' with NpgSql.

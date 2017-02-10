@@ -85,7 +85,7 @@ module.exports = yeoman.generators.Base.extend({
     var kestrelHttpPort = this.props.kestrelHttpPort;
     var iisHttpPort = this.props.iisHttpPort;
     var iisHttpsPort = this.props.iisHttpsPort;
-    var dataProvider = getDataProvider(this.props.dataProvider);
+    var dataProvider = getDataProvider(this.props.dataProvider, projectName);
     
     var copyOptions = { 
       process: function(contents) {
@@ -169,13 +169,13 @@ module.exports = yeoman.generators.Base.extend({
   }
 });
 
-function getDataProvider(input) {
+function getDataProvider(input, projectName) {
   var efCorePackage = '"Microsoft.EntityFrameworkCore": "1.0.0",\n';
   var efDesignPackage = '        "Microsoft.EntityFrameworkCore.Design": "1.0.0-preview2-final",\n'
   var npgSqlPackage = '        "Npgsql.EntityFrameworkCore.PostgreSQL": "1.0.1",\n';
   var sqlServerPackage = '        "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",\n';
   var dataAccessPackage = '        "Digipolis.DataAccess": "2.5.2",';
-  var usings = 'using Microsoft.EntityFrameworkCore;\nusing Microsoft.EntityFrameworkCore.Infrastructure;\nusing Microsoft.EntityFrameworkCore.Migrations;\nusing Digipolis.DataAccess;\nusing StarterKit.DataAccess;\n';
+  var usings = 'using Microsoft.EntityFrameworkCore;\nusing Microsoft.EntityFrameworkCore.Infrastructure;\nusing Microsoft.EntityFrameworkCore.Migrations;\nusing Digipolis.DataAccess;\nusing StarterKit.DataAccess;\n'.replace("StarterKit", projectName);
   var ctor = '.AddJsonFile("app.json")\n                .AddJsonFile("dataaccess.json")';
   var tools = '"Microsoft.EntityFrameworkCore.Tools": { "version": "1.0.0-preview2-final", "type": "build" },';
 
