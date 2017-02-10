@@ -1,5 +1,13 @@
 # generator-dgp-api-aspnetcore
 
+## 2.2.8
+
+- use database schema 'main' with NpgSql.
+
+## 2.2.7
+
+- update package versions.
+
 ## 2.2.6
 
 - global error handling on by default.

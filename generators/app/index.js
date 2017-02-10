@@ -147,6 +147,7 @@ module.exports = yeoman.generators.Base.extend({
             break;
           default:
             if (files[i].indexOf('EntityContext.cs') > -1 ||
+                files[i].indexOf('DataAccessDefaults.cs') > -1 ||
                 files[i].indexOf('dataaccess.ms.json.dist') > -1 ||
                 files[i].indexOf('dataaccess.npg.json.dist') > -1 ||
                 files[i].indexOf('dataaccess.ms.json') > -1 || 
@@ -174,7 +175,7 @@ function getDataProvider(input) {
   var npgSqlPackage = '        "Npgsql.EntityFrameworkCore.PostgreSQL": "1.0.1",\n';
   var sqlServerPackage = '        "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",\n';
   var dataAccessPackage = '        "Digipolis.DataAccess": "2.5.2",';
-  var usings = 'using Microsoft.EntityFrameworkCore;\nusing Microsoft.EntityFrameworkCore.Infrastructure;\nusing Digipolis.DataAccess;';
+  var usings = 'using Microsoft.EntityFrameworkCore;\nusing Microsoft.EntityFrameworkCore.Infrastructure;\nusing Microsoft.EntityFrameworkCore.Migrations;\nusing Digipolis.DataAccess;\nusing StarterKit.DataAccess;\n';
   var ctor = '.AddJsonFile("app.json")\n                .AddJsonFile("dataaccess.json")';
   var tools = '"Microsoft.EntityFrameworkCore.Tools": { "version": "1.0.0-preview2-final", "type": "build" },';
 
@@ -185,7 +186,7 @@ function getDataProvider(input) {
       dataProvider.startupServices = 'services.AddDataAccess<EntityContext>();\n' +
                                      '            var connString = GetConnectionString();\n' +
                                      '            services.AddDbContext<EntityContext>(options => {\n' +
-                                     '                options.UseNpgsql(connString);\n' +
+                                     '                options.UseNpgsql(connString, opt => opt.MigrationsHistoryTable(HistoryRepository.DefaultTableName, DataAccessDefaults.SchemaName));\n' +
                                      '                options.ConfigureWarnings(config => config.Throw(RelationalEventId.QueryClientEvaluationWarning));\n' +
                                      '            });';
       dataProvider.startupImports = usings;
