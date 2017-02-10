@@ -170,7 +170,7 @@ module.exports = yeoman.generators.Base.extend({
 
 function getDataProvider(input) {
   var efCorePackage = '"Microsoft.EntityFrameworkCore": "1.0.0",\n';
-  var efDesignPackage = '        "Microsoft.EntityFrameworkCore.Design": "1.0.0-preview2-final",'
+  var efDesignPackage = '        "Microsoft.EntityFrameworkCore.Design": "1.0.0-preview2-final",\n'
   var npgSqlPackage = '        "Npgsql.EntityFrameworkCore.PostgreSQL": "1.0.1",\n';
   var sqlServerPackage = '        "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",\n';
   var dataAccessPackage = '        "Digipolis.DataAccess": "2.5.2",';

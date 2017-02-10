@@ -20,14 +20,14 @@
         "Digipolis.ApplicationServices": "1.0.0",
         "Digipolis.Common": "2.0.0",
         "Digipolis.Correlation": "2.0.0",
-        "Digipolis.Errors": "3.0.0",
+        "Digipolis.Errors": "4.0.0",
         "Digipolis.Json": "2.0.0",
         "Digipolis.Serilog": "1.2.1",
         "Digipolis.Serilog.ApplicationServices": "1.2.1",
         "Digipolis.Serilog.AuthService": "1.2.1",
         "Digipolis.Serilog.Correlation": "1.2.1",
-        "Digipolis.ServiceAgents": "4.0.1",
-        "Digipolis.Web": "3.0.5",
+        "Digipolis.ServiceAgents": "4.0.3",
+        "Digipolis.Web": "4.0.0",
         "Swashbuckle": "6.0.0-beta902"
     },
 
