@@ -1,5 +1,9 @@
 # generator-dgp-api-aspnetcore
 
+## 2.3.0
+
+- IApplicationLogger.
+
 ## 2.2.9
 
 - replace 'StarterKit' in dynamically added code. 
