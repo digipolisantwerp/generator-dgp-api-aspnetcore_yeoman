@@ -2,20 +2,24 @@
     "version": "1.0.0-BUILDNUMBER",
     "dependencies": {
         "Microsoft.NETCore.App": {
-            "version": "1.0.0",
+            "version": "1.1.0",
             "type": "platform"
         },
-        "AutoMapper": "5.0.2",
-        "Microsoft.AspNetCore.Mvc": "1.0.0",
-        "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
-        "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
-        "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.0.0",
-        "Microsoft.Extensions.Configuration.FileExtensions": "1.0.0",
-        "Microsoft.Extensions.Configuration.Json": "1.0.0",
-        "Microsoft.Extensions.Logging": "1.0.0",
-        "Microsoft.Extensions.Logging.Console": "1.0.0",
-        "Microsoft.Extensions.Logging.Debug": "1.0.0",
-        "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",  
+        "AutoMapper": "5.2.0",
+        "Microsoft.AspNetCore.Mvc": "1.1.1",
+        "Microsoft.AspNetCore.Server.IISIntegration": "1.1.0",
+        "Microsoft.AspNetCore.Server.Kestrel": "1.1.0",
+        "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.1.0",
+        "Microsoft.Extensions.Configuration.FileExtensions": "1.1.0",
+        "Microsoft.Extensions.Configuration.Json": "1.1.0",
+        "Microsoft.Extensions.Logging": "1.1.0",
+        "Microsoft.Extensions.Logging.Console": "1.1.0",
+        "Microsoft.Extensions.Logging.Debug": "1.1.0",
+        "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
+        "Microsoft.EntityFrameworkCore": "1.1.0",
+        "Microsoft.EntityFrameworkCore.Design": "1.1.0",
+        "Npgsql.EntityFrameworkCore.PostgreSQL": "1.0.1",
+        "Digipolis.DataAccess": "2.5.2",
         //--dataaccess-package--
         "Digipolis.ApplicationServices": "1.0.0",
         "Digipolis.Common": "2.0.0",
@@ -30,32 +34,30 @@
         "Digipolis.Web": "4.0.0",
         "Swashbuckle": "6.0.0-beta902"
     },
-
     "frameworks": {
-        "netcoreapp1.0": {
+        "netcoreapp1.1": {
             "imports": [
                 "dotnet5.6",
                 "portable-net45+win8"
             ]
         }
     },
-
     "tools": {
         //--dataaccess-tools--
-        "Microsoft.DotNet.Watcher.Tools": { "version": "1.0.0-*", "imports": "portable-net451+win8" }
+        "Microsoft.DotNet.Watcher.Tools": {
+            "version": "1.0.0-*",
+            "imports": "portable-net451+win8"
+        }
     },
-
     "buildOptions": {
         "emitEntryPoint": true,
         "preserveCompilationContext": true
     },
-
     "runtimeOptions": {
         "configProperties": {
             "System.GC.Server": true
         }
     },
-
     "publishOptions": {
         "include": [
             "_config",
@@ -66,9 +68,5 @@
             "web.config"
         ]
     },
-
-    "scripts": {
-        
-    }
+    "scripts": {}
 }
-
