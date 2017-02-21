@@ -1,5 +1,9 @@
 # generator-dgp-api-aspnetcore
 
+## 3.0.0
+
+- Upgrade to .NET Core 1.1.
+
 ## 2.3.0
 
 - IApplicationLogger.

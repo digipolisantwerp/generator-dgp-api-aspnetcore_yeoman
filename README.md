@@ -1,6 +1,6 @@
 # generator-dgp-api-aspnetcore
 
-> Yeoman generator for an ASP.NET Core 1.0 API project.
+> Yeoman generator for an ASP.NET Core 1.1 API project.
 
 ## Installation
 
