@@ -1,26 +1,30 @@
 {
     "appsgroup": "cluster1aspnetcore",
     "app": {
-    	"version": "",
-    	"artifact": "",
+        "version": "",
+        "artifact": "",
         "port": "51003",
-        "appname": "StarterKit",
+        "name": "StarterKit",
         "datadirectory": "/data/",
-        "tempdirectory": "/temp/",
+        "tempdirectory": "/tmp/",
         "apiroot": {
             "uri": {
-                "scheme": "http://",
+                "scheme": "https://",
                 "host": "starterkit-o.antwerpen.be",
                 "port": "51003",
                 "path": "/"
             }
-        },
-        "uiroot": {
-            "uri": {
-                "scheme": "http://",
-                "host": "starterkit-o.antwerpen.be",
-                "port": "51003",
-                "path": "/ui/"
+        }
+    },
+    "log": {
+        "elastic": {
+            "system": {
+                "url": "starterskitkibanasys.antwerpen.be",
+                "bufferpath": "C:/Temp/LogDigipolis/starterkit-buffer-system"
+            },
+            "application": {
+                "url": "starterskitkibanaapp.antwerpen.be",
+                "bufferpath": "C:/Temp/LogDigipolis/starterkit-buffer-system"
             }
         }
     },
@@ -28,7 +32,7 @@
         "postgresql": {
             "connection": {
                 "host": "starterkit-sql1-o.antwerpen.be",
-                "port": "ppppp",
+                "port": "12345",
                 "name": "starterkit"
             },
             "auth": {
