@@ -1,12 +1,16 @@
 # generator-dgp-api-aspnetcore
 
+## 3.1.x
+
+- update of the Digipolis.Serilog packages.
+
 ## 3.0.0
 
-- Upgrade to .NET Core 1.1.
+- upgrade to .NET Core 1.1.
 
 ## 2.3.0
 
-- IApplicationLogger.
+- added IApplicationLogger.
 
 ## 2.2.9
 

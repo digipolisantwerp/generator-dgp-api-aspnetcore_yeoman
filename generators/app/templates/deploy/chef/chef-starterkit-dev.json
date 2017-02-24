@@ -19,12 +19,12 @@
     "log": {
         "elastic": {
             "system": {
-                "url": "starterskitkibanasys.antwerpen.be",
-                "bufferpath": "C:/Temp/LogDigipolis/starterkit-buffer-system"
+                "url": "https://logging-app1-o.antwerpen.be",
+                "bufferpath": "/data/starterkit/starterkit_api_aspnetcore/log/elk-system-starterkit"
             },
             "application": {
-                "url": "starterskitkibanaapp.antwerpen.be",
-                "bufferpath": "C:/Temp/LogDigipolis/starterkit-buffer-system"
+                "url": "https://logging-app1-o.antwerpen.be",
+                "bufferpath": "/data/starterkit/starterkit_api_aspnetcore/log/elk-application-starterkit"
             }
         }
     },

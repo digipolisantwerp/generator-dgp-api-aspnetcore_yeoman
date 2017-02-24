@@ -29,10 +29,10 @@
                     "templateName": "starterkit-template",
                     "typeName": "SystemLogEvent",
                     "batchPostingLimit": 50,
-                    "period": 2000,
+                    "period": 5,
                     "bufferBaseFilename": "C:/Temp/LogDigipolis/starterkit-buffer-system",
                     "bufferLogShippingInterval": 5000,
-                    "minimumLogEventLevel": "Information"
+                    "restrictedToMinimumLevel": "Information"
 				}
 			}
 		],
@@ -55,10 +55,10 @@
                     "templateName": "starterkit-template",
                     "typeName": "AppLogEvent",
                     "batchPostingLimit": 50,
-                    "period": 2000,
+                    "period": 5,
                     "bufferBaseFilename": "C:/Temp/LogDigipolis/starterkit-buffer-application",
                     "bufferLogShippingInterval": 5000,
-                    "minimumLogEventLevel": "Information"
+                    "restrictedToMinimumLevel": "Information"
 				}
 			}
 		],
