@@ -11,12 +11,12 @@
     "log": {
         "elastic": {
             "system": {
-                "url": "https://logging-app1-o.antwerpen.be",
+                "url": "https://logging-app1-a.antwerpen.be",
                 "bufferpath": "/data/starterkit/starterkit_api_aspnetcore/log/elk-system-starterkit",
                 "headers": "Authorization=Basic enter_your_basic_credentials_here"
             },
             "application": {
-                "url": "https://logging-app1-o.antwerpen.be",
+                "url": "https://logging-app1-a.antwerpen.be",
                 "bufferpath": "/data/starterkit/starterkit_api_aspnetcore/log/elk-application-starterkit",
                 "headers": "Authorization=Basic enter_your_basic_credentials_here"
             }
@@ -25,12 +25,12 @@
     "db": {
         "postgresql": {
             "connection": {
-                "host": "starterkit-sql1-o.antwerpen.be",
+                "host": "starterkit-sql1-a.antwerpen.be",
                 "port": "12345",
                 "name": "starterkit"
             },
             "auth": {
-                "userid": "starterkit_o",
+                "userid": "starterkit_a",
                 "password": "pwd"
             }
         }

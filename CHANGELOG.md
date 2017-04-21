@@ -1,5 +1,9 @@
 # generator-dgp-api-aspnetcore
 
+## 3.2.0
+
+- ElasticSearch auth headers added.
+
 ## 3.1.x
 
 - update of the Digipolis.Serilog packages.
