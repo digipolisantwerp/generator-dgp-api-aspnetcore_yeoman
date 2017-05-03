@@ -1,5 +1,9 @@
 # generator-dgp-api-aspnetcore
 
+## 4.0.0
+
+- conversion to csproj project files and MSBuild.
+
 ## 3.2.0
 
 - ElasticSearch auth headers added.
