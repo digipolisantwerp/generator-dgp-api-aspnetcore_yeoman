@@ -1,5 +1,9 @@
 # generator-dgp-api-aspnetcore
 
+## 4.0.1
+
+- update package versions.
+
 ## 4.0.0
 
 - conversion to csproj project files and MSBuild.
