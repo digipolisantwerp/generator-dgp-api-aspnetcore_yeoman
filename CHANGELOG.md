@@ -1,5 +1,9 @@
 # generator-dgp-api-aspnetcore
 
+## 4.0.2
+
+- update version xunit packages and dotnet-xunit CLI tool added to integration test project.
+
 ## 4.0.1
 
 - update package versions.
