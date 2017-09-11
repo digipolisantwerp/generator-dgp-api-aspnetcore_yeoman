@@ -64,7 +64,7 @@ namespace StarterKit
           })
           .AddApiExtensions(null, options =>
           {
-            options.DisableVersioning = true;
+            options.DisableVersioning = false;
           });
 
       services.AddBusinessServices();
@@ -77,10 +77,15 @@ namespace StarterKit
         options.SwaggerDoc("v1",
             new Info
             {
-              Title = "Geo Search API",
+              Title = "STARTERKIT API",
               Version = "v1",
-              Description = "A simple api to search using geo location in Elasticsearch",
-              TermsOfService = "None"
+              Description = "<API DESCRIPTION>",
+              TermsOfService = "None",
+              Contact = new Contact()
+              {
+                Email = "<MAIL>",
+                Name = "<NAME>"
+              }
             }
          );
 
@@ -116,7 +121,7 @@ namespace StarterKit
         c.PreSerializeFilters.Add((swagger, httpReq) => swagger.Host = httpReq.Host.Value);
       });
 
-      app.UseSwaggerUI(options  =>
+      app.UseSwaggerUI(options =>
       {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "V1 Docs");
       });
