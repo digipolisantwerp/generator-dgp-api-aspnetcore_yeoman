@@ -12,6 +12,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Startup\AutoMapperRegistration.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="_config\**\*;wwwroot\**\*;Views;Areas\**\Views">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
@@ -19,6 +23,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.0.2" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.2" />
@@ -44,14 +49,19 @@
     <PackageReference Include="Digipolis.Serilog.Correlation" Version="3.0.0" />
     <PackageReference Include="Digipolis.Serilog.Message" Version="2.0.0" />
     <PackageReference Include="Digipolis.ServiceAgents" Version="5.0.0" />
-    <PackageReference Include="Digipolis.Web" Version="6.0.0" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="2.4.0" />
     <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="5.1.0" />
-    <PackageReference Include="Swashbuckle" Version="6.0.0-beta902" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="1.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="1.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\web_aspnetcore\src\Digipolis.Web\Digipolis.Web.csproj" />
   </ItemGroup>
 
 </Project>
