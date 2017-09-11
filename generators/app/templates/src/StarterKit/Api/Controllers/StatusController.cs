@@ -14,7 +14,7 @@ namespace StarterKit.Api.Controllers
 
   [Route("[controller]")]
   [ApiExplorerSettings(IgnoreApi = false)]
-  //[Authorize]
+  [Authorize]
   public class StatusController : Controller
   {
 
