@@ -8,6 +8,8 @@ using Digipolis.Errors;
 using StarterKit.Business.Monitoring;
 using StarterKit.Api.Models;
 using AutoMapper;
+using Digipolis.Web.Api;
+using StarterKit.Shared.Constants;
 
 namespace StarterKit.Api.Controllers
 {
@@ -38,6 +40,7 @@ namespace StarterKit.Api.Controllers
     [ProducesResponseType(typeof(Models.Monitoring), 200)]
     [ProducesResponseType(typeof(Error), 500)]
     [Route("monitoring")]
+    [Versions(Versions.V1)]
     public async Task<IActionResult> GetMonitoring()
     {
       var status = await _statusreader.GetStatus();
@@ -57,6 +60,7 @@ namespace StarterKit.Api.Controllers
     [ProducesResponseType(typeof(StatusResponse), 200)]
     [ProducesResponseType(typeof(Error), 500)]
     [Route("ping")]
+    [Versions(Versions.V1)]
     [AllowAnonymous]
     public async Task<IActionResult> GetPing()
     {
