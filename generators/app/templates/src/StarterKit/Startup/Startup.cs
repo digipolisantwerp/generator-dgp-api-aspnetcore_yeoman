@@ -14,6 +14,7 @@ using Digipolis.ApplicationServices;
 using Digipolis.Correlation;
 using Swashbuckle.AspNetCore.Swagger;
 using AutoMapper;
+using System.Reflection;
 
 namespace StarterKit
 {
@@ -89,8 +90,15 @@ namespace StarterKit
             }
          );
 
-        //var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, pathToDoc);
-        //options.IncludeXmlComments(filePath);
+        var location = Assembly.GetEntryAssembly().Location;
+
+        string xmlComments = Path.Combine(Path.GetDirectoryName(location), Path.GetFileNameWithoutExtension(location) + ".xml");
+
+        if (File.Exists(xmlComments))
+        {
+          options.IncludeXmlComments(xmlComments);
+        }
+
         options.DescribeAllEnumsAsStrings();
       });
 
