@@ -2,21 +2,20 @@
     "ConsoleLogging": 
     {
         "IncludeScopes": false,
-        "LogLevel": 
-        {
-            "Default": "Debug",
-            "System": "Information",
-            "Microsoft": "Information"
-        }
+      "LogLevel": {
+        "Default": "Debug",
+        "System": "Information",
+        "Microsoft": "Information"
+      }
     },
 	"SystemLog": {
-		"MinimumLevel": {
-			"Default": "Debug",
-			"Override": {
-				"System": "Information",
-				"Microsoft": "Information"
-			}
-		},
+    "MinimumLevel": {
+      "Default": "Debug",
+      "Override": {
+        "System": "Information",
+        "Microsoft": "Information"
+      }
+    },
 		"WriteTo": [
 			{
 				"Name": "LiterateConsole"
@@ -25,7 +24,7 @@
 				"Name": "Elasticsearch",
 				"Args": {
                     "nodeUris": "http://localhost:9200",
-                    "indexFormat": "logstash-application-starterkit-{0:yyyy.MM.dd}",
+                    "indexFormat": "logstash-system-starterkit-{0:yyyy.MM.dd}",
                     "templateName": "starterkit-template",
                     "typeName": "SystemLogEvent",
                     "batchPostingLimit": 50,
