@@ -20,13 +20,13 @@ namespace StarterKit.Api.Controllers
   public class StatusController : Controller
   {
 
-    private readonly IStatusProvider _statusreader;
+    private readonly IStatusReader _statusreader;
     private readonly ILogger<StatusController> _logger;
     private readonly IMapper _mapper;
 
-    public StatusController(IStatusProvider statusProvider, ILogger<StatusController> logger, IMapper mapper)
+    public StatusController(IStatusReader statusReader, ILogger<StatusController> logger, IMapper mapper)
     {
-      _statusreader = statusProvider ?? throw new ArgumentException($"StatusController.Ctr parameter {nameof(statusProvider)} cannot be null.");
+      _statusreader = statusReader ?? throw new ArgumentException($"StatusController.Ctr parameter {nameof(statusReader)} cannot be null.");
       _logger = logger ?? throw new ArgumentException($"StatusController.Ctr parameter {nameof(logger)} cannot be null.");
       _mapper = mapper ?? throw new ArgumentException($"StatusController.Ctr parameter {nameof(mapper)} cannot be null.");
     }

@@ -15,7 +15,7 @@ namespace StarterKit.UnitTests
   public class StatusControllerTest
   {
     [Fact]
-    public void CtrThrowsExceptionIfIStatusProviderIsNull()
+    public void CtrThrowsExceptionIfIStatusReaderIsNull()
     {
       var logger = new Moq.Mock<ILogger<StatusController>>().Object;
       var mapper = new Moq.Mock<IMapper>().Object;
@@ -26,25 +26,25 @@ namespace StarterKit.UnitTests
     [Fact]
     public void CtrThrowsExceptionIfLoggerIsNull()
     {
-      var statusProvider = new Moq.Mock<IStatusProvider>().Object;
+      var statusReader = new Moq.Mock<IStatusReader>().Object;
       var mapper = new Moq.Mock<IMapper>().Object;
 
-      Assert.Throws<ArgumentException>(() => new StatusController(statusProvider, null, mapper));
+      Assert.Throws<ArgumentException>(() => new StatusController(statusReader, null, mapper));
     }
 
     [Fact]
-    public async Task GetStatusUsesIStatusProvider()
+    public async Task GetStatusUsesIStatusReader()
     {
       var logger = new Moq.Mock<ILogger<StatusController>>().Object;
       var mapper = new Moq.Mock<IMapper>().Object;
-      var statusProviderMock = new Moq.Mock<IStatusProvider>();
-      statusProviderMock.Setup(x => x.GetStatus()).Returns(Task.FromResult(new Monitoring() { Status = Status.warning })).Verifiable();
+      var statusReaderMock = new Moq.Mock<IStatusReader>();
+      statusReaderMock.Setup(x => x.GetStatus()).Returns(Task.FromResult(new Monitoring() { Status = Status.warning })).Verifiable();
 
-      var controller = new StatusController(statusProviderMock.Object, logger,mapper);
+      var controller = new StatusController(statusReaderMock.Object, logger,mapper);
 
       var result = (Monitoring)(await controller.GetMonitoring() as OkObjectResult).Value;
 
-      statusProviderMock.Verify(x => x.GetStatus(), Times.Once());
+      statusReaderMock.Verify(x => x.GetStatus(), Times.Once());
     }
 
 
@@ -53,9 +53,9 @@ namespace StarterKit.UnitTests
     {
       var mapper = new Moq.Mock<IMapper>().Object;
       var logger = new Moq.Mock<ILogger<StatusController>>().Object;
-      var statusProviderMock = new Moq.Mock<IStatusProvider>();
+      var statusReaderMock = new Moq.Mock<IStatusReader>();
 
-      var controller = new StatusController(statusProviderMock.Object, logger,mapper);
+      var controller = new StatusController(statusReaderMock.Object, logger,mapper);
 
       var result = (Api.Models.StatusResponse)(await controller.GetPing() as OkObjectResult).Value;
 

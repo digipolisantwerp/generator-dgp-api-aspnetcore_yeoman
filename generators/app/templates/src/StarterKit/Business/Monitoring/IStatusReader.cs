@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace StarterKit.Business.Monitoring
 {
-    public interface IStatusProvider
+    public interface IStatusReader
     {
         Task<Monitoring> GetStatus();
     }

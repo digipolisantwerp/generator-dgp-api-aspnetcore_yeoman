@@ -9,7 +9,7 @@ namespace StarterKit
     {
       // Register your business services here, e.g. services.AddTransient<IMyService, MyService>();
 
-      services.AddTransient<IStatusProvider, StatusProvider>();
+      services.AddTransient<IStatusReader, StatusReader>();
 
       return services;
     }
