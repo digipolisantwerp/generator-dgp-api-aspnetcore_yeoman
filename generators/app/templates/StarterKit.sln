@@ -18,8 +18,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarterKit.IntegrationTests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarterKit.UnitTests", "test\StarterKit.UnitTests\StarterKit.UnitTests.csproj", "{0A3016FD-A06C-4AA1-A843-DEA6A2F01696}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Digipolis.Web", "..\..\..\..\web_aspnetcore\src\Digipolis.Web\Digipolis.Web.csproj", "{A895B5D0-E9D1-482A-BA5F-542833EAB903}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,10 +36,6 @@ Global
 		{0A3016FD-A06C-4AA1-A843-DEA6A2F01696}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A3016FD-A06C-4AA1-A843-DEA6A2F01696}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A3016FD-A06C-4AA1-A843-DEA6A2F01696}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A895B5D0-E9D1-482A-BA5F-542833EAB903}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A895B5D0-E9D1-482A-BA5F-542833EAB903}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A895B5D0-E9D1-482A-BA5F-542833EAB903}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A895B5D0-E9D1-482A-BA5F-542833EAB903}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

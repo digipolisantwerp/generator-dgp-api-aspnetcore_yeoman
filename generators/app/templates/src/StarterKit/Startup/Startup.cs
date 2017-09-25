@@ -111,6 +111,9 @@ namespace StarterKit
       loggerFactory.AddDebug(LogLevel.Debug);
       loggerFactory.AddLoggingEngine(app, appLifetime, Configuration);
 
+      // Enable Serilog selflogging to console.
+      Serilog.Debugging.SelfLog.Enable(Console.Out);
+
       // CORS
       app.UseCors((policy) =>
       {
