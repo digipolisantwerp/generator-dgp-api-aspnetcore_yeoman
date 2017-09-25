@@ -1,4 +1,12 @@
 # generator-dgp-api-aspnetcore
+## 4.1.0
+
+- added status API.
+- added automapper dependency injection & profiles.
+- default API versioning enabled.
+- default XML Documentation generation enabled.
+- update digipolis package dependencies.
+- use custom version elastichsearch sink + selflogging enabled.
 
 ## 4.0.2
 

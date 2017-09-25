@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,7 +10,7 @@ namespace StarterKit
         {
             BusinessEntitiesToDataContracts();
             AgentToBusinessEntities();
-			AgentToDataContracts();
+			      AgentToDataContracts();
             
             return services;
         }

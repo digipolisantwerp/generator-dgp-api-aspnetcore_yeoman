@@ -4,13 +4,14 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using StarterKit.Api.Models;
 using StarterKit.Options;
+using StarterKit.Shared.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace StarterKit.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class ExamplesController : Controller
     {
         public ExamplesController(ILogger<ExamplesController> logger, IOptions<AppSettings> appSettings)
@@ -34,6 +35,7 @@ namespace StarterKit.Api.Controllers
 
         // GET /api/examples
         [HttpGet]
+        [Versions(Versions.V1)]
         public IActionResult GetAll()
         {
             // this is how you log an information message
