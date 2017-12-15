@@ -28,28 +28,28 @@ module.exports = yeoman.generators.Base.extend({
     var prompts = [{
       type: 'input',
       name: 'deleteContent',
-      message: 'Delete the contents of this directory before generation (.git will be preserved) ? (y/n):',
+      message: 'Delete the contents of this directory before generation (.git will be preserved)? (y/n):',
       default: 'y'
     },
     {
       type: 'input',
       name: 'projectName',
-      message: "Enter the name of the new project (don't forget the Pascal-casing):"
+      message: "Enter the name of the new project (PascalCasing, e.g. \"MyProjectApi\"):"
     }, 
     {
       type: 'input',
       name: 'kestrelHttpPort',
-      message: 'Enter the HTTP port for the kestrel server:'
+      message: 'Enter the HTTP port for the kestrel server (use the port assigned by AppConfig + 1):'
     }, 
     {
       type: 'input',
       name: 'iisHttpPort',
-      message: 'Enter the HTTP port for the IIS Express server:'
+      message: 'Enter the HTTP port for the IIS Express server (use the port assigned by AppConfig):'
     },
     {
       type: 'input',
       name: 'iisHttpsPort',
-      message: 'Enter the HTTPS port for the IIS Express server:'
+      message: 'Enter the HTTPS port for the IIS Express server (last 2 characters of the port assigned by AppConfig with 443 as prefix):'
     },
     {
       type: 'input',
