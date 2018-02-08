@@ -13,5 +13,16 @@ namespace StarterKit
 
       return services;
     }
+
+    public static IServiceCollection AddServiceAgentServices(this IServiceCollection services)
+    {
+      return services;
+    }
+
+    public static IServiceCollection AddDataAccessServices(this IServiceCollection services)
+    {
+      return services;
+    }
+
   }
 }

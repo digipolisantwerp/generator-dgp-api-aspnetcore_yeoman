@@ -71,3 +71,7 @@ More info can be found at : http://automapper.org/.
 ### Logging
 
 ...to do...
+
+### Known issues after generation
+
+Project has 2 warnings after generation. The cause of this is an outdated package reference by Serilog.Sinks.ElasticSearch to NEST 2.4.2

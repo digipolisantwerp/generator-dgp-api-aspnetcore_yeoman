@@ -62,7 +62,7 @@ namespace StarterKit.Api.Controllers
     [Route("ping")]
     [Versions(Versions.V1)]
     [AllowAnonymous]
-    public async Task<IActionResult> GetPing()
+    public IActionResult GetPing()
     {
       return Ok(new StatusResponse()
       {
