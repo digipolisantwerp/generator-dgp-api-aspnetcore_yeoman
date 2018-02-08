@@ -1,5 +1,5 @@
 {
-  "version": "5.0.0",
+  "version": "1.0.0",
   "name": "StarterKit",
     "devDependencies": {
         "gulp": "3.9.0",

@@ -10,3 +10,4 @@ generators/app/templates/test/StarterKit.UnitTests/bin/
 generators/app/templates/test/StarterKit.UnitTests/obj/
 
 .vscode/
+/.vs
