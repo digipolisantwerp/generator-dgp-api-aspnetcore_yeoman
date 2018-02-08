@@ -1,4 +1,7 @@
 # generator-dgp-api-aspnetcore
+## 5.0.0
+ - Update to .Net Core 2.0
+
 ## 4.1.0
 
 - added status API.
