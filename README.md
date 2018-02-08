@@ -71,3 +71,9 @@ More info can be found at : http://automapper.org/.
 ### Logging
 
 ...to do...
+
+
+### Known issues after generation
+
+Project has 2 warnings of type NU1608 after generation. The cause of this is an outdated package reference by Serilog.Sinks.ElasticSearch to 
+NewtonSoft.Json version between 9.0.0 and 10.0.0. Be mindful of possible bugs because of this!

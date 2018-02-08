@@ -49,7 +49,7 @@ namespace StarterKit.UnitTests
 
 
     [Fact]
-    public async Task GetPingReturnsStatusOk()
+    public void GetPingReturnsStatusOk()
     {
       var mapper = new Moq.Mock<IMapper>().Object;
       var logger = new Moq.Mock<ILogger<StatusController>>().Object;
@@ -57,7 +57,7 @@ namespace StarterKit.UnitTests
 
       var controller = new StatusController(statusReaderMock.Object, logger,mapper);
 
-      var result = (Api.Models.StatusResponse)(await controller.GetPing() as OkObjectResult).Value;
+      var result = (Api.Models.StatusResponse)(controller.GetPing() as OkObjectResult).Value;
 
       Assert.Equal(Api.Models.Status.ok, result.Status);
     }

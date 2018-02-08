@@ -15,6 +15,7 @@ using Digipolis.Correlation;
 using Swashbuckle.AspNetCore.Swagger;
 using AutoMapper;
 using System.Reflection;
+using StarterKit.Shared.Swagger;
 
 namespace StarterKit
 {
@@ -52,7 +53,7 @@ namespace StarterKit
         opt.ApplicationName = "StarterKit";
       });
 
-      services.AddCorrelation();
+      services.AddCorrelation(options => { options.CorrelationHeaderRequired = true; });
 
       services.AddLoggingEngine();
 
@@ -62,6 +63,7 @@ namespace StarterKit
           .AddJsonOptions(options =>
           {
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            options.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
           })
           .AddApiExtensions(null, options =>
           {
@@ -69,9 +71,13 @@ namespace StarterKit
           });
 
       services.AddBusinessServices();
+      services.AddServiceAgentServices();
+      services.AddDataAccessServices();
       services.AddAutoMapper();
 
-      services.AddSwaggerGen<ApiExtensionSwaggerSettings>((options) => { });
+      services.AddSwaggerGen<ApiExtensionSwaggerSettings>((options) => {
+        
+      });
 
       services.ConfigureSwaggerGen(options =>
       {
@@ -89,6 +95,11 @@ namespace StarterKit
               }
             }
          );
+
+        options.OperationFilter<AddCorrelationHeaderRequired>();
+        options.OperationFilter<AddAuthorizationHeaderRequired>();
+        options.OperationFilter<RemoveSyncRootParameter>();
+        options.OperationFilter<LowerCaseQueryAndBodyParameterFilter>();
 
         var location = Assembly.GetEntryAssembly().Location;
 

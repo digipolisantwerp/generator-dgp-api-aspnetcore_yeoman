@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Digipolis.Serilog;
 using Microsoft.AspNetCore.Builder;
@@ -18,7 +18,7 @@ namespace StarterKit
         public static IServiceCollection AddLoggingEngine(this IServiceCollection services)
         {
             services.AddSingleton<IApplicationLogger, ApplicationLogger>();
-            
+
             services.AddSerilogExtensions(options => {
                 options.AddApplicationServicesEnricher();
                 options.AddAuthServiceEnricher();
