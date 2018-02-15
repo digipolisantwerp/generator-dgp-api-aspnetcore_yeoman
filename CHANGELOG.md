@@ -1,4 +1,8 @@
 # generator-dgp-api-aspnetcore
+
+## 5.0.1
+ - Missing using Microsoft.EntityFrameworkCore.Diagnostics; added for DataAccess
+
 ## 5.0.0
  - Update to .Net Core 2.0
 
