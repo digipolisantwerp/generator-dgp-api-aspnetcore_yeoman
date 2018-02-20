@@ -1,4 +1,3 @@
-using StarterKit.IntegrationTests.Helpers;
 using AutoMapper;
 using Xunit;
 using StarterKit.UnitTests.Helpers;
