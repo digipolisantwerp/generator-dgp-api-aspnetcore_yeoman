@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.TestHost;
 
-namespace StarterKit.IntegrationTests.Helpers
+namespace StarterKit.UnitTests.Helpers
 {
   public class ServerFixture : IDisposable
   {
