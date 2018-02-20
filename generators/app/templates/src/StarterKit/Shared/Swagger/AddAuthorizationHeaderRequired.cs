@@ -15,7 +15,6 @@ namespace StarterKit.Shared.Swagger
                 operation.Parameters?.Add(new NonBodyParameter()
                 {
                     Name = "Authorization",
-                    Description = "JWT token",
                     Type = "string",
                     Required = true,
                     In = "header"

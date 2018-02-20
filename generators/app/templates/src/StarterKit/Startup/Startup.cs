@@ -67,7 +67,7 @@ namespace StarterKit
           })
           .AddApiExtensions(null, options =>
           {
-            options.DisableVersioning = false;
+            options.DisableVersioning = true;
           });
 
       services.AddBusinessServices();
