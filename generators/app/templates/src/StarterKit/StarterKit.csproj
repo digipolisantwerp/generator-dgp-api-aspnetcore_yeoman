@@ -51,7 +51,7 @@
     <PackageReference Include="Digipolis.Correlation" Version="4.0.0" />
     <PackageReference Include="Digipolis.Errors" Version="5.1.0" />
     <PackageReference Include="Digipolis.Json" Version="3.0.0" />
-    <PackageReference Include="Digipolis.Auth" Version="3.0.0-beta1" />
+    <PackageReference Include="Digipolis.Auth" Version="3.0.0" />
     <PackageReference Include="Digipolis.Serilog" Version="4.0.0" />
     <PackageReference Include="Digipolis.Serilog.ApplicationServices" Version="3.0.0" />
     <PackageReference Include="Digipolis.Serilog.AuthService" Version="3.0.0" />

@@ -1,5 +1,8 @@
 # generator-dgp-api-aspnetcore
 
+## 5.0.3
+ - Fix missing using statement and faulty namespaces in test projects
+
 ## 5.0.2
  - Missing reference for StaticFiles and TestServer; added AutoMapperTest
 
