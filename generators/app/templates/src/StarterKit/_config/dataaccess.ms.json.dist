@@ -1,8 +1,0 @@
-{
-	"DataAccess": {
-		"ConnectionString": {
-			"Host": "%%db.mssql.connection.host%%",
-			"DbName": "%%db.mssql.connection.name%%"
-		}
-	}
-}

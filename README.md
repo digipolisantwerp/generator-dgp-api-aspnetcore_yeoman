@@ -1,6 +1,6 @@
 # generator-dgp-api-aspnetcore
 
-> Yeoman generator for an ASP.NET Core 1.1 API project with csproj and MSBuild.
+> Yeoman generator for an ASP.NET Core 2.0 API project with csproj and MSBuild.
 
 ## Installation
 
@@ -20,7 +20,7 @@ Install the generator :
 npm install generator-dgp-api-aspnetcore -g
 ```
 
-## Generate a new ASP.NET Core 1.1 API project
+## Generate a new ASP.NET Core 2.0 API project
 
 In a command prompt, navigate to the directory where you want to create the new project and type :
 
@@ -34,6 +34,7 @@ Answer the questions :-)
 
 ### Startup
 
+Enter your application Id, which you can find in AppConfig, in _config\app.json. It will be used in the StartUp class -> ConfigureServices -> services.AddApplicationServices
 ...to do...
 
 ### DependencyRegistration
@@ -70,7 +71,8 @@ More info can be found at : http://automapper.org/.
 
 ### Logging
 
-...to do...
+Almost everything is preset for logging to Kibana. Enter the name of your logging index in _config\logging.json -> "indexFormat": "logstash-{tenant}-{your logging index goes here}-{0:yyyy.MM.dd}" .
+The maximum length of tenant (application- or system-) and logging index name is 30 characters !
 
 
 ### Known issues after generation

@@ -92,6 +92,8 @@ module.exports = yeoman.generators.Base.extend({
         var str = contents.toString();
         var result = str.replace(/StarterKit/g, projectName)
                         .replace(/starterkit/g, lowerProjectName)
+						.replace(/DataAccessSettingsNpg/g, "DataAccessSettings")
+						.replace(/DataAccessSettingsMs/g, "DataAccessSettings")
                         .replace(/C3E0690A-0044-402C-90D2-2DC0FF14980F/g, solutionItemsGuid.value.toUpperCase())
                         .replace(/05A3A5CE-4659-4E00-A4BB-4129AEBEE7D0/g, srcGuid.value.toUpperCase())
                         .replace(/079636FA-0D93-4251-921A-013355153BF5/g, testGuid.value.toUpperCase())
@@ -104,8 +106,8 @@ module.exports = yeoman.generators.Base.extend({
                         .replace(/\/\/--dataaccess-package--/g, dataProvider.package)
                         .replace(/\/\/--dataaccess-startupImports--/g, dataProvider.startupImports)
                         .replace(/\/\/--dataaccess-startupServices--/g, dataProvider.startupServices)
-                        .replace(/\.AddJsonFile\("app\.json"\)/g, dataProvider.startupCtor)
                         .replace(/\/\/--dataaccess-connString--/g, dataProvider.connString)
+						.replace(/\/\/--dataaccess-config--/g, dataProvider.programConfig)
                         .replace(/\/\/--dataaccess-tools--/g, dataProvider.tools);
         return result;
       }
@@ -121,43 +123,47 @@ module.exports = yeoman.generators.Base.extend({
 
      nd.files(source, function (err, files) {
       for ( var i = 0; i < files.length; i++ ) {
-        var filename = files[i].replace(/StarterKit/g, projectName)
+        var ignoreFiles = [];
+		var filename = files[i].replace(/StarterKit/g, projectName)
                                .replace(/starterkit/g, lowerProjectName)
                                .replace('.npmignore', '.gitignore')
                                .replace('dataaccess.ms.json', 'dataaccess.json')
                                .replace('dataaccess.npg.json', 'dataaccess.json')
+							   .replace('DataAccessSettings.ms.cs', 'DataAccessSettings.cs')
+							   .replace('DataAccessSettings.npg.cs', 'DataAccessSettings.cs')
                                .replace(source, dest);
         switch (dataProvider.input)
         {
           case 'p':
-            if (files[i].indexOf('dataaccess.ms.json') > -1 ||
-                files[i].indexOf('dataaccess.ms.json.dist') > -1 ) {
-              console.log(files[i] + ' not created');
-            } else {
-              fs.copy(files[i], filename, copyOptions);
-            }
+            if (files[i].indexOf('dataaccess.ms.json') > -1) {
+              ignoreFiles.push(files[i]);
+			}
+			if (files[i].indexOf('DataAccessSettings.ms.cs') > -1) {
+              ignoreFiles.push(files[i]);
+			}
             break;
           case 'm':
-            if (files[i].indexOf('dataaccess.npg.json') > -1 ||
-                files[i].indexOf('dataaccess.npg.json.dist') > -1 ) {
-              console.log(files[i] + ' not created');
-            } else {
-              fs.copy(files[i], filename, copyOptions);
-            }
+            if (files[i].indexOf('dataaccess.npg.json') > -1) {
+              ignoreFiles.push(files[i]);
+			}
+			if (files[i].indexOf('DataAccessSettings.npg.cs') > -1) {
+              ignoreFiles.push(files[i]);
+			}
             break;
           default:
             if (files[i].indexOf('EntityContext.cs') > -1 ||
                 files[i].indexOf('DataAccessDefaults.cs') > -1 ||
-                files[i].indexOf('dataaccess.ms.json.dist') > -1 ||
-                files[i].indexOf('dataaccess.npg.json.dist') > -1 ||
                 files[i].indexOf('dataaccess.ms.json') > -1 || 
-                files[i].indexOf('dataaccess.npg.json') > -1 ) {
-              console.log(files[i] + ' not created');
-            }
-            else {
-              fs.copy(files[i], filename, copyOptions);            
+                files[i].indexOf('dataaccess.npg.json') > -1 ||
+				files[i].indexOf('DataAccessSettings.ms.cs') > -1 ||
+				files[i].indexOf('DataAccessSettings.npg.cs') > -1) {
+					ignoreFiles.push(files[i]);
             }
         }
+		
+		if (!ignoreFiles.includes(files[i])) {
+			fs.copy(files[i], filename, copyOptions);
+		}
       }
     });
 
@@ -170,40 +176,44 @@ module.exports = yeoman.generators.Base.extend({
 });
 
 function getDataProvider(input, projectName) {
-  var efCorePackage = '"Microsoft.EntityFrameworkCore": "1.0.0",\n';
-  var efDesignPackage = '        "Microsoft.EntityFrameworkCore.Design": "1.0.0-preview2-final",\n'
-  var npgSqlPackage = '        "Npgsql.EntityFrameworkCore.PostgreSQL": "1.0.1",\n';
+  var efCorePackage = '"Microsoft.EntityFrameworkCore": "2.0.1",\n';
+  var efDesignPackage = '        "Microsoft.EntityFrameworkCore.Design": "2.0.1",\n'
+  var npgSqlPackage = '        "Npgsql.EntityFrameworkCore.PostgreSQL": "1.1.0",\n';
   var sqlServerPackage = '        "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",\n';
-  var dataAccessPackage = '        "Digipolis.DataAccess": "2.5.2",';
-  var usings = 'using Microsoft.EntityFrameworkCore;\nusing Microsoft.EntityFrameworkCore.Infrastructure;\nusing Microsoft.EntityFrameworkCore.Migrations;\nusing Digipolis.DataAccess;\nusing StarterKit.DataAccess;\nusing Microsoft.EntityFrameworkCore.Diagnostics;\n'.replace("StarterKit", projectName);
-  var ctor = '.AddJsonFile("app.json")\n                .AddJsonFile("dataaccess.json")';
+  var dataAccessPackage = '        "Digipolis.DataAccess": "3.0.1",';
+  var usings = 'using Microsoft.EntityFrameworkCore;\nusing Microsoft.EntityFrameworkCore.Migrations;\nusing Digipolis.DataAccess;\nusing StarterKit.DataAccess;\nusing StarterKit.DataAccess.Options;\nusing Microsoft.EntityFrameworkCore.Diagnostics;'.replace(/StarterKit/g, projectName);
+  var programConfig = 'config.AddJsonFile("dataaccess.json");\n';
   var tools = '"Microsoft.EntityFrameworkCore.Tools": { "version": "1.0.0-preview2-final", "type": "build" },';
 
-  var dataProvider = { input: input, package: '', startupServices: '', startupImports: '', startupCtor: '.AddJsonFile("app.json")', connString: '', tools: '' };
+  var dataProvider = { input: input, package: '', startupServices: '', startupImports: '', programConfig: '', connString: '', tools: '' };
 
   if (input.toLowerCase() === 'p') {
       dataProvider.package = efCorePackage + efDesignPackage + npgSqlPackage + dataAccessPackage;
-      dataProvider.startupServices = 'services.AddDataAccess<EntityContext>();\n' +
-                                     '            var connString = GetConnectionString();\n' +
-                                     '            services.AddDbContext<EntityContext>(options => {\n' +
-                                     '                options.UseNpgsql(connString, opt => opt.MigrationsHistoryTable(HistoryRepository.DefaultTableName, DataAccessDefaults.SchemaName));\n' +
-                                     '                options.ConfigureWarnings(config => config.Throw(RelationalEventId.QueryClientEvaluationWarning));\n' +
-                                     '            });';
+      dataProvider.startupServices = 'DataAccessSettings.RegisterConfiguration(services, Configuration.GetSection("DataAccess").GetSection("ConnectionString"));\n' + 
+									 '      var dataAccessSettings = services.BuildServiceProvider().GetService<IOptions<DataAccessSettings>>().Value;\n' + 
+									 '      services.AddDataAccess<EntityContext>();\n' +
+                                     '      var connString = GetConnectionString(dataAccessSettings);\n' +
+                                     '      services.AddDbContext<EntityContext>(options => {\n' +
+                                     '          options.UseNpgsql(connString, opt => opt.MigrationsHistoryTable(HistoryRepository.DefaultTableName, DataAccessDefaults.SchemaName));\n' +
+                                     '          options.ConfigureWarnings(config => config.Throw(RelationalEventId.QueryClientEvaluationWarning));\n' +
+                                     '      });';
       dataProvider.startupImports = usings;
-      dataProvider.startupCtor = ctor;
+      dataProvider.programConfig = programConfig;
       dataProvider.connString = getConnectionString();
       dataProvider.tools = tools;
   }
   else if (input.toLowerCase() === 'm') {
       dataProvider.package = efCorePackage + efDesignPackage + sqlServerPackage + dataAccessPackage;
-      dataProvider.startupServices = 'services.AddDataAccess<EntityContext>();\n' +
-                                     '            var connString = GetConnectionString();\n' +
-                                     '            services.AddDbContext<EntityContext>(options => {\n' +
-                                     '                options.UseSqlServer(connString);\n' +
-                                     '                options.ConfigureWarnings(config => config.Throw(RelationalEventId.QueryClientEvaluationWarning));\n' +
-                                     '            });';
+      dataProvider.startupServices = 'DataAccessSettings.RegisterConfiguration(services, Configuration.GetSection("DataAccess").GetSection("ConnectionString"));\n' + 
+									 '      var dataAccessSettings = services.BuildServiceProvider().GetService<IOptions<DataAccessSettings>>().Value;\n' + 
+									 '      services.AddDataAccess<EntityContext>();\n' +
+                                     '      var connString = GetConnectionString(dataAccessSettings);\n' +
+                                     '      services.AddDbContext<EntityContext>(options => {\n' +
+                                     '          options.UseSqlServer(connString);\n' +
+                                     '          options.ConfigureWarnings(config => config.Throw(RelationalEventId.QueryClientEvaluationWarning));\n' +
+                                     '      });';
       dataProvider.startupImports = usings;
-      dataProvider.startupCtor = ctor;
+      dataProvider.programConfig = programConfig;
       dataProvider.connString = getConnectionString();
       dataProvider.tools = tools;
   };
@@ -211,25 +221,21 @@ function getDataProvider(input, projectName) {
   return dataProvider;
 }
 
+
 function getConnectionString()
-{
-   var code = 'private string GetConnectionString()\n' +
+{	
+	var code = 'private string GetConnectionString(DataAccessSettings dataAccessSettings)\n' +
           '        {\n' +
-          '            var configSection = Configuration.GetSection("DataAccess").GetSection("ConnectionString");\n\n' +
-          '            var host = configSection.GetValue<string>("Host");\n' +
-          '            var dbname = configSection.GetValue<string>("DbName");\n' +
-          '            var user = configSection.GetValue<string>("User");\n' +
-          '            var password = configSection.GetValue<string>("Password");\n\n' +
           '            ushort port = 0;\n' +
           '            try\n' +
           '            {\n' + 
-          '                port = configSection.GetValue<ushort>("Port");\n' +
+          '                port = ushort.Parse(dataAccessSettings.Port);\n' +
           '            }\n' +
           '            catch (InvalidOperationException ex)\n' +
           '            {\n' +
           '                throw new InvalidOperationException("Database port must be a number from 0 to 65536.", ex.InnerException ?? ex);\n' +
           '            }\n\n' +
-          '            var connectionString = new ConnectionString(host, port, dbname, user, password);\n' +
+          '            var connectionString = new ConnectionString(dataAccessSettings.Host, port, dataAccessSettings.DbName, dataAccessSettings.User, dataAccessSettings.Password);\n' +
           '            return connectionString.ToString();\n' +
           '        }\n';
 
