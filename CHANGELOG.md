@@ -1,5 +1,9 @@
 # generator-dgp-api-aspnetcore
 
+## 5.1.0
+ - Working with environment variables instead of .dist files
+ - Updates for Docker deployment
+
 ## 5.0.3
  - Fix missing using statement and faulty namespaces in test projects
 

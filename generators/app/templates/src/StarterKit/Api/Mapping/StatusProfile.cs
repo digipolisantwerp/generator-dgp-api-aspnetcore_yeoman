@@ -1,6 +1,5 @@
 using AutoMapper;
 
-
 namespace StarterKit.Api.Mapping
 {
     public class StatusProfile : Profile
@@ -10,8 +9,5 @@ namespace StarterKit.Api.Mapping
           CreateMap<Business.Monitoring.Monitoring, Api.Models.Monitoring>();
           CreateMap<Business.Monitoring.Component, Api.Models.Component>();
     }
-      
-
-
   }
 }

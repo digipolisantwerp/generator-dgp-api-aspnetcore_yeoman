@@ -1,8 +1,8 @@
 using AutoMapper;
 using Xunit;
-using StarterKit.UnitTests.Helpers;
+using StarterKit.IntegrationTests.Helpers;
 
-namespace StarterKit.UnitTests.AutoMapper
+namespace StarterKit.IntegrationTests.AutoMapper
 {
   [Collection("Integration tests collection")]
   public class AutoMapperTests : ServerTestBase

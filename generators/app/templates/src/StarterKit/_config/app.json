@@ -1,7 +1,8 @@
 {
-    "AppSettings": {
-        "AppName": "StarterKit",
-        "DataDirectory": "/data/",
-        "TempDirectory": "/temp/"
-    }
+  "AppSettings": {
+    "AppName": "StarterKit",
+    "ApplicationId": "enter-your-application-id-here (get it from APPCONFIG)",
+    "DataDirectory": "/data/",
+    "TempDirectory": "/temp/"
+  }
 }

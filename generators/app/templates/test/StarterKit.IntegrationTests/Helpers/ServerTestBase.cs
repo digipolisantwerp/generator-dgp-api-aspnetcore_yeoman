@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.TestHost;
 using System.Net.Http;
 using Xunit;
 
-namespace StarterKit.UnitTests.Helpers
+namespace StarterKit.IntegrationTests.Helpers
 {
   public abstract class ServerTestBase : IClassFixture<ServerFixture>
   {

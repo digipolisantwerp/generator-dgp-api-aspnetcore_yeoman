@@ -3,7 +3,6 @@ using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 //--dataaccess-startupImports--
@@ -16,41 +15,32 @@ using Swashbuckle.AspNetCore.Swagger;
 using AutoMapper;
 using System.Reflection;
 using StarterKit.Shared.Swagger;
+using Microsoft.Extensions.Options;
+using StarterKit.Api.Mapping;
 
 namespace StarterKit
 {
   public class Startup
   {
-    public Startup(IHostingEnvironment env)
+    public Startup(IConfiguration configuration, IHostingEnvironment env)
     {
-      var appEnv = PlatformServices.Default.Application;
-      ApplicationBasePath = appEnv.ApplicationBasePath;
-      ConfigPath = Path.Combine(env.ContentRootPath, "_config");
-
-      var builder = new ConfigurationBuilder()
-          .SetBasePath(ConfigPath)
-          .AddJsonFile("logging.json")
-          .AddJsonFile("app.json")
-          .AddEnvironmentVariables();
-
-
-      Configuration = builder.Build();
-
+      Configuration = configuration;
     }
 
-    public IConfigurationRoot Configuration { get; private set; }
+    public IConfiguration Configuration { get; private set; }
     public string ApplicationBasePath { get; private set; }
-    public string ConfigPath { get; private set; }
 
     public void ConfigureServices(IServiceCollection services)
     {
       // Check out ExampleController to find out how these configs are injected into other classes
-      services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+      AppSettings.RegisterConfiguration(services, Configuration.GetSection("AppSettings"));
+
+      var appSettings = services.BuildServiceProvider().GetService<IOptions<AppSettings>>().Value;
 
       services.AddApplicationServices(opt =>
       {
-        opt.ApplicationId = "enter-your-application-id-here";
-        opt.ApplicationName = "StarterKit";
+        opt.ApplicationId = appSettings.ApplicationId;
+        opt.ApplicationName = appSettings.AppName;
       });
 
       services.AddCorrelation(options => { options.CorrelationHeaderRequired = true; });
@@ -73,7 +63,9 @@ namespace StarterKit
       services.AddBusinessServices();
       services.AddServiceAgentServices();
       services.AddDataAccessServices();
-      services.AddAutoMapper();
+      services.AddAutoMapper((config) => {
+        config.AddProfile<StatusProfile>();
+      });
 
       services.AddSwaggerGen<ApiExtensionSwaggerSettings>((options) => {
         
