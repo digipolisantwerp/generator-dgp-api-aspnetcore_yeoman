@@ -45,7 +45,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="1.1.0" />
-    <PackageReference Include="Digipolis.DataAccess" Version="3.0.1" />
+    <PackageReference Include="Digipolis.DataAccess" Version="4.0.0" />
     <PackageReference Include="Digipolis.ApplicationServices" Version="2.0.0" />
     <PackageReference Include="Digipolis.Common" Version="3.0.0" />
     <PackageReference Include="Digipolis.Correlation" Version="4.0.0" />
