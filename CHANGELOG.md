@@ -1,5 +1,9 @@
 # generator-dgp-api-aspnetcore
 
+## 5.2.0
+ - Update Auth toolbox to v3.2.0 (.NET Standard 2.0 compatible)
+ - Update DataAccess toolbox to v4.0.0 (.NET Standard 2.0 compatible)
+
 ## 5.1.0
  - Working with environment variables instead of .dist files
  - Updates for Docker deployment
