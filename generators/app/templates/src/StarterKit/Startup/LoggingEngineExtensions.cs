@@ -71,7 +71,7 @@ namespace StarterKit
       }
       if (env.Contains($"LOG_ELASTIC_APPLICATION_HEADERS"))
       {
-        environmentDict.Add("ApplicationLog:WriteTo:0:Args:connectionHeaders", env[$"LOG_ELASTIC_APPLICATION_HEADERS"].ToString());
+        environmentDict.Add("ApplicationLog:WriteTo:0:Args:connectionGlobalHeaders", env[$"LOG_ELASTIC_APPLICATION_HEADERS"].ToString());
       }
       if (env.Contains($"LOG_ELASTIC_APPLICATION_URL"))
       {
@@ -85,7 +85,7 @@ namespace StarterKit
       }
       if (env.Contains($"LOG_ELASTIC_SYSTEM_HEADERS"))
       {
-        environmentDict.Add("SystemLog:WriteTo:1:Args:connectionHeaders", env[$"LOG_ELASTIC_SYSTEM_HEADERS"].ToString());
+        environmentDict.Add("SystemLog:WriteTo:1:Args:connectionGlobalHeaders", env[$"LOG_ELASTIC_SYSTEM_HEADERS"].ToString());
       }
       if (env.Contains($"LOG_ELASTIC_SYSTEM_URL"))
       {
