@@ -1,22 +1,23 @@
-using System;
-using System.IO;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+using AutoMapper;
+using Digipolis.ApplicationServices;
+using Digipolis.Correlation;
+using Digipolis.Prometheus;
 //--dataaccess-startupImports--
 using Digipolis.Web;
 using Digipolis.Web.Startup;
-using StarterKit.Options;
-using Digipolis.ApplicationServices;
-using Digipolis.Correlation;
-using Swashbuckle.AspNetCore.Swagger;
-using AutoMapper;
-using System.Reflection;
-using StarterKit.Shared.Swagger;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using StarterKit.Api.Mapping;
+using StarterKit.Options;
+using StarterKit.Shared.Swagger;
+using Swashbuckle.AspNetCore.Swagger;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace StarterKit
 {
@@ -63,13 +64,16 @@ namespace StarterKit
       services.AddBusinessServices();
       services.AddServiceAgentServices();
       services.AddDataAccessServices();
-      services.AddAutoMapper((config) => {
+
+      services.AddAutoMapper((config) =>
+      {
         config.AddProfile<StatusProfile>();
       });
+      
+      services.AddSwaggerGen<ApiExtensionSwaggerSettings>((options) =>
+        {
 
-      services.AddSwaggerGen<ApiExtensionSwaggerSettings>((options) => {
-        
-      });
+        });
 
       services.ConfigureSwaggerGen(options =>
       {
@@ -110,6 +114,8 @@ namespace StarterKit
 
     public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime)
     {
+      app.UseMetrics();     // enable metrics for prometheus-client
+
       loggerFactory.AddConsole(Configuration.GetSection("ConsoleLogging"));
       loggerFactory.AddDebug(LogLevel.Debug);
       loggerFactory.AddLoggingEngine(app, appLifetime, Configuration);
@@ -137,11 +143,11 @@ namespace StarterKit
 
       app.UseSwaggerUI(options =>
       {
+        options.RoutePrefix = "swagger";
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "V1 Docs");
       });
 
-
-      app.UseSwaggerUiRedirect();
+      app.UseSwaggerUiRedirect("swagger");
     }
 
     //--dataaccess-connString--

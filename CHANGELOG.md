@@ -1,5 +1,14 @@
 # generator-dgp-api-aspnetcore
 
+## 5.3.0
+ - Update package Automapper to v7.0.1, Newtonsoft.Json to v11.0.2
+ - Update Swashbuckle packages to recent version
+ - Update Digipolis toolbox packages to recent version
+ - Add package Digipolis.Prometheus for enabling app metrics and added tot Startup.Configure
+ - fix in determining logging config from environment variables
+ - Added class for setting service agent configuration from environment variables
+ - Fixed swagger end-point
+
 ## 5.2.0
  - Update Auth toolbox to v3.2.0 (.NET Standard 2.0 compatible)
  - Update DataAccess toolbox to v4.0.0 (.NET Standard 2.0 compatible)
