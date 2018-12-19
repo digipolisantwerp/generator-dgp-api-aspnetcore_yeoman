@@ -1,15 +1,14 @@
-using System;
-using Digipolis.Web.Routing;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
-using Digipolis.Errors;
-using StarterKit.Business.Monitoring;
-using StarterKit.Api.Models;
 using AutoMapper;
+using Digipolis.Errors;
 using Digipolis.Web.Api;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using StarterKit.Api.Models;
+using StarterKit.Business.Monitoring;
 using StarterKit.Shared.Constants;
+using System;
+using System.Threading.Tasks;
 
 namespace StarterKit.Api.Controllers
 {
@@ -69,7 +68,6 @@ namespace StarterKit.Api.Controllers
         Status = Models.Status.ok
       });
     }
-
 
   }
 }

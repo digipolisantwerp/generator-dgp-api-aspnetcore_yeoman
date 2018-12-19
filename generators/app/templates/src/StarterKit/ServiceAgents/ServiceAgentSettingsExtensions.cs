@@ -31,10 +31,10 @@ namespace StarterKit.ServiceAgents
 
         // iterate possible headers in environment variables;
         // environment variables may only contain underscores as non-alphanumeric character; so name and value of headers are split into two
-        // separate environment variables to allow other non-alphanumeric than dash-symbols (ex. "owner-key")
+        // separate environment variables to allow other non-alphanumeric charachters such as a dash-symbol (ex. "owner-key")
         // "headers": [
         //    {
-        //      "value": "1234567a-7654-abcf-b12b-34bedfded2ae",
+        //      "value": "123456a-7890-abcd-efg2-34bedfd3d210",
         //      "name": "apikey"
         //    }, ...
         //  ]

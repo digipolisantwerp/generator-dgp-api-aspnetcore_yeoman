@@ -1,17 +1,13 @@
-using AutoMapper;
-using Digipolis.ApplicationServices;
-using Digipolis.Correlation;
-using Digipolis.Prometheus;
-//--dataaccess-startupImports--
-using Digipolis.Web;
-using Digipolis.Web.Startup;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+using System;
+using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using StarterKit.Api.Mapping;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+//--dataaccess-startupImports--
+using Digipolis.Web;
+using Digipolis.Web.Startup;
 using StarterKit.Options;
 using StarterKit.Shared.Swagger;
 using Swashbuckle.AspNetCore.Swagger;
@@ -64,13 +60,16 @@ namespace StarterKit
       services.AddBusinessServices();
       services.AddServiceAgentServices();
       services.AddDataAccessServices();
-      services.AddAutoMapper((config) => {
+
+      services.AddAutoMapper((config) =>
+      {
         config.AddProfile<StatusProfile>();
       });
+      
+      services.AddSwaggerGen<ApiExtensionSwaggerSettings>((options) =>
+        {
 
-      services.AddSwaggerGen<ApiExtensionSwaggerSettings>((options) => {
-        
-      });
+        });
 
       services.ConfigureSwaggerGen(options =>
       {
@@ -111,8 +110,7 @@ namespace StarterKit
 
     public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime)
     {
-      // enable app metrics
-      app.UseMetrics();
+      app.UseMetrics();     // enable metrics for prometheus-client
 
       loggerFactory.AddConsole(Configuration.GetSection("ConsoleLogging"));
       loggerFactory.AddDebug(LogLevel.Debug);
