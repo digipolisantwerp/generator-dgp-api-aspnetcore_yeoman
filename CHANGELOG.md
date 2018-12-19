@@ -1,5 +1,9 @@
 # generator-dgp-api-aspnetcore
 
+## 6.0.0
+ - Update to .Net Core 2.1 (target framework .net core 2.1.6)
+ - Update nuget packages
+
 ## 5.3.0
  - Update package Automapper to v7.0.1, Newtonsoft.Json to v11.0.2
  - Update Swashbuckle packages to recent version

@@ -1,13 +1,17 @@
-using System;
-using System.IO;
+using AutoMapper;
+using Digipolis.ApplicationServices;
+using Digipolis.Correlation;
+using Digipolis.Prometheus;
+using Digipolis.Web;
+using Digipolis.Web.Startup;
+//--dataaccess-startupImports--
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-//--dataaccess-startupImports--
-using Digipolis.Web;
-using Digipolis.Web.Startup;
+using Microsoft.Extensions.Options;
+using StarterKit.Api.Mapping;
 using StarterKit.Options;
 using StarterKit.Shared.Swagger;
 using Swashbuckle.AspNetCore.Swagger;

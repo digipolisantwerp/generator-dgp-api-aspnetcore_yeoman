@@ -1,8 +1,8 @@
-using System;
-using System.IO;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.IO;
 
 namespace StarterKit
 {
@@ -40,7 +40,7 @@ namespace StarterKit
             config.AddJsonFile("app.json");
             //--dataaccess-config--
             config.AddEnvironmentVariables();
-          })
+          })          
           .UseConfiguration(configuration)
           .UseUrls(serverUrls)
           .Build();
