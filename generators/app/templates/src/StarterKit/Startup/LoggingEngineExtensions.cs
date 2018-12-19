@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Digipolis.Serilog;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +8,9 @@ using Serilog;
 using Serilog.Core;
 using Serilog.Filters;
 using StarterKit.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace StarterKit
 {

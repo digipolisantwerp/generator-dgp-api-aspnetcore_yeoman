@@ -1,22 +1,22 @@
-using System;
-using System.IO;
+using AutoMapper;
+using Digipolis.ApplicationServices;
+using Digipolis.Correlation;
+using Digipolis.Web;
+using Digipolis.Web.Startup;
+//--dataaccess-startupImports--
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-//--dataaccess-startupImports--
-using Digipolis.Web;
-using Digipolis.Web.Startup;
-using StarterKit.Options;
-using Digipolis.ApplicationServices;
-using Digipolis.Correlation;
-using Swashbuckle.AspNetCore.Swagger;
-using AutoMapper;
-using System.Reflection;
-using StarterKit.Shared.Swagger;
 using Microsoft.Extensions.Options;
 using StarterKit.Api.Mapping;
+using StarterKit.Options;
+using StarterKit.Shared.Swagger;
+using Swashbuckle.AspNetCore.Swagger;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace StarterKit
 {
@@ -63,13 +63,16 @@ namespace StarterKit
       services.AddBusinessServices();
       services.AddServiceAgentServices();
       services.AddDataAccessServices();
-      services.AddAutoMapper((config) => {
+
+      services.AddAutoMapper((config) =>
+      {
         config.AddProfile<StatusProfile>();
       });
+      
+      services.AddSwaggerGen<ApiExtensionSwaggerSettings>((options) =>
+        {
 
-      services.AddSwaggerGen<ApiExtensionSwaggerSettings>((options) => {
-        
-      });
+        });
 
       services.ConfigureSwaggerGen(options =>
       {
@@ -137,11 +140,11 @@ namespace StarterKit
 
       app.UseSwaggerUI(options =>
       {
+        options.RoutePrefix = "swagger";
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "V1 Docs");
       });
 
-
-      app.UseSwaggerUiRedirect();
+      app.UseSwaggerUiRedirect("swagger");
     }
 
     //--dataaccess-connString--
