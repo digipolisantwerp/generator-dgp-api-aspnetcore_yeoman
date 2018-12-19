@@ -1,7 +1,6 @@
 using AutoMapper;
 using Digipolis.ApplicationServices;
 using Digipolis.Correlation;
-using Digipolis.Prometheus;
 using Digipolis.Web;
 using Digipolis.Web.Startup;
 //--dataaccess-startupImports--
@@ -114,8 +113,6 @@ namespace StarterKit
 
     public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime)
     {
-      app.UseMetrics();     // enable metrics for prometheus-client
-
       loggerFactory.AddConsole(Configuration.GetSection("ConsoleLogging"));
       loggerFactory.AddDebug(LogLevel.Debug);
       loggerFactory.AddLoggingEngine(app, appLifetime, Configuration);
