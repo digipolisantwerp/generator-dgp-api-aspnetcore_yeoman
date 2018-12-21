@@ -1,5 +1,9 @@
 # generator-dgp-api-aspnetcore
 
+## 6.0.1
+ - Update npm packages
+ - update yeoman generator script
+
 ## 6.0.0
  - Update to .Net Core 2.1 (target framework .net core 2.1.6)
  - Update nuget packages
