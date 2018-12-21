@@ -68,7 +68,6 @@ module.exports = class extends Generator {
 			this.props = answers; // To access answers later use this.props.someOption;
 			//done();
 		});
-		//	.bind(this));
 	}
 
 	writing() {
