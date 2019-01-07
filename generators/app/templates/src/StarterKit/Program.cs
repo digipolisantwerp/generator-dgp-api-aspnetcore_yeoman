@@ -10,10 +10,10 @@ namespace StarterKit
   {
     public static void Main(string[] args)
     {
-      BuildWebHost(args).Run();
+      CreateWebHostBuilder(args).Build().Run();
     }
 
-    public static IWebHost BuildWebHost(string[] args)
+    public static IWebHostBuilder CreateWebHostBuilder(string[] args)
     {
       var configuration = new ConfigurationBuilder()
           .SetBasePath(Directory.GetCurrentDirectory())
@@ -42,8 +42,7 @@ namespace StarterKit
             config.AddEnvironmentVariables();
           })          
           .UseConfiguration(configuration)
-          .UseUrls(serverUrls)
-          .Build();
+          .UseUrls(serverUrls);
     }
   }
 }
