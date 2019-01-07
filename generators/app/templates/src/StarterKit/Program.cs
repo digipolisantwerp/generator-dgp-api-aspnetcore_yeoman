@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 
@@ -40,7 +41,15 @@ namespace StarterKit
             config.AddJsonFile("app.json");
             //--dataaccess-config--
             config.AddEnvironmentVariables();
-          })          
+          })
+          .ConfigureLogging((hostingContext, logging) =>
+          {
+            logging.ClearProviders();
+
+            logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+            logging.AddConsole();
+            logging.AddDebug();
+          })
           .UseConfiguration(configuration)
           .UseUrls(serverUrls);
     }

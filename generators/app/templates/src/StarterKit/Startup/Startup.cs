@@ -113,8 +113,6 @@ namespace StarterKit
 
     public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime)
     {
-      loggerFactory.AddConsole(Configuration.GetSection("ConsoleLogging"));
-      loggerFactory.AddDebug(LogLevel.Debug);
       loggerFactory.AddLoggingEngine(app, appLifetime, Configuration);
 
       // Enable Serilog selflogging to console.
