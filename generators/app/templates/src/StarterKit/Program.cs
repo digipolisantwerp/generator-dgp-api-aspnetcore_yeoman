@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 
@@ -10,10 +11,10 @@ namespace StarterKit
   {
     public static void Main(string[] args)
     {
-      BuildWebHost(args).Run();
+      CreateWebHostBuilder(args).Build().Run();
     }
 
-    public static IWebHost BuildWebHost(string[] args)
+    public static IWebHostBuilder CreateWebHostBuilder(string[] args)
     {
       var configuration = new ConfigurationBuilder()
           .SetBasePath(Directory.GetCurrentDirectory())
@@ -40,10 +41,17 @@ namespace StarterKit
             config.AddJsonFile("app.json");
             //--dataaccess-config--
             config.AddEnvironmentVariables();
-          })          
+          })
+          .ConfigureLogging((hostingContext, logging) =>
+          {
+            logging.ClearProviders();
+
+            logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+            logging.AddConsole();
+            logging.AddDebug();
+          })
           .UseConfiguration(configuration)
-          .UseUrls(serverUrls)
-          .Build();
+          .UseUrls(serverUrls);
     }
   }
 }

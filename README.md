@@ -1,6 +1,6 @@
 # generator-dgp-api-aspnetcore
 
-> Yeoman generator for an ASP.NET Core 2.0 API project with csproj and MSBuild.
+> Yeoman generator for an ASP.NET Core 2.1 API project with csproj and MSBuild.
 
 ## Installation
 
@@ -20,7 +20,7 @@ Install the generator :
 npm install generator-dgp-api-aspnetcore -g
 ```
 
-## Generate a new ASP.NET Core 2.0 API project
+## Generate a new ASP.NET Core 2.1 API project
 
 In a command prompt, navigate to the directory where you want to create the new project and type :
 
