@@ -184,14 +184,14 @@ module.exports = class extends Generator {
 };
 
 function getDataProvider(input, projectName) {
-	var efCorePackage = '"Microsoft.EntityFrameworkCore": "2.0.1",\n';
-	var efDesignPackage = '        "Microsoft.EntityFrameworkCore.Design": "2.0.1",\n'
-		var npgSqlPackage = '        "Npgsql.EntityFrameworkCore.PostgreSQL": "1.1.0",\n';
-	var sqlServerPackage = '        "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",\n';
-	var dataAccessPackage = '        "Digipolis.DataAccess": "3.0.1",';
+	var efCorePackage = '"Microsoft.EntityFrameworkCore": "2.1.4",\n';
+	var efDesignPackage = '        "Microsoft.EntityFrameworkCore.Design": "2.1.4",\n'
+		var npgSqlPackage = '        "Npgsql.EntityFrameworkCore.PostgreSQL": "2.1.2",\n';
+	var sqlServerPackage = '        "Microsoft.EntityFrameworkCore.SqlServer": "2.1.4",\n';
+	var dataAccessPackage = '        "Digipolis.DataAccess": "4.0.0",';
 	var usings = 'using Microsoft.EntityFrameworkCore;\nusing Microsoft.EntityFrameworkCore.Migrations;\nusing Digipolis.DataAccess;\nusing StarterKit.DataAccess;\nusing StarterKit.DataAccess.Options;\nusing Microsoft.EntityFrameworkCore.Diagnostics;'.replace(/StarterKit/g, projectName);
 	var programConfig = 'config.AddJsonFile("dataaccess.json");\n';
-	var tools = '"Microsoft.EntityFrameworkCore.Tools": { "version": "1.0.0-preview2-final", "type": "build" },';
+	var tools = '"Microsoft.EntityFrameworkCore.Tools": { "version": "2.1.4", "type": "build" },';
 
 	var dataProvider = {
 		input: input,
