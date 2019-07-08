@@ -1,5 +1,14 @@
 # generator-dgp-api-aspnetcore
 
+## 7.0.0
+ - Update to .Net Core 2.2 (target framework .net core 2.2.5)
+ - Update nuget packages
+ - refactor logging and set logging level from configuration settings
+ - facilitate mandatory environment variables
+ - run unit tests when building docker image
+ - status/runtime endpoint for application process information
+ - log application lifecycle events: starting, started, stopped
+
 ## 6.0.1
  - Update npm packages
  - update yeoman generator script

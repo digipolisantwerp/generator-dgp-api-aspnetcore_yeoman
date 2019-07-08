@@ -8,6 +8,9 @@ using StarterKit.Api.Models;
 using StarterKit.Business.Monitoring;
 using StarterKit.Shared.Constants;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Dynamic;
 using System.Threading.Tasks;
 
 namespace StarterKit.Api.Controllers
@@ -34,11 +37,10 @@ namespace StarterKit.Api.Controllers
     /// Get the global API status and the components statusses.
     /// </summary>
     /// <returns></returns>
-    [HttpGet]
+    [HttpGet("monitoring")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(Models.Monitoring), 200)]
     [ProducesResponseType(typeof(Error), 500)]
-    [Route("monitoring")]
     [Versions(Versions.V1)]
     public async Task<IActionResult> GetMonitoring()
     {
@@ -49,16 +51,14 @@ namespace StarterKit.Api.Controllers
       return Ok(result);
     }
 
-
     /// <summary>
     /// Get the global API status.
     /// </summary>
     /// <returns></returns>
-    [HttpGet]
+    [HttpGet("ping")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(StatusResponse), 200)]
     [ProducesResponseType(typeof(Error), 500)]
-    [Route("ping")]
     [Versions(Versions.V1)]
     [AllowAnonymous]
     public IActionResult GetPing()
@@ -69,5 +69,36 @@ namespace StarterKit.Api.Controllers
       });
     }
 
+    /// <summary>
+    /// Get the runtime configuration
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("runtime")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(IDictionary<string, Object>), 200)]
+    [ProducesResponseType(typeof(Error), 500)]
+    [Versions(Versions.V1)]
+    [AllowAnonymous]
+    public IActionResult GetRuntimeValues()
+    {
+      dynamic values = new ExpandoObject();
+
+      Process curProces = System.Diagnostics.Process.GetCurrentProcess();
+
+      if (curProces != null)
+      {
+        values.machineName = Environment.MachineName;
+        values.hostName = System.Net.Dns.GetHostName();
+        values.startTime = curProces.StartTime;
+        values.threadCount = curProces.Threads?.Count ?? -1;
+        values.processorTime = new
+        {
+          user = curProces.UserProcessorTime.ToString(),
+          total = curProces.TotalProcessorTime.ToString()
+        };
+      }
+
+      return Ok(values);
+    }
   }
 }

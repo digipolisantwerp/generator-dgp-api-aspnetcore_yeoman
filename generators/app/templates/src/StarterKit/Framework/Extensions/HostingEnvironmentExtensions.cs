@@ -1,9 +1,8 @@
-using System;
 using Microsoft.AspNetCore.Hosting;
 
-namespace StarterKit
+namespace StarterKit.Framework.Extensions
 {
-    public static class HostingEnvironmentExtensions
+  public static class HostingEnvironmentExtensions
     {
         public static bool IsVagrant(this IHostingEnvironment hostingEnvironment)
         {
