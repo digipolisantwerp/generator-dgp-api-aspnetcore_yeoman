@@ -4,7 +4,7 @@ var chalk = require('chalk');
 var yosay = require('yosay');
 var del = require('del');
 var nd = require('node-dir');
-var Guid = require('guid');
+var uuidv1 = require('uuid/v1');
 var updateNotifier = require('update-notifier');
 var pkg = require('./../../package.json');
 var path = require('path');
@@ -84,12 +84,12 @@ module.exports = class extends Generator {
 		var projectName = this.props.projectName;
 		var lowerProjectName = projectName.toLowerCase();
 
-		var solutionItemsGuid = Guid.create();
-		var srcGuid = Guid.create();
-		var testGuid = Guid.create();
-		var starterKitGuid = Guid.create();
-		var integrationGuid = Guid.create();
-		var unitGuid = Guid.create();
+		var solutionItemsGuid = uuidv1();console.log('solutionItemsGuid: ' + solutionItemsGuid + '\r\n');
+		var srcGuid = uuidv1();
+		var testGuid = uuidv1();
+		var starterKitGuid = uuidv1();
+		var integrationGuid = uuidv1();
+		var unitGuid = uuidv1();
 
 		var kestrelHttpPort = this.props.kestrelHttpPort;
 		var iisHttpPort = this.props.iisHttpPort;
@@ -103,12 +103,12 @@ module.exports = class extends Generator {
 					.replace(/starterkit/g, lowerProjectName)
 					.replace(/DataAccessSettingsNpg/g, "DataAccessSettings")
 					.replace(/DataAccessSettingsMs/g, "DataAccessSettings")
-					.replace(/C3E0690A-0044-402C-90D2-2DC0FF14980F/g, solutionItemsGuid.value.toUpperCase())
-					.replace(/05A3A5CE-4659-4E00-A4BB-4129AEBEE7D0/g, srcGuid.value.toUpperCase())
-					.replace(/079636FA-0D93-4251-921A-013355153BF5/g, testGuid.value.toUpperCase())
-					.replace(/BD79C050-331F-4733-87DE-F650976253B5/g, starterKitGuid.value.toUpperCase())
-					.replace(/948E75FD-C478-4001-AFBE-4D87181E1BEC/g, integrationGuid.value.toUpperCase())
-					.replace(/0A3016FD-A06C-4AA1-A843-DEA6A2F01696/g, unitGuid.value.toUpperCase())
+					.replace(/C3E0690A-0044-402C-90D2-2DC0FF14980F/g, solutionItemsGuid.toUpperCase())
+					.replace(/05A3A5CE-4659-4E00-A4BB-4129AEBEE7D0/g, srcGuid.toUpperCase())
+					.replace(/079636FA-0D93-4251-921A-013355153BF5/g, testGuid.toUpperCase())
+					.replace(/BD79C050-331F-4733-87DE-F650976253B5/g, starterKitGuid.toUpperCase())
+					.replace(/948E75FD-C478-4001-AFBE-4D87181E1BEC/g, integrationGuid.toUpperCase())
+					.replace(/0A3016FD-A06C-4AA1-A843-DEA6A2F01696/g, unitGuid.toUpperCase())
 					.replace(/http:\/\/localhost:51002/g, "http://localhost:" + kestrelHttpPort)
 					.replace(/http:\/\/localhost:51001/g, "http://localhost:" + iisHttpPort)
 					.replace(/"sslPort": 44300/g, "\"sslPort\": " + iisHttpsPort)
@@ -186,7 +186,7 @@ module.exports = class extends Generator {
 function getDataProvider(input, projectName) {
 	var efCorePackage = '"Microsoft.EntityFrameworkCore": "2.1.4",\n';
 	var efDesignPackage = '        "Microsoft.EntityFrameworkCore.Design": "2.1.4",\n'
-		var npgSqlPackage = '        "Npgsql.EntityFrameworkCore.PostgreSQL": "2.1.2",\n';
+	var npgSqlPackage = '        "Npgsql.EntityFrameworkCore.PostgreSQL": "2.1.2",\n';
 	var sqlServerPackage = '        "Microsoft.EntityFrameworkCore.SqlServer": "2.1.4",\n';
 	var dataAccessPackage = '        "Digipolis.DataAccess": "4.0.0",';
 	var usings = 'using Microsoft.EntityFrameworkCore;\nusing Microsoft.EntityFrameworkCore.Migrations;\nusing Digipolis.DataAccess;\nusing StarterKit.DataAccess;\nusing StarterKit.DataAccess.Options;\nusing Microsoft.EntityFrameworkCore.Diagnostics;'.replace(/StarterKit/g, projectName);

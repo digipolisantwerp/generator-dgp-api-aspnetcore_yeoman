@@ -8,6 +8,8 @@
  - run unit tests when building docker image
  - status/runtime endpoint for application process information
  - log application lifecycle events: starting, started, stopped
+ - update yeoman generator npm packages
+ - replace npm package "guid" with "uuid"
 
 ## 6.0.1
  - Update npm packages
