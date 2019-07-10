@@ -37,7 +37,7 @@ namespace StarterKit
             var configPath = Path.Combine(env.ContentRootPath, "_config");
 
             config.SetBasePath(configPath);
-            config.AddLoggingConfiguration();
+            config.AddLoggingConfiguration(env);
             config.AddJsonFile("app.json");
             //--dataaccess-config--
             config.AddEnvironmentVariables();
@@ -45,6 +45,7 @@ namespace StarterKit
           .ConfigureLogging((hostingContext, logging) =>
           {
             logging.ClearProviders();
+            logging.SetMinimumLevel(LogLevel.Debug);
 
             logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
             logging.AddConsole();

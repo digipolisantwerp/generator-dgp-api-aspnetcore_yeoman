@@ -2,7 +2,7 @@ using Digipolis.Errors;
 using Digipolis.Errors.Exceptions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
-using StarterKit.Shared.Extensions;
+using StarterKit.Framework.Extensions;
 using System;
 using System.Net;
 

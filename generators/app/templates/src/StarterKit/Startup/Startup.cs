@@ -10,7 +10,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using StarterKit.Api.Mapping;
 using StarterKit.Options;
 using StarterKit.Shared.Swagger;
 using Swashbuckle.AspNetCore.Swagger;
@@ -64,10 +63,7 @@ namespace StarterKit
       services.AddServiceAgentServices();
       services.AddDataAccessServices();
 
-      services.AddAutoMapper((config) =>
-      {
-        config.AddProfile<StatusProfile>();
-      });
+      services.AddAutoMapper(typeof(Startup).Assembly);
       
       services.AddSwaggerGen<ApiExtensionSwaggerSettings>((options) =>
         {
@@ -111,12 +107,20 @@ namespace StarterKit
       services.AddGlobalErrorHandling<ApiExceptionMapper>();
     }
 
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime)
+    public void Configure(IApplicationBuilder app, IHostingEnvironment env,
+                          ILoggerFactory loggerFactory, IApplicationLifetime appLifetime,
+                          IApplicationLogger appLogger)
     {
       loggerFactory.AddLoggingEngine(app, appLifetime, Configuration);
 
       // Enable Serilog selflogging to console.
       Serilog.Debugging.SelfLog.Enable(Console.Out);
+
+      // log application lifetime events
+      var appName = app.ApplicationServices.GetService<IOptions<AppSettings>>().Value.AppName;
+      appLifetime.ApplicationStarted.Register(() => appLogger.LogInformation($"Application {appName} Started"));
+      appLifetime.ApplicationStopped.Register(() => appLogger.LogInformation($"Application {appName} Stopped"));
+      appLifetime.ApplicationStopping.Register(() => appLogger.LogInformation($"Application {appName} Stopping"));
 
       // CORS
       app.UseCors((policy) =>

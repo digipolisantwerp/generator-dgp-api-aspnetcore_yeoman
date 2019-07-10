@@ -1,12 +1,10 @@
 using Digipolis.Errors.Exceptions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace StarterKit.Shared.Extensions
+namespace StarterKit.Framework.Extensions
 {
-    public static class ExceptionExtensions
+  public static class ExceptionExtensions
     {
         public static string GetExceptionMessages(this Exception ex, string message = "")
         {
