@@ -24,6 +24,8 @@ RUN dotnet publish -c Release -o out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2.5 AS runtime
+ARG release
+ENV RELEASE_VERSION=$release
 WORKDIR /app
 COPY --from=build-env /app/src/StarterKit/out .
 
