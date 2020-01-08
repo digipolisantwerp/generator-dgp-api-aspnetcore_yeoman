@@ -36,6 +36,9 @@ namespace StarterKit.Api.Controllers
     /// <summary>
     /// Get the global API status and the components statusses.
     /// </summary>
+    /// <remarks>
+    /// Get the global API status and the components statusses.
+    /// </remarks>
     /// <returns></returns>
     [HttpGet("monitoring")]
     [Produces("application/json")]
@@ -54,6 +57,9 @@ namespace StarterKit.Api.Controllers
     /// <summary>
     /// Get the global API status.
     /// </summary>
+    /// <remarks>
+    /// Get the global API status.
+    /// </remarks>
     /// <returns></returns>
     [HttpGet("ping")]
     [Produces("application/json")]
@@ -70,8 +76,11 @@ namespace StarterKit.Api.Controllers
     }
 
     /// <summary>
-    /// Get the runtime configuration
+    /// Get the runtime configuration.
     /// </summary>
+    /// <remarks>
+    /// Get the runtime configuration.
+    /// </remarks>
     /// <returns></returns>
     [HttpGet("runtime")]
     [Produces("application/json")]
