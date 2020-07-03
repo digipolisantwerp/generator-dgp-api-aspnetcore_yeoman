@@ -3,6 +3,7 @@ using System.Net;
 using Digipolis.Errors;
 using Digipolis.Errors.Exceptions;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using StarterKit.Framework.Extensions;
 using StarterKit.Framework.Logging;
@@ -11,7 +12,7 @@ namespace StarterKit.Startup
 {
   public class ApiExceptionMapper : ExceptionMapper
   {
-    public ApiExceptionMapper(ILogger<ApiExceptionMapper> logger, IApplicationLogger appLogger, IHostingEnvironment environment) : base()
+    public ApiExceptionMapper(ILogger<ApiExceptionMapper> logger, IApplicationLogger appLogger, IWebHostEnvironment environment) : base()
     {
       Logger = logger ?? throw new ArgumentException($"{GetType().Name}.Ctr parameter {nameof(logger)} cannot be null.");
       AppLogger = appLogger ?? throw new ArgumentException($"{GetType().Name}.Ctr parameter {nameof(appLogger)} cannot be null.");
@@ -20,7 +21,7 @@ namespace StarterKit.Startup
 
     protected ILogger<ApiExceptionMapper> Logger { get; private set; }
     protected IApplicationLogger AppLogger { get; private set; }
-    private readonly IHostingEnvironment _environment;
+    private readonly IWebHostEnvironment _environment;
 
     protected override void Configure()
     {

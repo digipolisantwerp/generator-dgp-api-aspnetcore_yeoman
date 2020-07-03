@@ -1,9 +1,8 @@
-using Microsoft.AspNetCore.Mvc.Authorization;
-using Swashbuckle.AspNetCore.Swagger;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace StarterKit.Shared.Swagger
 {

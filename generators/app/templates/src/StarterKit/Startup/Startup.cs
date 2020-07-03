@@ -6,7 +6,6 @@ using AutoMapper;
 using Digipolis.ApplicationServices;
 using Digipolis.Correlation;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
@@ -21,7 +20,7 @@ using Newtonsoft.Json.Serialization;
 using StarterKit.Framework.Logging;
 using StarterKit.Shared.Extensions;
 using StarterKit.Shared.Options;
-using StarterKit.Shared.Swagger; 
+using StarterKit.Shared.Swagger;
 
 namespace StarterKit.Startup
 {

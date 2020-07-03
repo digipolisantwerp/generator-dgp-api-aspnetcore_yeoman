@@ -1,6 +1,6 @@
-using Digipolis.Errors.Exceptions;
 using System;
 using System.Linq;
+using Digipolis.Errors.Exceptions;
 
 namespace StarterKit.Framework.Extensions
 {

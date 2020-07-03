@@ -1,17 +1,16 @@
-using AutoMapper;
-using Digipolis.Errors;
-//using Digipolis.Web.Api;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using StarterKit.Api.Models;
-using StarterKit.Business.Monitoring;
-using StarterKit.Shared.Constants;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Dynamic;
 using System.Threading.Tasks;
+using AutoMapper;
+using Digipolis.Errors;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using StarterKit.Api.Models;
+using StarterKit.Business.Monitoring;
+using StarterKit.Shared.Constants; //using Digipolis.Web.Api;
 
 namespace StarterKit.Api.Controllers
 {

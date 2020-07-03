@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace StarterKit.Api.Models
+﻿namespace StarterKit.Api.Models
 {
     public abstract class ModelBase
     {
