@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
 
-namespace StarterKit.Logging
+namespace StarterKit.Framework.Logging
 {
     public class ApplicationLogger : IApplicationLogger
     {

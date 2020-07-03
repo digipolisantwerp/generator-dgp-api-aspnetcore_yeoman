@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using Digipolis.DataAccess.Context;
-using StarterKit.DataAccess;
+using Microsoft.EntityFrameworkCore;
 
-namespace StarterKit
+namespace StarterKit.DataAccess
 {
     public class EntityContext : EntityContextBase<EntityContext>
     {

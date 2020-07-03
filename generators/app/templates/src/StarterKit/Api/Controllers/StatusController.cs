@@ -1,6 +1,6 @@
 using AutoMapper;
 using Digipolis.Errors;
-using Digipolis.Web.Api;
+//using Digipolis.Web.Api;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -16,8 +16,8 @@ using System.Threading.Tasks;
 namespace StarterKit.Api.Controllers
 {
 
-  [Route("[controller]")]
-  [ApiExplorerSettings(IgnoreApi = false)]
+  [Route("v{version:apiVersion}/[controller]")]
+  [ApiController, ApiVersion(Versions.V1)]
   [Authorize]
   public class StatusController : Controller
   {
@@ -41,7 +41,7 @@ namespace StarterKit.Api.Controllers
     [Produces("application/json")]
     [ProducesResponseType(typeof(Models.Monitoring), 200)]
     [ProducesResponseType(typeof(Error), 500)]
-    [Versions(Versions.V1)]
+    //[Versions(Versions.V1)]
     public async Task<IActionResult> GetMonitoring()
     {
       var status = await _statusreader.GetStatus();
@@ -59,7 +59,7 @@ namespace StarterKit.Api.Controllers
     [Produces("application/json")]
     [ProducesResponseType(typeof(StatusResponse), 200)]
     [ProducesResponseType(typeof(Error), 500)]
-    [Versions(Versions.V1)]
+    //[Versions(Versions.V1)]
     [AllowAnonymous]
     public IActionResult GetPing()
     {
@@ -77,7 +77,7 @@ namespace StarterKit.Api.Controllers
     [Produces("application/json")]
     [ProducesResponseType(typeof(IDictionary<string, Object>), 200)]
     [ProducesResponseType(typeof(Error), 500)]
-    [Versions(Versions.V1)]
+    //[Versions(Versions.V1)]
     [AllowAnonymous]
     public IActionResult GetRuntimeValues()
     {

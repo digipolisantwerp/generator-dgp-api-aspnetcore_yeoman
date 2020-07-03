@@ -1,8 +1,6 @@
-﻿using System;
-using Microsoft.Extensions.Logging;
-using StarterKit.Logging;
+﻿using Microsoft.Extensions.Logging;
 
-namespace StarterKit
+namespace StarterKit.Framework.Logging
 {
     public interface IApplicationLogger : ILogger<ApplicationLogger>
     { }

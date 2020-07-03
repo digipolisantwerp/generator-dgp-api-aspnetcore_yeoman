@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
+using StarterKit.Startup;
 
 namespace StarterKit
 {
@@ -11,22 +12,30 @@ namespace StarterKit
   {
     public static void Main(string[] args)
     {
-      CreateWebHostBuilder(args).Build().Run();
+      try
+      {
+        ConfigureWebHostBuilder(args).Build().Run();
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e);
+        throw;
+      }
     }
 
-    public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+    public static IWebHostBuilder ConfigureWebHostBuilder(string[] args)
     {
-      var configuration = new ConfigurationBuilder()
-          .SetBasePath(Directory.GetCurrentDirectory())
-          .AddJsonFile("_config/hosting.json")
-          .Build();
 
+      var configuration = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("_config/hosting.json")
+        .Build();
       var envVars = Environment.GetEnvironmentVariables();
       var serverUrls = envVars.Contains($"SERVER_URLS") ? envVars[$"SERVER_URLS"].ToString() : configuration.GetValue<string>("server.urls");
 
 
       return WebHost.CreateDefaultBuilder(args)
-          .UseStartup<Startup>()
+          .UseStartup<Startup.Startup>()
           .UseDefaultServiceProvider(options => options.ValidateScopes = false)
           .ConfigureAppConfiguration((hostingContext, config) =>
           {

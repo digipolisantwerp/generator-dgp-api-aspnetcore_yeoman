@@ -1,12 +1,13 @@
+using System;
+using System.Net;
 using Digipolis.Errors;
 using Digipolis.Errors.Exceptions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using StarterKit.Framework.Extensions;
-using System;
-using System.Net;
+using StarterKit.Framework.Logging;
 
-namespace StarterKit
+namespace StarterKit.Startup
 {
   public class ApiExceptionMapper : ExceptionMapper
   {
@@ -63,7 +64,7 @@ namespace StarterKit
 
     protected override void CreateValidationMap(Error error, ValidationException exception)
     {
-      error.ExtraParameters = exception.Messages;
+      error.ExtraInfo = exception.Messages;
       base.CreateValidationMap(error, exception);
       error.Title = exception.Message;
       Logger.LogWarning($"Validation error: {exception.GetExceptionMessages()}, {exception.ToString()}");
@@ -73,7 +74,7 @@ namespace StarterKit
     private void AddInnerExceptions(Error error, Exception exception, int level = 0)
     {
       if (exception.InnerException == null) return;
-      error.ExtraParameters[$"InnerException{level:00}"] = new[] { $"{exception.InnerException.GetType().Name}: {exception.InnerException.Message}" };
+      error.ExtraInfo[$"InnerException{level:00}"] = new[] { $"{exception.InnerException.GetType().Name}: {exception.InnerException.Message}" };
       AddInnerExceptions(error, exception.InnerException, level++);
     }
   }

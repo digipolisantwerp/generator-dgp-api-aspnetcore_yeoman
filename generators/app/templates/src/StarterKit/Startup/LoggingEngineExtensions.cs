@@ -1,19 +1,20 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Digipolis.Serilog;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Core;
 using Serilog.Filters;
-using StarterKit.Logging;
+using StarterKit.Framework.Logging;
 using StarterKit.Shared.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace StarterKit
+namespace StarterKit.Startup
 {
   public static class LoggingEngineExtensions
   {
@@ -32,9 +33,9 @@ namespace StarterKit
       return services;
     }
 
-    public static ILoggerFactory AddLoggingEngine(this ILoggerFactory loggerFactory, IApplicationBuilder app, IApplicationLifetime appLifetime, IConfiguration config)
+    public static ILoggerFactory AddLoggingEngine(this ILoggerFactory loggerFactory, IApplicationBuilder app, IHostApplicationLifetime appLifetime, IConfiguration config)
     {
-      var enrichers = app.ApplicationServices.GetServices<ILogEventEnricher>().ToArray();
+      var enrich = app.ApplicationServices.GetServices<ILogEventEnricher>().ToArray();
 
       var systemLogSection = config.GetSection("SystemLog");
       var applicationLogSection = config.GetSection("ApplicationLog");
@@ -42,9 +43,9 @@ namespace StarterKit
       var appLogger = typeof(ApplicationLogger).FullName;
 
       Log.Logger = new LoggerConfiguration()
-                      .Enrich.With(enrichers)
-                      .WriteTo.Logger(l => l.ReadFrom.ConfigurationSection(systemLogSection).Filter.ByExcluding(Matching.FromSource(appLogger)))
-                      .WriteTo.Logger(l => l.ReadFrom.ConfigurationSection(applicationLogSection).Filter.ByIncludingOnly(Matching.FromSource(appLogger)))
+                      .Enrich.With(enrich)
+                      .WriteTo.Logger(l => l.ReadFrom.Configuration(systemLogSection).Filter.ByExcluding(Matching.FromSource(appLogger)))
+                      .WriteTo.Logger(l => l.ReadFrom.Configuration(applicationLogSection).Filter.ByIncludingOnly(Matching.FromSource(appLogger)))
                       .CreateLogger();
 
       loggerFactory.AddSerilog(dispose: true);
@@ -60,14 +61,14 @@ namespace StarterKit
     /// <param name="configurationBuilder"></param>
     /// <param name="hostingEnv"></param>
     /// <returns></returns>
-    public static IConfigurationBuilder AddLoggingConfiguration(this IConfigurationBuilder configurationBuilder, IHostingEnvironment hostingEnv)
+    public static IConfigurationBuilder AddLoggingConfiguration(this IConfigurationBuilder configurationBuilder, IWebHostEnvironment hostingEnv)
     {
       var env = Environment.GetEnvironmentVariables();
 
       var environmentDict = new Dictionary<string, string>();
 
       // if this is deployed, overwrite some settings from the environment variables
-      if (!hostingEnv.IsDevelopment())
+      if (hostingEnv.EnvironmentName != Environments.Development)
       {
         // DEFAULT LOGGING LEVELS
         ConfigUtil.FillFromEnvironment($"LOG_LEVEL_DEFAULT", "Logging:LogLevel:Default", environmentDict);
