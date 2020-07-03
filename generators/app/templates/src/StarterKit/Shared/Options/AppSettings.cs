@@ -1,8 +1,8 @@
+using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
-namespace StarterKit.Options
+namespace StarterKit.Shared.Options
 {
   public class AppSettings
   {
@@ -10,6 +10,8 @@ namespace StarterKit.Options
     public string ApplicationId { get; set; }
     public string DataDirectory { get; set; }
     public string TempDirectory { get; set; }
+    public bool LogExceptions { get; set; }
+    public bool DisableGlobalErrorHandling { get; set; }
 
     public static void RegisterConfiguration(IServiceCollection services, IConfigurationSection section)
     {
@@ -20,7 +22,7 @@ namespace StarterKit.Options
       });
     }
 
-    private void LoadFromConfigSection(IConfigurationSection section)
+    private void LoadFromConfigSection(IConfiguration section)
     {
       section.Bind(this);
     }
@@ -32,6 +34,8 @@ namespace StarterKit.Options
       ApplicationId = env.Contains("APPSETTINGS_APPLICATIONID") ? env["APPSETTINGS_APPLICATIONID"].ToString() : ApplicationId;
       DataDirectory = env.Contains("APPSETTINGS_DATADIRECTORY") ? env["APPSETTINGS_DATADIRECTORY"].ToString() : DataDirectory;
       TempDirectory = env.Contains("APPSETTINGS_TEMPDIRECTORY") ? env["APPSETTINGS_TEMPDIRECTORY"].ToString() : TempDirectory;
+      LogExceptions = env.Contains("APPSETTINGS_LOGEXCEPTIONS") ? bool.Parse(env["APPSETTINGS_LOGEXCEPTIONS"].ToString()) : LogExceptions;
+      DisableGlobalErrorHandling = env.Contains("APPSETTINGS_DISABLEGLOBALERRORHANDLING") ? bool.Parse(env["APPSETTINGS_DISABLEGLOBALERRORHANDLING"].ToString()) : LogExceptions;
     }
   }
 }
