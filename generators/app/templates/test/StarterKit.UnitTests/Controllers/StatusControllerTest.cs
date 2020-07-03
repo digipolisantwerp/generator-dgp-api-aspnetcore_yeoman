@@ -1,16 +1,14 @@
+using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using StarterKit.Api.Controllers;
 using StarterKit.Business.Monitoring;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
-namespace StarterKit.UnitTests
+namespace StarterKit.UnitTests.Controllers
 {
   public class StatusControllerTest
   {
