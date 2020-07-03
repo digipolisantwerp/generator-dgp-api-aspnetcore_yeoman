@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
+using Serilog;
 using StarterKit.Startup;
 
 namespace StarterKit
@@ -12,27 +13,44 @@ namespace StarterKit
   {
     public static void Main(string[] args)
     {
+      // Get a configuration up and running
+      var configPath = Path.Combine(Directory.GetCurrentDirectory(), "_config");
+      var loggingConfig = new ConfigurationBuilder().SetBasePath(configPath).AddJsonFile("logging.json").Build();
+
+      // Set up our preliminary logger
+      Log.Logger = new LoggerConfiguration()
+        .ReadFrom.Configuration(loggingConfig, "Logging")
+        .Enrich.FromLogContext()
+        .CreateLogger();
+
       try
       {
-        ConfigureWebHostBuilder(args).Build().Run();
+        Log.Information("Application started.");
+
+        Log.Information("Starting web host...");
+        ConfigureWebHostBuilder(args, configPath).Build().Run();
       }
       catch (Exception e)
       {
-        Console.WriteLine(e);
+        Log.Fatal(e, "Host terminated unexpectedly.");
         throw;
+      }
+      finally
+      {
+        Log.CloseAndFlush();
       }
     }
 
-    public static IWebHostBuilder ConfigureWebHostBuilder(string[] args)
+    public static IWebHostBuilder ConfigureWebHostBuilder(string[] args, string configPath)
     {
 
-      var configuration = new ConfigurationBuilder()
-        .SetBasePath(Directory.GetCurrentDirectory())
-        .AddJsonFile("_config/hosting.json")
+      var hostingConfig = new ConfigurationBuilder()
+        .SetBasePath(configPath)
+        .AddJsonFile("hosting.json")
         .Build();
-      var envVars = Environment.GetEnvironmentVariables();
-      var serverUrls = envVars.Contains($"SERVER_URLS") ? envVars[$"SERVER_URLS"].ToString() : configuration.GetValue<string>("server.urls");
 
+      var envVars = Environment.GetEnvironmentVariables();
+      var serverUrls = envVars.Contains($"SERVER_URLS") ? envVars[$"SERVER_URLS"].ToString() : hostingConfig.GetValue<string>("server.urls");
 
       return WebHost.CreateDefaultBuilder(args)
           .UseStartup<Startup.Startup>()
@@ -43,8 +61,6 @@ namespace StarterKit
             config.Sources.Clear();
 
             var env = hostingContext.HostingEnvironment;
-            var configPath = Path.Combine(env.ContentRootPath, "_config");
-
             config.SetBasePath(configPath);
             config.AddLoggingConfiguration(env);
             config.AddJsonFile("app.json");
@@ -60,7 +76,7 @@ namespace StarterKit
             logging.AddConsole();
             logging.AddDebug();
           })
-          .UseConfiguration(configuration)
+          .UseConfiguration(hostingConfig)
           .UseUrls(serverUrls);
     }
   }
