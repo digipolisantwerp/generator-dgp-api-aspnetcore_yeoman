@@ -28,7 +28,7 @@ namespace StarterKit
         Log.Information("Application started.");
 
         Log.Information("Starting web host...");
-        ConfigureWebHostBuilder(args, configPath).Build().Run();
+        CreateWebHostBuilder(args).Build().Run();
       }
       catch (Exception e)
       {
@@ -78,6 +78,12 @@ namespace StarterKit
           })
           .UseConfiguration(hostingConfig)
           .UseUrls(serverUrls);
+    }
+
+    public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+    {
+      var configPath = Path.Combine(Directory.GetCurrentDirectory(), "_config");
+      return ConfigureWebHostBuilder(args, configPath);
     }
   }
 }

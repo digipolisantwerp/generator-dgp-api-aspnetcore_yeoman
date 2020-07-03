@@ -44,7 +44,7 @@ namespace StarterKit.Startup
     }
 
 
-    public void ConfigureServices(IServiceCollection services)
+    public virtual void ConfigureServices(IServiceCollection services)
     {
       // Check out ExampleController to find out how these configs are injected into other classes
       var appSettingsSection = Configuration.GetSection("AppSettings");

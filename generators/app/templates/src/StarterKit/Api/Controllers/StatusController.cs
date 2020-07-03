@@ -40,7 +40,6 @@ namespace StarterKit.Api.Controllers
     [Produces("application/json")]
     [ProducesResponseType(typeof(Models.Monitoring), 200)]
     [ProducesResponseType(typeof(Error), 500)]
-    //[Versions(Versions.V1)]
     public async Task<IActionResult> GetMonitoring()
     {
       var status = await _statusreader.GetStatus();
@@ -58,7 +57,6 @@ namespace StarterKit.Api.Controllers
     [Produces("application/json")]
     [ProducesResponseType(typeof(StatusResponse), 200)]
     [ProducesResponseType(typeof(Error), 500)]
-    //[Versions(Versions.V1)]
     [AllowAnonymous]
     public IActionResult GetPing()
     {
@@ -76,7 +74,6 @@ namespace StarterKit.Api.Controllers
     [Produces("application/json")]
     [ProducesResponseType(typeof(IDictionary<string, Object>), 200)]
     [ProducesResponseType(typeof(Error), 500)]
-    //[Versions(Versions.V1)]
     [AllowAnonymous]
     public IActionResult GetRuntimeValues()
     {
