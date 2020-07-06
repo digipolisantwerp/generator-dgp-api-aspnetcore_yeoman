@@ -1,56 +1,57 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using Serilog.Events;
+using StarterKit.Shared.Constants;
 using StarterKit.Startup;
 
 namespace StarterKit
 {
   public class Program
   {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
       // Get a configuration up and running
-      var configPath = Path.Combine(Directory.GetCurrentDirectory(), "_config");
-      var loggingConfig = new ConfigurationBuilder().SetBasePath(configPath).AddJsonFile("logging.json").Build();
+      var configPath = Path.Combine(Directory.GetCurrentDirectory(), JsonFilesKey.JsonFilesPath);
+      var loggingConfig = new ConfigurationBuilder().SetBasePath(configPath).AddJsonFile(JsonFilesKey.LoggingJson).Build();
 
       // Set up our preliminary logger
       Log.Logger = new LoggerConfiguration()
+        .MinimumLevel.Debug()
+        .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
         .ReadFrom.Configuration(loggingConfig, "Logging")
         .Enrich.FromLogContext()
         .CreateLogger();
 
-      try
-      {
+      try {
         Log.Information("Application started.");
-
         Log.Information("Starting web host...");
-        CreateWebHostBuilder(args).Build().Run();
+
+        await CreateWebHostBuilder(args).Build().RunAsync();
       }
-      catch (Exception e)
-      {
+      catch (Exception e) {
         Log.Fatal(e, "Host terminated unexpectedly.");
         throw;
       }
-      finally
-      {
+      finally {
         Log.CloseAndFlush();
       }
     }
 
     public static IWebHostBuilder ConfigureWebHostBuilder(string[] args, string configPath)
     {
-
       var hostingConfig = new ConfigurationBuilder()
         .SetBasePath(configPath)
-        .AddJsonFile("hosting.json")
+        .AddJsonFile(JsonFilesKey.HostingJson)
         .Build();
 
       var envVars = Environment.GetEnvironmentVariables();
-      var serverUrls = envVars.Contains($"SERVER_URLS") ? envVars[$"SERVER_URLS"].ToString() : hostingConfig.GetValue<string>("server.urls");
+      var serverUrls = envVars.Contains(AppSettingsConfigKey.ServerUrls) ? envVars[AppSettingsConfigKey.ServerUrls]?.ToString() : hostingConfig.GetValue<string>(AppSettingsConfigKey.LocalServerUrls);
 
       return WebHost.CreateDefaultBuilder(args)
           .UseStartup<Startup.Startup>()
@@ -63,7 +64,7 @@ namespace StarterKit
             var env = hostingContext.HostingEnvironment;
             config.SetBasePath(configPath);
             config.AddLoggingConfiguration(env);
-            config.AddJsonFile("app.json");
+            config.AddJsonFile(JsonFilesKey.AppJson);
             //--dataaccess-config--
             config.AddEnvironmentVariables();
           })
@@ -82,7 +83,7 @@ namespace StarterKit
 
     public static IWebHostBuilder CreateWebHostBuilder(string[] args)
     {
-      var configPath = Path.Combine(Directory.GetCurrentDirectory(), "_config");
+      var configPath = Path.Combine(Directory.GetCurrentDirectory(), JsonFilesKey.JsonFilesPath);
       return ConfigureWebHostBuilder(args, configPath);
     }
   }

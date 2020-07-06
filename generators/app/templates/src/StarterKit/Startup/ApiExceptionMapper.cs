@@ -25,10 +25,12 @@ namespace StarterKit.Startup
 
     protected override void Configure()
     {
-      CreateMap<UnauthorizedAccessException>((error, exception) => {
+      CreateMap<UnauthorizedAccessException>((error, exception) =>
+      {
         CreateUnauthorizedMap(error, new UnauthorizedException(exception: exception));
       });
-      CreateMap<System.ComponentModel.DataAnnotations.ValidationException>((error, exception) => {
+      CreateMap<System.ComponentModel.DataAnnotations.ValidationException>((error, exception) =>
+      {
         CreateValidationMap(error, new ValidationException(exception: exception));
       });
     }

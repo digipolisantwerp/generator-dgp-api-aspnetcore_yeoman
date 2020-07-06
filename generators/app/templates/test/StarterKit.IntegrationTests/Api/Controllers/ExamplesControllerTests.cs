@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
 using StarterKit.Api.Models;
+using StarterKit.Api.Models.Examples;
 using StarterKit.IntegrationTests.Shared;
 using Xunit;
 

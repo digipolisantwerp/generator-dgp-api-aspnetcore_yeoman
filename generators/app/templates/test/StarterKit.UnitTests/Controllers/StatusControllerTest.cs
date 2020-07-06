@@ -5,8 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using StarterKit.Api.Controllers;
+using StarterKit.Api.Models.Status;
 using StarterKit.Business.Monitoring;
 using Xunit;
+using Monitoring = StarterKit.Business.Monitoring.Monitoring;
+using Status = StarterKit.Business.Monitoring.Status;
 
 namespace StarterKit.UnitTests.Controllers
 {
@@ -55,7 +58,7 @@ namespace StarterKit.UnitTests.Controllers
 
       var controller = new StatusController(statusReaderMock.Object, logger,mapper);
 
-      var result = (Api.Models.StatusResponse)(controller.GetPing() as OkObjectResult).Value;
+      var result = (StatusResponse)(controller.GetPing() as OkObjectResult).Value;
 
       Assert.Equal(Api.Models.Status.ok, result.Status);
     }

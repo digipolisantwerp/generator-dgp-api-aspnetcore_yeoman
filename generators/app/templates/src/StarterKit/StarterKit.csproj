@@ -53,7 +53,6 @@
 
   <ItemGroup>
     <Folder Include="Shared\Exceptions\Mapping\" />
-    <Folder Include="Shared\Swagger\" />
   </ItemGroup>
 
 </Project>

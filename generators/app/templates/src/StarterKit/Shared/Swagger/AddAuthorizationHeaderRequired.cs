@@ -13,7 +13,8 @@ namespace StarterKit.Shared.Swagger
             if (context.ApiDescription.ActionDescriptor.FilterDescriptors.Any(x => x.Filter.GetType() == typeof(AuthorizeFilter))
                 && context.ApiDescription.ActionDescriptor.FilterDescriptors.All(x => x.Filter.GetType() != typeof(AllowAnonymousFilter)))
             {
-                operation.Parameters?.Add(new OpenApiParameter()
+          
+              operation.Parameters?.Add(new OpenApiParameter()
                 {
                     Name = "Authorization",
                     Description = "JWT token",
@@ -28,24 +29,4 @@ namespace StarterKit.Shared.Swagger
             }
         }
     }
-
-    public class RemoveVersionFromParameter : IOperationFilter
-    {
-      public void Apply(OpenApiOperation operation, OperationFilterContext context)
-      {
-        //var versionParam = operation.Parameters?.Single(p => p.Name == "api-version");
-        //operation.Parameters?.Remove(versionParam);
-      }
-    }
-
-    public class ReplaceVersionWithExactValueInPath: IDocumentFilter
-  {
-    public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
-    {
-      //swaggerDoc.Paths = (OpenApiPaths)swaggerDoc.Paths
-      //  .ToDictionary(
-      //    path => path.Key.Replace("v{version", swaggerDoc.Info.Version),
-      //    path => path.Value);
-    }
-  }
 }

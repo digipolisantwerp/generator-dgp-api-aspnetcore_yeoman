@@ -1,11 +1,11 @@
-//using Digipolis.Web.Api;
-
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using StarterKit.Api.Filters;
 using StarterKit.Api.Models;
+using StarterKit.Api.Models.Examples;
 using StarterKit.Shared.Constants;
 using StarterKit.Shared.Options;
 
@@ -66,7 +66,7 @@ namespace StarterKit.Api.Controllers
 
         // POST /api/examples
         [HttpPost]
-        //[ValidateModelState]
+        [ValidateModelState]
         public IActionResult Create(Example example)
         {
             // try posting an example object with no name to get a non-valid model           

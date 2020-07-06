@@ -1,16 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Dynamic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Digipolis.Errors;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using StarterKit.Api.Models;
+using StarterKit.Api.Models.Status;
 using StarterKit.Business.Monitoring;
-using StarterKit.Shared.Constants; //using Digipolis.Web.Api;
+using StarterKit.Shared.Constants;
+using Monitoring = StarterKit.Api.Models.Status.Monitoring;
+using RuntimeInformation = StarterKit.Api.Models.Status.RuntimeInformation;
+using Status = StarterKit.Api.Models.Status.Status;
 
 namespace StarterKit.Api.Controllers
 {
@@ -21,30 +23,30 @@ namespace StarterKit.Api.Controllers
   public class StatusController : Controller
   {
 
-    private readonly IStatusReader _statusreader;
+    private readonly IStatusReader _statusReader;
     private readonly ILogger<StatusController> _logger;
     private readonly IMapper _mapper;
 
     public StatusController(IStatusReader statusReader, ILogger<StatusController> logger, IMapper mapper)
     {
-      _statusreader = statusReader ?? throw new ArgumentException($"StatusController.Ctr parameter {nameof(statusReader)} cannot be null.");
+      _statusReader = statusReader ?? throw new ArgumentException($"StatusController.Ctr parameter {nameof(statusReader)} cannot be null.");
       _logger = logger ?? throw new ArgumentException($"StatusController.Ctr parameter {nameof(logger)} cannot be null.");
       _mapper = mapper ?? throw new ArgumentException($"StatusController.Ctr parameter {nameof(mapper)} cannot be null.");
     }
 
     /// <summary>
-    /// Get the global API status and the components statusses.
+    /// Get the global API status and the components statuses.
     /// </summary>
     /// <returns></returns>
     [HttpGet("monitoring")]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(Models.Monitoring), 200)]
+    [ProducesResponseType(typeof(Monitoring), 200)]
     [ProducesResponseType(typeof(Error), 500)]
     public async Task<IActionResult> GetMonitoring()
     {
-      var status = await _statusreader.GetStatus();
+      var status = await _statusReader.GetStatus();
 
-      var result = _mapper.Map<Api.Models.Monitoring>(status);
+      var result = _mapper.Map<Monitoring>(status);
 
       return Ok(result);
     }
@@ -62,7 +64,7 @@ namespace StarterKit.Api.Controllers
     {
       return Ok(new StatusResponse()
       {
-        Status = Models.Status.ok
+        Status = Status.ok
       });
     }
 
@@ -72,29 +74,31 @@ namespace StarterKit.Api.Controllers
     /// <returns></returns>
     [HttpGet("runtime")]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(IDictionary<string, Object>), 200)]
+    [ProducesResponseType(typeof(IDictionary<string, object>), 200)]
     [ProducesResponseType(typeof(Error), 500)]
     [AllowAnonymous]
     public IActionResult GetRuntimeValues()
     {
-      dynamic values = new ExpandoObject();
+      _logger.LogInformation("Getting runtime information");
 
-      Process curProces = System.Diagnostics.Process.GetCurrentProcess();
-
-      if (curProces != null)
+      var runtimeInformation = new RuntimeInformation
       {
-        values.machineName = Environment.MachineName;
-        values.hostName = System.Net.Dns.GetHostName();
-        values.startTime = curProces.StartTime;
-        values.threadCount = curProces.Threads?.Count ?? -1;
-        values.processorTime = new
-        {
-          user = curProces.UserProcessorTime.ToString(),
-          total = curProces.TotalProcessorTime.ToString()
-        };
+        ReleaseVersion = Environment.GetEnvironmentVariable("RELEASE_VERSION")
+      };
+
+      using (var currentProcess = Process.GetCurrentProcess())
+      {
+        runtimeInformation.MachineName = Environment.MachineName;
+        runtimeInformation.HostName = System.Net.Dns.GetHostName();
+        runtimeInformation.StartTime = currentProcess.StartTime;
+        runtimeInformation.ProcessorCount = Environment.ProcessorCount;
+        runtimeInformation.OperatingSystem = Environment.OSVersion.ToString();
+        runtimeInformation.ThreadCount = currentProcess.Threads?.Count ?? -1;
+        runtimeInformation.UserProcessorTime = currentProcess.UserProcessorTime;
+        runtimeInformation.TotalProcessorTime = currentProcess.TotalProcessorTime;
       }
 
-      return Ok(values);
+      return Ok(runtimeInformation);
     }
   }
 }

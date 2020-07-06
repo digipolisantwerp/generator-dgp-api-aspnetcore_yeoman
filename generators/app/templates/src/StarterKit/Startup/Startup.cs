@@ -26,8 +26,16 @@ namespace StarterKit.Startup
 {
   public class Startup
   {
+    public Startup(IConfiguration configuration, IHostEnvironment env)
+    {
+      ApplicationBasePath = env.ContentRootPath;
+      Configuration = configuration;
+      Environment = env;
+    }
+
     public IConfiguration Configuration { get; }
     public string ApplicationBasePath { get; }
+    public IHostEnvironment Environment { get; }
     private string XmlCommentsPath
     {
       get
@@ -37,42 +45,58 @@ namespace StarterKit.Startup
       }
     }
 
-    public Startup(IConfiguration configuration, IHostEnvironment env)
-    {
-      ApplicationBasePath = env.ContentRootPath;
-      Configuration = configuration;
-    }
-
-
     public virtual void ConfigureServices(IServiceCollection services)
     {
+      #region Read settings
+
       // Check out ExampleController to find out how these configs are injected into other classes
       var appSettingsSection = Configuration.GetSection("AppSettings");
       var appSettings = appSettingsSection.Get<AppSettings>();
       services.AddSingleton(Configuration).Configure<AppSettings>(appSettingsSection);
-      
+
+      #endregion
+
+      #region Add Correlation and application services
+
+      services.AddCorrelation(options =>
+      {
+        options.CorrelationHeaderRequired = !Environment.IsDevelopment();
+      });
+
       services.AddApplicationServices(opt =>
       {
         opt.ApplicationId = appSettings.ApplicationId;
         opt.ApplicationName = appSettings.AppName;
       });
 
-      services.AddCorrelation(options => { options.CorrelationHeaderRequired = true; });
+      #endregion
+
+      #region Logging
 
       services.AddLoggingEngine();
 
+      #endregion
+
       //--dataaccess-startupServices--
 
-      services.AddControllers()
-          .AddNewtonsoftJson(options =>
-          {
-            options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-            options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-            options.SerializerSettings.MetadataPropertyHandling = MetadataPropertyHandling.Ignore;
-            options.SerializerSettings.Converters.Add(new StringEnumConverter());
-          });
+      #region Add routing and versioning
+
+      services
+        .AddRouting(options =>
+        {
+          options.LowercaseUrls = true;
+          options.LowercaseQueryStrings = true;
+        })
+        .AddControllers()
+        .AddNewtonsoftJson(options =>
+        {
+          options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+          options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+          options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+          options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+          options.SerializerSettings.MetadataPropertyHandling = MetadataPropertyHandling.Ignore;
+          options.SerializerSettings.Converters.Add(new StringEnumConverter());
+        });
 
       services
         .AddApiVersioning(options =>
@@ -88,17 +112,23 @@ namespace StarterKit.Startup
           options.SubstituteApiVersionInUrl = true;
         });
 
+      #endregion
+
+      #region DI and Automapper
+
       services.AddBusinessServices();
       services.AddServiceAgentServices();
       services.AddDataAccessServices();
 
       services.AddAutoMapper(typeof(Startup).Assembly);
-      //services.AddAuthentication(IISDefaults.AuthenticationScheme);
+
+      #endregion
+
+      #region Swagger
 
       services
         .AddSwaggerGen(options =>
         {
-
           // Define multiple swagger docs if you have multiple api versions
           options.SwaggerDoc("v1",
             new OpenApiInfo
@@ -114,8 +144,6 @@ namespace StarterKit.Startup
               }
             });
 
-          options.OperationFilter<RemoveVersionFromParameter>();
-          options.DocumentFilter<ReplaceVersionWithExactValueInPath>();
           options.OperationFilter<AddCorrelationHeaderRequired>();
           options.OperationFilter<AddAuthorizationHeaderRequired>();
           options.OperationFilter<RemoveSyncRootParameter>();
@@ -126,7 +154,14 @@ namespace StarterKit.Startup
             options.IncludeXmlComments(XmlCommentsPath);
           }
         });
-        services.AddGlobalErrorHandling<ApiExceptionMapper>();
+
+      #endregion
+
+      #region Global error handling
+
+      services.AddGlobalErrorHandling<ApiExceptionMapper>();
+
+      #endregion
     }
 
     public void Configure(IApplicationBuilder app,
@@ -159,10 +194,9 @@ namespace StarterKit.Startup
       rewriteOptions.AddRedirect("^$", "swagger");
       app.UseRewriter(rewriteOptions);
 
-      
       app.UseAuthentication();
       app.UseRouting();
-      
+
       app.UseAuthorization();
       app.UseEndpoints(endpoints =>
         endpoints.MapDefaultControllerRoute().RequireAuthorization("IsAuthenticated"));
@@ -178,8 +212,10 @@ namespace StarterKit.Startup
       app.UseSwaggerUI(options =>
       {
         foreach (var description in versionProvider.ApiVersionDescriptions)
+        {
           options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
-        options.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+          options.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+        }
       });
     }
 

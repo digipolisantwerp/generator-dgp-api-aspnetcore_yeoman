@@ -6,7 +6,7 @@ namespace StarterKit.ServiceAgents.Options
 {
   public class ServiceAgentSettingsExtensions
   {
-    public static void SetConfig(ServiceAgentSettings serviceAgentSettings, IHostingEnvironment env)
+    public static void SetConfig(ServiceAgentSettings serviceAgentSettings, IHostEnvironment env)
     {
       if (env.IsDevelopment()) return;
 

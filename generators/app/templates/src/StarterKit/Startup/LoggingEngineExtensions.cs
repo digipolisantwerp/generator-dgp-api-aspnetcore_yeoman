@@ -12,6 +12,7 @@ using Serilog;
 using Serilog.Core;
 using Serilog.Filters;
 using StarterKit.Framework.Logging;
+using StarterKit.Shared.Constants;
 using StarterKit.Shared.Options;
 
 namespace StarterKit.Startup
@@ -100,7 +101,7 @@ namespace StarterKit.Startup
       }
       
       // load in this order so that json-settings will be overridden with environment settings when getting the configuration section
-      configurationBuilder.AddJsonFile("logging.json");
+      configurationBuilder.AddJsonFile(JsonFilesKey.LoggingJson);
       configurationBuilder.AddInMemoryCollection(environmentDict);
       return configurationBuilder;
     }    

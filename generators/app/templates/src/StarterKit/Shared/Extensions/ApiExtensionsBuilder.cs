@@ -37,7 +37,7 @@ namespace StarterKit.Shared.Extensions
         });
       };
 
-      // PageOptionsExtensions.Configure(httpContextAccessor);
+      //PageOptionsExtensions.Configure(httpContextAccessor);
 
       app.UseForwardedHeaders(new ForwardedHeadersOptions()
       {

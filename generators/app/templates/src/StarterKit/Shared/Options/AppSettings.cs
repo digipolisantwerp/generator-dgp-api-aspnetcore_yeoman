@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StarterKit.Shared.Constants;
 
 namespace StarterKit.Shared.Options
 {
@@ -30,12 +31,12 @@ namespace StarterKit.Shared.Options
     private void OverrideFromEnvironmentVariables()
     {
       var env = Environment.GetEnvironmentVariables();
-      AppName = env.Contains("APPSETTINGS_APPNAME") ? env["APPSETTINGS_APPNAME"].ToString() : AppName;
-      ApplicationId = env.Contains("APPSETTINGS_APPLICATIONID") ? env["APPSETTINGS_APPLICATIONID"].ToString() : ApplicationId;
-      DataDirectory = env.Contains("APPSETTINGS_DATADIRECTORY") ? env["APPSETTINGS_DATADIRECTORY"].ToString() : DataDirectory;
-      TempDirectory = env.Contains("APPSETTINGS_TEMPDIRECTORY") ? env["APPSETTINGS_TEMPDIRECTORY"].ToString() : TempDirectory;
-      LogExceptions = env.Contains("APPSETTINGS_LOGEXCEPTIONS") ? bool.Parse(env["APPSETTINGS_LOGEXCEPTIONS"].ToString()) : LogExceptions;
-      DisableGlobalErrorHandling = env.Contains("APPSETTINGS_DISABLEGLOBALERRORHANDLING") ? bool.Parse(env["APPSETTINGS_DISABLEGLOBALERRORHANDLING"].ToString()) : LogExceptions;
+      AppName = env.Contains(AppSettingsConfigKey.AppName) ? env[AppSettingsConfigKey.AppName]?.ToString() : AppName;
+      ApplicationId = env.Contains(AppSettingsConfigKey.ApplicationId) ? env[AppSettingsConfigKey.ApplicationId]?.ToString() : ApplicationId;
+      DataDirectory = env.Contains(AppSettingsConfigKey.DataDirectory) ? env[AppSettingsConfigKey.DataDirectory]?.ToString() : DataDirectory;
+      TempDirectory = env.Contains(AppSettingsConfigKey.TempDirectory) ? env[AppSettingsConfigKey.TempDirectory]?.ToString() : TempDirectory;
+      LogExceptions = env.Contains(AppSettingsConfigKey.LogExceptions) ? bool.Parse(env[AppSettingsConfigKey.LogExceptions]?.ToString() ?? "true") : LogExceptions;
+      DisableGlobalErrorHandling = env.Contains(AppSettingsConfigKey.DisableGlobalErrorHandling) ? bool.Parse(env[AppSettingsConfigKey.DisableGlobalErrorHandling]?.ToString() ?? "false") : LogExceptions;
     }
   }
 }
