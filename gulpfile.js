@@ -1,5 +1,5 @@
 'use strict';
-var path = require('path');
+
 var gulp = require('gulp');
 var eslint = require('gulp-eslint');
 var excludeGitignore = require('gulp-exclude-gitignore');
@@ -16,6 +16,7 @@ gulp.task('static', function () {
 });
 
 gulp.task('pre-test', function () {
+  // eslint-disable-next-line no-useless-escape
   return gulp.src('generators\**\*.js')
     .pipe(istanbul({
       includeUntested: true
@@ -23,7 +24,7 @@ gulp.task('pre-test', function () {
     .pipe(istanbul.hookRequire());
 });
 
-gulp.task('test', ['pre-test'], function (cb) {
+gulp.task('test', gulp.series('pre-test', function (cb) {
   var mochaErr;
 
   gulp.src('test/**/*.js')
@@ -36,6 +37,6 @@ gulp.task('test', ['pre-test'], function (cb) {
     .on('end', function () {
       cb(mochaErr);
     });
-});
+}));
 
-gulp.task('default', ['static', 'test']);
+gulp.task('default', gulp.series('static', 'pre-test'));
