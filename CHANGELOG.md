@@ -1,5 +1,19 @@
 # generator-dgp-api-aspnetcore
 
+## 8.0.0
+- Updated project to .net core 3.1
+- Many nuget updates (deleted DigiPolis.Web reference => outdated)
+- Added Api versioning in URL follwoing the Api Guidelines of Digipolis
+- Dockerfile adjustments for building, deploying and testing 3.1 apps
+- Unit tests examples
+- Integration tests: full setup with usage of real db and offcourse rollback
+- Added exception handling by default
+- Updated swagger
+- Updated Yeoman index.js for generating the project
+- Fixed es-lint issues
+- Update Yeoman generator scripts and npm packages
+- Runtime build number (/status/runtime)
+
 ## 7.0.0
  - Update to .Net Core 2.2 (target framework .net core 2.2.5)
  - Update nuget packages
