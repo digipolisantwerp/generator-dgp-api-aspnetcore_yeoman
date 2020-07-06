@@ -115,7 +115,6 @@ module.exports = class extends Generator {
 					.replace(/\/\/--dataaccess-package--/g, dataProvider.package)
 					.replace(/\/\/--dataaccess-startupImports--/g, dataProvider.startupImports)
 					.replace(/\/\/--dataaccess-startupServices--/g, dataProvider.startupServices)
-					.replace(/\/\/--dataaccess-connString--/g, dataProvider.connString)
 					.replace(/\/\/--dataaccess-config--/g, dataProvider.programConfig)
 					.replace(/\/\/--dataaccess-tools--/g, dataProvider.tools);
 				return result;
@@ -186,11 +185,11 @@ module.exports = class extends Generator {
 function getDataProvider(input, projectName) {
 	var efCorePackage = '"Microsoft.EntityFrameworkCore": "2.1.4",\n';
 	var efDesignPackage = '        "Microsoft.EntityFrameworkCore.Design": "2.1.4",\n'
-	var npgSqlPackage = '        "Npgsql.EntityFrameworkCore.PostgreSQL": "2.2.4",\n';
-	var sqlServerPackage = '        "Microsoft.EntityFrameworkCore.SqlServer": "2.1.4",\n';
+	var npgSqlPackage = '        "Npgsql.EntityFrameworkCore.PostgreSQL": "3.1.4",\n';
+	var sqlServerPackage = '        "Microsoft.EntityFrameworkCore.SqlServer": "3.1.5",\n';
 	var dataAccessPackage = '        "Digipolis.DataAccess": "4.0.0",';
 	var usings = 'using Microsoft.EntityFrameworkCore;\nusing Microsoft.EntityFrameworkCore.Migrations;\nusing Digipolis.DataAccess;\nusing StarterKit.DataAccess;\nusing StarterKit.DataAccess.Options;\nusing Microsoft.EntityFrameworkCore.Diagnostics;'.replace(/StarterKit/g, projectName);
-	var programConfig = 'config.AddJsonFile("dataaccess.json");\n';
+	var programConfig = 'config.AddJsonFile(JsonFilesKey.DataAccessJson);\n';
 	var tools = '"Microsoft.EntityFrameworkCore.Tools": { "version": "2.2.4", "type": "build" },';
 
 	var dataProvider = {
@@ -205,52 +204,28 @@ function getDataProvider(input, projectName) {
 
 	if (input.toLowerCase() === 'p') {
 		dataProvider.package = efCorePackage + efDesignPackage + npgSqlPackage + dataAccessPackage;
-		dataProvider.startupServices = 'DataAccessSettings.RegisterConfiguration(services, Configuration.GetSection("DataAccess").GetSection("ConnectionString"));\n' +
-			'      var dataAccessSettings = services.BuildServiceProvider().GetService<IOptions<DataAccessSettings>>().Value;\n' +
-			'      services.AddDataAccess<EntityContext>();\n' +
-			'      var connString = GetConnectionString(dataAccessSettings);\n' +
-			'      services.AddDbContext<EntityContext>(options => {\n' +
-			'          options.UseNpgsql(connString, opt => opt.MigrationsHistoryTable(HistoryRepository.DefaultTableName, DataAccessDefaults.SchemaName));\n' +
-			'          options.ConfigureWarnings(config => config.Throw(RelationalEventId.QueryClientEvaluationWarning));\n' +
+		dataProvider.startupServices = 'var dataAcessSettings = Configuration.GetSection("DataAccess").Get<DataAccessSettings>();\n' +
+			'      services.AddDataAccess<EntityContext>()\n' +
+			'      .AddDbContext<EntityContext>(options => {\n' +
+			'      		options.UseNpgsql(dataAcessSettings.GetConnectionString(),\n' +
+			'      		opt => opt.MigrationsHistoryTable(HistoryRepository.DefaultTableName, DataAccessDefaults.SchemaName));\n' +
 			'      });';
+
 		dataProvider.startupImports = usings;
 		dataProvider.programConfig = programConfig;
-		dataProvider.connString = getConnectionString();
 		dataProvider.tools = tools;
 	} else if (input.toLowerCase() === 'm') {
-		dataProvider.package = efCorePackage + efDesignPackage + sqlServerPackage + dataAccessPackage;
-		dataProvider.startupServices = 'DataAccessSettings.RegisterConfiguration(services, Configuration.GetSection("DataAccess").GetSection("ConnectionString"));\n' +
-			'      var dataAccessSettings = services.BuildServiceProvider().GetService<IOptions<DataAccessSettings>>().Value;\n' +
-			'      services.AddDataAccess<EntityContext>();\n' +
-			'      var connString = GetConnectionString(dataAccessSettings);\n' +
-			'      services.AddDbContext<EntityContext>(options => {\n' +
-			'          options.UseSqlServer(connString);\n' +
-			'          options.ConfigureWarnings(config => config.Throw(RelationalEventId.QueryClientEvaluationWarning));\n' +
-			'      });';
+		dataProvider.package = efCorePackage + efDesignPackage + sqlServerPackage + dataAccessPackage;		
+		dataProvider.startupServices = 'var dataAcessSettings = Configuration.GetSection("DataAccess").Get<DataAccessSettings>();\n' +
+		'      services.AddDataAccess<EntityContext>()\n' +
+		'      .AddDbContext<EntityContext>(options => {\n' +
+		'      		options.UseSqlServer(dataAcessSettings.GetConnectionString());\n' +
+		'      });';
+
 		dataProvider.startupImports = usings;
 		dataProvider.programConfig = programConfig;
-		dataProvider.connString = getConnectionString();
 		dataProvider.tools = tools;
 	};
 
 	return dataProvider;
-}
-
-function getConnectionString() {
-	var code = 'private string GetConnectionString(DataAccessSettings dataAccessSettings)\n' +
-		'        {\n' +
-		'            ushort port = 0;\n' +
-		'            try\n' +
-		'            {\n' +
-		'                port = ushort.Parse(dataAccessSettings.Port);\n' +
-		'            }\n' +
-		'            catch (InvalidOperationException ex)\n' +
-		'            {\n' +
-		'                throw new InvalidOperationException("Database port must be a number from 0 to 65536.", ex.InnerException ?? ex);\n' +
-		'            }\n\n' +
-		'            var connectionString = new ConnectionString(dataAccessSettings.Host, port, dataAccessSettings.DbName, dataAccessSettings.User, dataAccessSettings.Password);\n' +
-		'            return connectionString.ToString();\n' +
-		'        }\n';
-
-	return code;
 }
