@@ -77,6 +77,7 @@ namespace StarterKit
             logging.AddConsole();
             logging.AddDebug();
           })
+          .CaptureStartupErrors(true)
           .UseConfiguration(hostingConfig)
           .UseUrls(serverUrls);
     }
