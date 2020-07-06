@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using StarterKit.DataAccess;
+using StarterKit.DataAccess.Options;
 using StarterKit.Framework.Logging;
 using StarterKit.Shared.Extensions;
 using StarterKit.Shared.Options;

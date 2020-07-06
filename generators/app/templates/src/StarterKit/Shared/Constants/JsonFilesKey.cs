@@ -6,5 +6,6 @@ namespace StarterKit.Shared.Constants
     public const string AppJson = "app.json";
     public const string HostingJson = "hosting.json";
     public const string LoggingJson = "logging.json";
+    public const string DataAccessJson = "dataaccess.json";
   }
 }

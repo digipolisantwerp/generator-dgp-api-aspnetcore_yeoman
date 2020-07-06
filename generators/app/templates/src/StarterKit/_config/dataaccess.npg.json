@@ -1,11 +1,9 @@
-﻿{
-    "DataAccess": {
-        "ConnectionString": {
-            "Host": "localhost",
-            "Port": "5432",
-            "DbName": "starterkit",
-            "User": "postgres",
-            "Password": "postgres"
-        }
-    }
+{
+  "DataAccess": {
+    "Host": "localhost",
+    "Port": "5432",
+    "DbName": "starterkit",
+    "User": "postgres",
+    "Password": "postgres"
+  }
 }

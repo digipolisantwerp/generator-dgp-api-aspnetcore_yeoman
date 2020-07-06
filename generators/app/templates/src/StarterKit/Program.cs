@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 using StarterKit.Shared.Constants;
+using StarterKit.DataAccess.Options;
 using StarterKit.Startup;
 
 namespace StarterKit
