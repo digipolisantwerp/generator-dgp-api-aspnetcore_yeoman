@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace StarterKit.Api.Models
+namespace StarterKit.Api.Models.Status
 {
     public class Component
     {
@@ -8,7 +8,7 @@ namespace StarterKit.Api.Models
         /// The status is ok when the component is functionally working. The status is warning when the component is still functionally working, but needs your attention. The status is error when the component is no longer able to provide the required functionality to the API.
         /// </summary>
         [Required]
-        public Status Status { get; set; }
+        public Models.Status.Status Status { get; set; }
 
         /// <summary>
         /// The logical name of the component.

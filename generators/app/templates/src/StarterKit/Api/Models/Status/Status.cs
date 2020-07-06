@@ -1,4 +1,4 @@
-namespace StarterKit.Api.Models
+namespace StarterKit.Api.Models.Status
 {
     public enum Status
     {
