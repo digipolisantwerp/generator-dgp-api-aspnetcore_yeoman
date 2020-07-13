@@ -101,22 +101,70 @@ module.exports = class extends Generator {
     var copyOptions = {
       process: function (contents) {
         var str = contents.toString();
-        var result = str.replace(/StarterKit/g, projectName)
+        var result = str
+          .replace(/StarterKit/g, projectName)
           .replace(/starterkit/g, lowerProjectName)
           .replace(/DataAccessSettingsNpg/g, 'DataAccessSettings')
           .replace(/DataAccessSettingsMs/g, 'DataAccessSettings')
-          .replace(/C3E0690A-0044-402C-90D2-2DC0FF14980F/g, solutionItemsGuid.toUpperCase())
-          .replace(/05A3A5CE-4659-4E00-A4BB-4129AEBEE7D0/g, srcGuid.toUpperCase())
-          .replace(/079636FA-0D93-4251-921A-013355153BF5/g, testGuid.toUpperCase())
-          .replace(/BD79C050-331F-4733-87DE-F650976253B5/g, starterKitGuid.toUpperCase())
-          .replace(/948E75FD-C478-4001-AFBE-4D87181E1BEC/g, integrationGuid.toUpperCase())
-          .replace(/0A3016FD-A06C-4AA1-A843-DEA6A2F01696/g, unitGuid.toUpperCase())
-          .replace(/http:\/\/localhost:51002/g, 'http://localhost:' + kestrelHttpPort)
-          .replace(/http:\/\/localhost:51001/g, 'http://localhost:' + iisHttpPort)
+          .replace(
+            /DataAccessSettingsConfigKeyMs/g,
+            'DataAccessSettingsConfigKey'
+          )
+          .replace(
+            /DataAccessSettingsConfigKeyNpg/g,
+            'DataAccessSettingsConfigKey'
+          )
+          .replace(
+            /C3E0690A-0044-402C-90D2-2DC0FF14980F/g,
+            solutionItemsGuid.toUpperCase()
+          )
+          .replace(
+            /05A3A5CE-4659-4E00-A4BB-4129AEBEE7D0/g,
+            srcGuid.toUpperCase()
+          )
+          .replace(
+            /079636FA-0D93-4251-921A-013355153BF5/g,
+            testGuid.toUpperCase()
+          )
+          .replace(
+            /BD79C050-331F-4733-87DE-F650976253B5/g,
+            starterKitGuid.toUpperCase()
+          )
+          .replace(
+            /948E75FD-C478-4001-AFBE-4D87181E1BEC/g,
+            integrationGuid.toUpperCase()
+          )
+          .replace(
+            /0A3016FD-A06C-4AA1-A843-DEA6A2F01696/g,
+            unitGuid.toUpperCase()
+          )
+          .replace(
+            /http:\/\/localhost:51002/g,
+            'http://localhost:' + kestrelHttpPort
+          )
+          .replace(
+            /http:\/\/localhost:51001/g,
+            'http://localhost:' + iisHttpPort
+          )
           .replace(/"sslPort": 44300/g, '"sslPort": ' + iisHttpsPort)
           .replace(/\/\/--dataaccess-package--/g, dataProvider.package)
-          .replace(/\/\/--dataaccess-startupImports--/g, dataProvider.startupImports)
-          .replace(/\/\/--dataaccess-startupServices--/g, dataProvider.startupServices)
+          .replace(
+            /\/\/--dataaccess-startupImports--/g,
+            dataProvider.startupImports
+          )
+          .replace(
+            /\/\/--dataaccess-startupServices--/g,
+            dataProvider.startupServices
+          )
+          .replace(
+            /\/\/--dataaccess-registerConfiguration--/g,
+            dataProvider.registerConfiguration
+          )
+          .replace(/\/\/--dataaccess-variable--/g, dataProvider.variable)
+          .replace(
+            /\/\/--dataaccess-getService--/g,
+            dataProvider.getService
+          )
           .replace(/\/\/--dataaccess-config--/g, dataProvider.programConfig)
           .replace(/\/\/--dataaccess-tools--/g, dataProvider.tools);
         return result;
@@ -134,13 +182,16 @@ module.exports = class extends Generator {
     nd.files(source, function (err, files) {
       for (var i = 0; i < files.length; i++) {
         var ignoreFiles = [];
-        var filename = files[i].replace(/StarterKit/g, projectName)
+        var filename = files[i]
+          .replace(/StarterKit/g, projectName)
           .replace(/starterkit/g, lowerProjectName)
           .replace('.npmignore', '.gitignore')
           .replace('dataaccess.ms.json', 'dataaccess.json')
           .replace('dataaccess.npg.json', 'dataaccess.json')
           .replace('DataAccessSettings.ms.cs', 'DataAccessSettings.cs')
           .replace('DataAccessSettings.npg.cs', 'DataAccessSettings.cs')
+          .replace('DataAccessSettingsConfigKey.ms.cs', 'DataAccessSettingsConfigKey.cs')
+          .replace('DataAccessSettingsConfigKey.npg.cs', 'DataAccessSettingsConfigKey.cs')
           .replace(source, dest);
         switch (dataProvider.input) {
         case 'p':
@@ -148,6 +199,9 @@ module.exports = class extends Generator {
             ignoreFiles.push(files[i]);
           }
           if (files[i].indexOf('DataAccessSettings.ms.cs') > -1) {
+            ignoreFiles.push(files[i]);
+          }
+          if (files[i].indexOf('DataAccessSettingsConfigKey.ms.cs') > -1) {
             ignoreFiles.push(files[i]);
           }
           break;
@@ -158,14 +212,21 @@ module.exports = class extends Generator {
           if (files[i].indexOf('DataAccessSettings.npg.cs') > -1) {
             ignoreFiles.push(files[i]);
           }
+          if (files[i].indexOf('DataAccessSettingsConfigKey.npg.cs') > -1) {
+            ignoreFiles.push(files[i]);
+          }
           break;
         default:
-          if (files[i].indexOf('EntityContext.cs') > -1 ||
-						files[i].indexOf('DataAccessDefaults.cs') > -1 ||
-						files[i].indexOf('dataaccess.ms.json') > -1 ||
-						files[i].indexOf('dataaccess.npg.json') > -1 ||
-						files[i].indexOf('DataAccessSettings.ms.cs') > -1 ||
-						files[i].indexOf('DataAccessSettings.npg.cs') > -1) {
+          if (
+            files[i].indexOf('EntityContext.cs') > -1 ||
+            files[i].indexOf('DataAccessDefaults.cs') > -1 ||
+            files[i].indexOf('dataaccess.ms.json') > -1 ||
+            files[i].indexOf('dataaccess.npg.json') > -1 ||
+            files[i].indexOf('DataAccessSettings.ms.cs') > -1 ||
+            files[i].indexOf('DataAccessSettings.npg.cs') > -1 ||
+            files[i].indexOf('DataAccessSettingsConfigKey.ms.cs') > -1 ||
+            files[i].indexOf('DataAccessSettingsConfigKey.npg.cs') > -1
+          ) {
             ignoreFiles.push(files[i]);
           }
         }
@@ -193,6 +254,11 @@ function getDataProvider(input, projectName) {
   var usings = 'using Microsoft.EntityFrameworkCore;\nusing Microsoft.EntityFrameworkCore.Migrations;\nusing Digipolis.DataAccess;\nusing StarterKit.DataAccess;\nusing StarterKit.DataAccess.Options;\nusing Microsoft.EntityFrameworkCore.Diagnostics;'.replace(/StarterKit/g, projectName);
   var programConfig = 'config.AddJsonFile(JsonFilesKey.DataAccessJson);\n';
   var tools = '"Microsoft.EntityFrameworkCore.Tools": { "version": "2.2.4", "type": "build" },';
+  var registerConfiguration =
+    'DataAccessSettingsMs.RegisterConfiguration(services, Configuration.GetSection(Shared.Constants.ConfigurationSectionKey.DataAccess).GetSection(Shared.Constants.ConfigurationSectionKey.ConnectionString), Environment);';
+  var variable = 'DataAccessSettings dataAccessSettings;';
+  var getService =
+    'dataAccessSettings = provider.GetService<IOptions<DataAccessSettings>>().Value;';
 
   var dataProvider = {
     input: input,
@@ -201,12 +267,15 @@ function getDataProvider(input, projectName) {
     startupImports: '',
     programConfig: '',
     connString: '',
-    tools: ''
+    tools: '',
+    registerConfiguration: '',
+    variable: '',
+    getService: ''
   };
 
   if (input.toLowerCase() === 'p') {
     dataProvider.package = efCorePackage + efDesignPackage + npgSqlPackage + dataAccessPackage;
-    dataProvider.startupServices = 'var dataAcessSettings = Configuration.GetSection("DataAccess").Get<DataAccessSettings>();\n' +
+    dataProvider.startupServices =
 			'      services.AddDataAccess<EntityContext>()\n' +
 			'      .AddDbContext<EntityContext>(options => {\n' +
 			'      		options.UseNpgsql(dataAcessSettings.GetConnectionString(),\n' +
@@ -216,9 +285,12 @@ function getDataProvider(input, projectName) {
     dataProvider.startupImports = usings;
     dataProvider.programConfig = programConfig;
     dataProvider.tools = tools;
+    dataProvider.registerConfiguration = registerConfiguration;
+    dataProvider.variable = variable;
+    dataProvider.getService = getService;
   } else if (input.toLowerCase() === 'm') {
     dataProvider.package = efCorePackage + efDesignPackage + sqlServerPackage + dataAccessPackage;
-    dataProvider.startupServices = 'var dataAcessSettings = Configuration.GetSection("DataAccess").Get<DataAccessSettings>();\n' +
+    dataProvider.startupServices =
 		'      services.AddDataAccess<EntityContext>()\n' +
 		'      .AddDbContext<EntityContext>(options => {\n' +
 		'      		options.UseSqlServer(dataAcessSettings.GetConnectionString());\n' +
@@ -227,6 +299,9 @@ function getDataProvider(input, projectName) {
     dataProvider.startupImports = usings;
     dataProvider.programConfig = programConfig;
     dataProvider.tools = tools;
+    dataProvider.registerConfiguration = registerConfiguration;
+    dataProvider.variable = variable;
+    dataProvider.getService = getService;
   }
 
   return dataProvider;

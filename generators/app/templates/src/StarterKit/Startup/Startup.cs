@@ -21,6 +21,7 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using Serilog.Sinks.Elasticsearch;
 using StarterKit.DataAccess;
 using StarterKit.DataAccess.Options;
 using StarterKit.Framework.Logging;
@@ -56,9 +57,17 @@ namespace StarterKit.Startup
       #region Read settings
 
       // Check out ExampleController to find out how these configs are injected into other classes
-      var appSettingsSection = Configuration.GetSection("AppSettings");
-      var appSettings = appSettingsSection.Get<AppSettings>();
-      services.AddSingleton(Configuration).Configure<AppSettings>(appSettingsSection);
+      AppSettings.RegisterConfiguration(services, Configuration.GetSection(Shared.Constants.ConfigurationSectionKey.AppSettings), Environment);
+      //--dataaccess-registerConfiguration--
+
+      AppSettings appSettings;
+      //--dataaccess-variable--
+
+      using (var provider = services.BuildServiceProvider())
+      {
+        appSettings = provider.GetService<IOptions<AppSettings>>().Value;
+        //--dataaccess-getService--
+      }
 
       #endregion
 

@@ -1,11 +1,11 @@
-using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using StarterKit.Shared.Constants;
 
 namespace StarterKit.Shared.Options
 {
-  public class AppSettings
+  public class AppSettings: SettingsBase
   {
     public string AppName { get; set; }
     public string ApplicationId { get; set; }
@@ -14,12 +14,12 @@ namespace StarterKit.Shared.Options
     public bool LogExceptions { get; set; }
     public bool DisableGlobalErrorHandling { get; set; }
 
-    public static void RegisterConfiguration(IServiceCollection services, IConfigurationSection section)
+    public static void RegisterConfiguration(IServiceCollection services, IConfigurationSection section, IHostEnvironment environment)
     {
       services.Configure<AppSettings>(settings =>
       {
         settings.LoadFromConfigSection(section);
-        settings.OverrideFromEnvironmentVariables();
+        settings.OverrideFromEnvironmentVariables(environment);
       });
     }
 
@@ -28,15 +28,14 @@ namespace StarterKit.Shared.Options
       section.Bind(this);
     }
 
-    private void OverrideFromEnvironmentVariables()
+    private void OverrideFromEnvironmentVariables(IHostEnvironment environment)
     {
-      var env = Environment.GetEnvironmentVariables();
-      AppName = env.Contains(AppSettingsConfigKey.AppName) ? env[AppSettingsConfigKey.AppName]?.ToString() : AppName;
-      ApplicationId = env.Contains(AppSettingsConfigKey.ApplicationId) ? env[AppSettingsConfigKey.ApplicationId]?.ToString() : ApplicationId;
-      DataDirectory = env.Contains(AppSettingsConfigKey.DataDirectory) ? env[AppSettingsConfigKey.DataDirectory]?.ToString() : DataDirectory;
-      TempDirectory = env.Contains(AppSettingsConfigKey.TempDirectory) ? env[AppSettingsConfigKey.TempDirectory]?.ToString() : TempDirectory;
-      LogExceptions = env.Contains(AppSettingsConfigKey.LogExceptions) ? bool.Parse(env[AppSettingsConfigKey.LogExceptions]?.ToString() ?? "true") : LogExceptions;
-      DisableGlobalErrorHandling = env.Contains(AppSettingsConfigKey.DisableGlobalErrorHandling) ? bool.Parse(env[AppSettingsConfigKey.DisableGlobalErrorHandling]?.ToString() ?? "false") : LogExceptions;
+      AppName = GetValue(AppName, AppSettingsConfigKey.AppName, environment);
+      ApplicationId = GetValue(ApplicationId, AppSettingsConfigKey.ApplicationId, environment); 
+      DataDirectory = GetValue(DataDirectory, AppSettingsConfigKey.DataDirectory, environment);
+      TempDirectory = GetValue(TempDirectory, AppSettingsConfigKey.TempDirectory, environment);
+      LogExceptions = GetValue(LogExceptions, AppSettingsConfigKey.LogExceptions, environment);
+      DisableGlobalErrorHandling = GetValue(DisableGlobalErrorHandling, AppSettingsConfigKey.DisableGlobalErrorHandling, environment);
     }
   }
 }

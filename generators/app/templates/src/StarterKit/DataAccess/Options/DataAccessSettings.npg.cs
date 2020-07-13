@@ -2,11 +2,13 @@ using System;
 using Digipolis.DataAccess;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using StarterKit.Shared;
 using StarterKit.Shared.Constants;
 
 namespace StarterKit.DataAccess.Options
 {
-  public class DataAccessSettingsNpg
+  public class DataAccessSettingsNpg: SettingsBase
   {
     public string Host { get; set; }
     public string Port { get; set; }
@@ -14,12 +16,12 @@ namespace StarterKit.DataAccess.Options
     public string User { get; set; }
     public string Password { get; set; }
 
-    public static void RegisterConfiguration(IServiceCollection services, IConfigurationSection section)
+    public static void RegisterConfiguration(IServiceCollection services, IConfigurationSection section, IHostEnvironment environment)
     {
       services.Configure<DataAccessSettingsNpg>(settings =>
       {
         settings.LoadFromConfigSection(section);
-        settings.OverrideFromEnvironmentVariables();
+        settings.OverrideFromEnvironmentVariables(environment);
       });
     }
 
@@ -44,14 +46,13 @@ namespace StarterKit.DataAccess.Options
       section.Bind(this);
     }
 
-    private void OverrideFromEnvironmentVariables()
+    private void OverrideFromEnvironmentVariables(IHostEnvironment environment)
     {
-      var env = Environment.GetEnvironmentVariables();
-      Host = env.Contains(DataAccessSettingsConfigKeyNpg.Host) ? env[DataAccessSettingsConfigKeyNpg.Host]?.ToString() : Host;
-      Port = env.Contains(DataAccessSettingsConfigKeyNpg.Port) ? env[DataAccessSettingsConfigKeyNpg.Port]?.ToString() : Port;
-      DbName = env.Contains(DataAccessSettingsConfigKeyNpg.DbName) ? env[DataAccessSettingsConfigKeyNpg.DbName]?.ToString() : DbName;
-      User = env.Contains(DataAccessSettingsConfigKeyNpg.User) ? env[DataAccessSettingsConfigKeyNpg.User]?.ToString() : User;
-      Password = env.Contains(DataAccessSettingsConfigKeyNpg.PassWord) ? env[DataAccessSettingsConfigKeyNpg.PassWord]?.ToString() : Password;
+      Host = GetValue(Host, DataAccessSettingsConfigKeyNpg.Host, environment);
+      Port = GetValue(Port, DataAccessSettingsConfigKeyNpg.Port, environment);
+      DbName = GetValue(DbName, DataAccessSettingsConfigKeyNpg.DbName, environment);
+      User = GetValue(User, DataAccessSettingsConfigKeyNpg.User, environment);
+      Password = GetValue(Password, DataAccessSettingsConfigKeyNpg.PassWord, environment);
     }
   }
 }

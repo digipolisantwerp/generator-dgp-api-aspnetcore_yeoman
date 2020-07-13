@@ -2,11 +2,13 @@ using System;
 using Digipolis.DataAccess;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using StarterKit.Shared;
 using StarterKit.Shared.Constants;
 
 namespace StarterKit.DataAccess.Options
 {
-  public class DataAccessSettingsMs
+  public class DataAccessSettingsMs: SettingsBase
   {
     public string Host { get; set; }
     public string Port { get; set; }
@@ -14,12 +16,12 @@ namespace StarterKit.DataAccess.Options
     public string User { get; set; }
     public string Password { get; set; }
 
-    public static void RegisterConfiguration(IServiceCollection services, IConfigurationSection section)
+    public static void RegisterConfiguration(IServiceCollection services, IConfigurationSection section, IHostEnvironment environment)
     {
       services.Configure<DataAccessSettingsMs>(settings =>
       {
         settings.LoadFromConfigSection(section);
-        settings.OverrideFromEnvironmentVariables();
+        settings.OverrideFromEnvironmentVariables(environment);
       });
     }
 
@@ -44,14 +46,13 @@ namespace StarterKit.DataAccess.Options
       section.Bind(this);
     }
 
-    private void OverrideFromEnvironmentVariables()
+    private void OverrideFromEnvironmentVariables(IHostEnvironment environment)
     {
-      var env = Environment.GetEnvironmentVariables();
-      Host = env.Contains(DataAccessSettingsConfigKeyMs.Host) ? env[DataAccessSettingsConfigKeyMs.Host]?.ToString() : Host;
-      Port = env.Contains(DataAccessSettingsConfigKeyMs.Port) ? env[DataAccessSettingsConfigKeyMs.Port]?.ToString() : Port;
-      DbName = env.Contains(DataAccessSettingsConfigKeyMs.DbName) ? env[DataAccessSettingsConfigKeyMs.DbName]?.ToString() : DbName;
-      User = env.Contains(DataAccessSettingsConfigKeyMs.User) ? env[DataAccessSettingsConfigKeyMs.User]?.ToString() : User;
-      Password = env.Contains(DataAccessSettingsConfigKeyMs.PassWord) ? env[DataAccessSettingsConfigKeyMs.PassWord]?.ToString() : Password;
+      Host = GetValue(Host, DataAccessSettingsConfigKeyMs.Host, environment);
+      Port = GetValue(Port, DataAccessSettingsConfigKeyMs.Port, environment);
+      DbName = GetValue(DbName, DataAccessSettingsConfigKeyMs.DbName, environment);
+      User = GetValue(User, DataAccessSettingsConfigKeyMs.User, environment);
+      Password = GetValue(Password, DataAccessSettingsConfigKeyMs.PassWord, environment);
     }
   }
 }
