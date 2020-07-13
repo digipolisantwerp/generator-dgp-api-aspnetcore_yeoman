@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
+using Serilog.Formatting.Compact;
 using StarterKit.Shared.Constants;
 using StarterKit.DataAccess.Options;
 using StarterKit.Startup;
@@ -27,6 +28,8 @@ namespace StarterKit
         .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
         .ReadFrom.Configuration(loggingConfig, "Logging")
         .Enrich.FromLogContext()
+        // In this way logs can be picked up by an external system. Fe: FileBeat
+        //.WriteTo.Console(new RenderedCompactJsonFormatter())
         .CreateLogger();
 
       try {
