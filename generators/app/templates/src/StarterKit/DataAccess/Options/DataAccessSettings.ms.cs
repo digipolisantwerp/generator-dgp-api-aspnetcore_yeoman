@@ -2,6 +2,7 @@ using System;
 using Digipolis.DataAccess;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StarterKit.Shared.Constants;
 
 namespace StarterKit.DataAccess.Options
 {
@@ -46,11 +47,11 @@ namespace StarterKit.DataAccess.Options
     private void OverrideFromEnvironmentVariables()
     {
       var env = Environment.GetEnvironmentVariables();
-      Host = env.Contains("DB_MSSQL_CONNECTION_HOST") ? env["DB_MSSQL_CONNECTION_HOST"].ToString() : Host;
-      Port = env.Contains("DB_MSSQL_CONNECTION_PORT") ? env["DB_MSSQL_CONNECTION_PORT"].ToString() : Port;
-      DbName = env.Contains("DB_MSSQL_CONNECTION_NAME") ? env["DB_MSSQL_CONNECTION_NAME"].ToString() : DbName;
-      User = env.Contains("DB_MSSQL_AUTH_USER") ? env["DB_MSSQL_AUTH_USER"].ToString() : User;
-      Password = env.Contains("DB_MSSQL_AUTH_PASSWORD") ? env["DB_MSSQL_AUTH_PASSWORD"].ToString() : Password;
+      Host = env.Contains(DataAccessSettingsConfigKeyMs.Host) ? env[DataAccessSettingsConfigKeyMs.Host]?.ToString() : Host;
+      Port = env.Contains(DataAccessSettingsConfigKeyMs.Port) ? env[DataAccessSettingsConfigKeyMs.Port]?.ToString() : Port;
+      DbName = env.Contains(DataAccessSettingsConfigKeyMs.DbName) ? env[DataAccessSettingsConfigKeyMs.DbName]?.ToString() : DbName;
+      User = env.Contains(DataAccessSettingsConfigKeyMs.User) ? env[DataAccessSettingsConfigKeyMs.User]?.ToString() : User;
+      Password = env.Contains(DataAccessSettingsConfigKeyMs.PassWord) ? env[DataAccessSettingsConfigKeyMs.PassWord]?.ToString() : Password;
     }
   }
 }
