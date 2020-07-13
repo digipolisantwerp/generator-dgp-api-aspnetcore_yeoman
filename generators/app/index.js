@@ -147,7 +147,7 @@ module.exports = class extends Generator {
             'http://localhost:' + iisHttpPort
           )
           .replace(/"sslPort": 44300/g, '"sslPort": ' + iisHttpsPort)
-          .replace(/\/\/--dataaccess-package--/g, dataProvider.package)
+          .replace(/<!-- dataaccess-package -->/g, dataProvider.package)
           .replace(
             /\/\/--dataaccess-startupImports--/g,
             dataProvider.startupImports
@@ -161,12 +161,9 @@ module.exports = class extends Generator {
             dataProvider.registerConfiguration
           )
           .replace(/\/\/--dataaccess-variable--/g, dataProvider.variable)
-          .replace(
-            /\/\/--dataaccess-getService--/g,
-            dataProvider.getService
-          )
+          .replace(/\/\/--dataaccess-getService--/g, dataProvider.getService)
           .replace(/\/\/--dataaccess-config--/g, dataProvider.programConfig)
-          .replace(/\/\/--dataaccess-tools--/g, dataProvider.tools);
+          .replace(/<!-- dataaccess-tools -->/g, dataProvider.tools);
         return result;
       }
     };
@@ -246,14 +243,24 @@ module.exports = class extends Generator {
 };
 
 function getDataProvider(input, projectName) {
-  var efCorePackage = '"Microsoft.EntityFrameworkCore": "3.1.5",\n';
-  var efDesignPackage = '        "Microsoft.EntityFrameworkCore.Design": "3.1.5",\n';
-  var npgSqlPackage = '        "Npgsql.EntityFrameworkCore.PostgreSQL": "3.1.4",\n';
-  var sqlServerPackage = '        "Microsoft.EntityFrameworkCore.SqlServer": "3.1.5",\n';
-  var dataAccessPackage = '        "Digipolis.DataAccess": "4.0.0",';
+  var efCorePackage =
+      '<PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />\n';
+  var efDesignPackage =
+      '<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.5">\n' +
+      '<PrivateAssets>all</PrivateAssets>\n' +
+      '<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>\n' +
+      '</PackageReference>\n';
+  var npgSqlPackage =
+    '<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />\n';
+  var sqlServerPackage =
+    '<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />\n';
   var usings = 'using Microsoft.EntityFrameworkCore;\nusing Microsoft.EntityFrameworkCore.Migrations;\nusing Digipolis.DataAccess;\nusing StarterKit.DataAccess;\nusing StarterKit.DataAccess.Options;\nusing Microsoft.EntityFrameworkCore.Diagnostics;'.replace(/StarterKit/g, projectName);
   var programConfig = 'config.AddJsonFile(JsonFilesKey.DataAccessJson);\n';
-  var tools = '"Microsoft.EntityFrameworkCore.Tools": { "version": "2.2.4", "type": "build" },';
+  var tools =
+      '<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.5">\n' +
+      '<PrivateAssets>all</PrivateAssets>\n' +
+      '<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>\n' +
+      '</PackageReference>\n';
   var registerConfiguration =
     'DataAccessSettings.RegisterConfiguration(services, Configuration.GetSection(Shared.Constants.ConfigurationSectionKey.DataAccess).GetSection(Shared.Constants.ConfigurationSectionKey.ConnectionString), Environment);';
   var variable = 'DataAccessSettings dataAccessSettings;';
@@ -274,7 +281,7 @@ function getDataProvider(input, projectName) {
   };
 
   if (input.toLowerCase() === 'p') {
-    dataProvider.package = efCorePackage + efDesignPackage + npgSqlPackage + dataAccessPackage;
+    dataProvider.package = efCorePackage + efDesignPackage + npgSqlPackage;
     dataProvider.startupServices =
 			'      services.AddDataAccess<EntityContext>()\n' +
 			'      .AddDbContext<EntityContext>(options => {\n' +
@@ -289,7 +296,7 @@ function getDataProvider(input, projectName) {
     dataProvider.variable = variable;
     dataProvider.getService = getService;
   } else if (input.toLowerCase() === 'm') {
-    dataProvider.package = efCorePackage + efDesignPackage + sqlServerPackage + dataAccessPackage;
+    dataProvider.package = efCorePackage + efDesignPackage + sqlServerPackage;
     dataProvider.startupServices =
 		'      services.AddDataAccess<EntityContext>()\n' +
 		'      .AddDbContext<EntityContext>(options => {\n' +
