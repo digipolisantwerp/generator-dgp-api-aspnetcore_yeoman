@@ -37,8 +37,11 @@ namespace StarterKit.Startup
     {
       var enrich = app.ApplicationServices.GetServices<ILogEventEnricher>().ToArray();
 
+      var systemLogSection = config.GetSection("SystemLog");
+
       Log.Logger = new LoggerConfiguration()
                       .Enrich.With(enrich)
+                      .WriteTo.Logger(l => l.ReadFrom.Configuration(systemLogSection))
                       .CreateLogger();
 
       loggerFactory.AddSerilog(dispose: true);
@@ -56,6 +59,8 @@ namespace StarterKit.Startup
     /// <returns></returns>
     public static IConfigurationBuilder AddLoggingConfiguration(this IConfigurationBuilder configurationBuilder, IWebHostEnvironment hostingEnv)
     {
+      var env = Environment.GetEnvironmentVariables();
+
       var environmentDict = new Dictionary<string, string>();
 
       // if this is deployed, overwrite some settings from the environment variables
