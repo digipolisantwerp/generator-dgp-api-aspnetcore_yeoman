@@ -37,7 +37,7 @@ namespace StarterKit.Startup
     {
       var enrich = app.ApplicationServices.GetServices<ILogEventEnricher>().ToArray();
 
-      var systemLogSection = config.GetSection("SystemLog");
+      var systemLogSection = config.GetSection(Shared.Constants.ConfigurationSectionKey.SystemLog);
 
       Log.Logger = new LoggerConfiguration()
                       .Enrich.With(enrich)

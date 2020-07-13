@@ -8,5 +8,7 @@ namespace StarterKit.Shared.Constants
     public const string DataAccess = "DataAccess";
     public const string Cache = "Cache";
     public const string ConnectionString = "ConnectionString";
+    public const string SystemLog = "SystemLog";
+    public const string Logging = "Logging";
   }
 }
