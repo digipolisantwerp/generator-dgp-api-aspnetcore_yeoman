@@ -39,4 +39,7 @@ RUN mkdir -p /log
 #ENV ASPNETCORE_URLS http://*:80
 EXPOSE 80
 
+# Set timezone
+RUN ln -snf /usr/share/zoneinfo/Europe/Brussels /etc/localtime && echo Europe/Brussels > /etc/timezone
+
 CMD ["dotnet", "StarterKit.dll"]
