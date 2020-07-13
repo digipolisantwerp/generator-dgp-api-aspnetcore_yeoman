@@ -255,7 +255,7 @@ function getDataProvider(input, projectName) {
   var programConfig = 'config.AddJsonFile(JsonFilesKey.DataAccessJson);\n';
   var tools = '"Microsoft.EntityFrameworkCore.Tools": { "version": "2.2.4", "type": "build" },';
   var registerConfiguration =
-    'DataAccessSettingsMs.RegisterConfiguration(services, Configuration.GetSection(Shared.Constants.ConfigurationSectionKey.DataAccess).GetSection(Shared.Constants.ConfigurationSectionKey.ConnectionString), Environment);';
+    'DataAccessSettings.RegisterConfiguration(services, Configuration.GetSection(Shared.Constants.ConfigurationSectionKey.DataAccess).GetSection(Shared.Constants.ConfigurationSectionKey.ConnectionString), Environment);';
   var variable = 'DataAccessSettings dataAccessSettings;';
   var getService =
     'dataAccessSettings = provider.GetService<IOptions<DataAccessSettings>>().Value;';
@@ -278,7 +278,7 @@ function getDataProvider(input, projectName) {
     dataProvider.startupServices =
 			'      services.AddDataAccess<EntityContext>()\n' +
 			'      .AddDbContext<EntityContext>(options => {\n' +
-			'      		options.UseNpgsql(dataAcessSettings.GetConnectionString(),\n' +
+			'      		options.UseNpgsql(dataAccessSettings.GetConnectionString(),\n' +
 			'      		opt => opt.MigrationsHistoryTable(HistoryRepository.DefaultTableName, DataAccessDefaults.SchemaName));\n' +
 			'      });';
 
@@ -293,7 +293,7 @@ function getDataProvider(input, projectName) {
     dataProvider.startupServices =
 		'      services.AddDataAccess<EntityContext>()\n' +
 		'      .AddDbContext<EntityContext>(options => {\n' +
-		'      		options.UseSqlServer(dataAcessSettings.GetConnectionString());\n' +
+		'      		options.UseSqlServer(dataAccessSettings.GetConnectionString());\n' +
 		'      });';
 
     dataProvider.startupImports = usings;
