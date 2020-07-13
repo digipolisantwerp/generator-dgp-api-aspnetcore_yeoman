@@ -262,7 +262,7 @@ function getDataProvider(input, projectName) {
       '<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>\n' +
       '</PackageReference>\n';
   var registerConfiguration =
-    'DataAccessSettings.RegisterConfiguration(services, Configuration.GetSection(Shared.Constants.ConfigurationSectionKey.DataAccess).GetSection(Shared.Constants.ConfigurationSectionKey.ConnectionString), Environment);';
+    'DataAccessSettings.RegisterConfiguration(services, Configuration.GetSection(Shared.Constants.ConfigurationSectionKey.DataAccess), Environment);';
   var variable = 'DataAccessSettings dataAccessSettings;';
   var getService =
     'dataAccessSettings = provider.GetService<IOptions<DataAccessSettings>>().Value;';

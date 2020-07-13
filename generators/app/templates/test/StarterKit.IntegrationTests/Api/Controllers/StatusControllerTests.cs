@@ -24,7 +24,7 @@ namespace StarterKit.IntegrationTests.Api.Controllers
     public async void GetApiStatus_ShouldReturnOk()
     {
       //Arrange
-      var url = $"{BasePath}/ping";
+      var url = $"{BasePath}/health";
 
       //Act
       var response = await GetAsync(url);

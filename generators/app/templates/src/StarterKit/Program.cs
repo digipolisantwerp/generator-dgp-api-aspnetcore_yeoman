@@ -77,7 +77,7 @@ namespace StarterKit
             logging.ClearProviders();
             logging.SetMinimumLevel(LogLevel.Debug);
 
-            logging.AddConfiguration(hostingContext.Configuration.GetSection(ConfigurationSectionKey.Logging);
+            logging.AddConfiguration(hostingContext.Configuration.GetSection(ConfigurationSectionKey.Logging));
             logging.AddConsole();
             logging.AddDebug();
           })

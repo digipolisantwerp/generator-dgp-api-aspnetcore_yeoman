@@ -32,5 +32,11 @@ namespace StarterKit.Business.Monitoring
         /// Optional field describing the error when the component is in status warning or error
         /// </summary>
         public string ErrorMessage { get; set; }
-    }
+
+
+        /// <summary>
+        /// Optional field describing the error code when the component is in status warning or error
+        /// </summary>
+        public string Code { get; set; }
+  }
 }
