@@ -43,7 +43,7 @@ namespace StarterKit.UnitTests.Controllers
 
       var controller = new StatusController(statusReaderMock.Object, logger,mapper);
 
-      var result = (Monitoring)(await controller.GetMonitoring() as OkObjectResult)?.Value;
+      var result = (Monitoring)(await controller.GetComponentsHealthStatus() as OkObjectResult)?.Value;
 
       statusReaderMock.Verify(x => x.GetStatus(), Times.Once());
     }
@@ -58,7 +58,7 @@ namespace StarterKit.UnitTests.Controllers
 
       var controller = new StatusController(statusReaderMock.Object, logger,mapper);
 
-      var result = (StatusResponse)(controller.GetPing() as OkObjectResult)?.Value;
+      var result = (StatusResponse)(controller.GetHealthStatus() as OkObjectResult)?.Value;
 
       Assert.NotNull(result);
       Assert.Equal(Api.Models.Status.Status.ok, result.Status);

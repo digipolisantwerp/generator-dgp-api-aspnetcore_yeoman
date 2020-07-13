@@ -1,9 +1,10 @@
 namespace StarterKit.Api.Models.Status
 {
-    public enum Status
+  // For more information about the health statuses: https://github.com/digipolisantwerpdocumentation/status-monitoring
+  public enum Status
     {
         ok,
-        warning,
-        error
+        degraded,
+        outage
     }
 }

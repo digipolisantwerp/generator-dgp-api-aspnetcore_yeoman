@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using StarterKit.Api.Models.Status;
 using StarterKit.Business.Monitoring;
 using StarterKit.Shared.Constants;
-using Monitoring = StarterKit.Api.Models.Status.Monitoring;
+using ComponentsHealthStatus = StarterKit.Api.Models.Status.ComponentsHealthStatus;
 using RuntimeInformation = StarterKit.Api.Models.Status.RuntimeInformation;
 using Status = StarterKit.Api.Models.Status.Status;
 
@@ -35,38 +35,41 @@ namespace StarterKit.Api.Controllers
     }
 
     /// <summary>
-    /// Get the global API status and the components statuses.
+    /// Get the global API health status.
     /// </summary>
     /// <returns></returns>
-    [HttpGet("monitoring")]
-    [Produces("application/json")]
-    [ProducesResponseType(typeof(Monitoring), 200)]
-    [ProducesResponseType(typeof(Error), 500)]
-    public async Task<IActionResult> GetMonitoring()
-    {
-      var status = await _statusReader.GetStatus();
-
-      var result = _mapper.Map<Monitoring>(status);
-
-      return Ok(result);
-    }
-
-    /// <summary>
-    /// Get the global API status.
-    /// </summary>
-    /// <returns></returns>
-    [HttpGet("ping")]
+    [HttpGet("health")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(StatusResponse), 200)]
     [ProducesResponseType(typeof(Error), 500)]
     [AllowAnonymous]
-    public IActionResult GetPing()
+    public IActionResult GetHealthStatus()
     {
+      // TODO: run checks here on all critical services (fe: db, serviceAgent, logging etc)
+
       return Ok(new StatusResponse()
       {
         Status = Status.ok
       });
     }
+
+    /// <summary>
+    /// Get the global API status and the components statuses.
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("health/components")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(ComponentsHealthStatus), 200)]
+    [ProducesResponseType(typeof(Error), 500)]
+    public async Task<IActionResult> GetComponentsHealthStatus()
+    {
+      var status = await _statusReader.GetStatus();
+
+      var result = _mapper.Map<ComponentsHealthStatus>(status);
+
+      return Ok(result);
+    }
+
 
     /// <summary>
     /// Get the runtime configuration

@@ -9,7 +9,7 @@ namespace StarterKit.Api.Mapping
   {
     public StatusProfile()
     {
-      CreateMap<Business.Monitoring.Monitoring, Monitoring>();
+      CreateMap<Business.Monitoring.Monitoring, ComponentsHealthStatus>();
       CreateMap<Business.Monitoring.Component, Component>();
     }
   }
