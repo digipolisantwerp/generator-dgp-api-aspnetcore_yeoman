@@ -24,7 +24,6 @@ using Newtonsoft.Json.Serialization;
 using Serilog.Sinks.Elasticsearch;
 using StarterKit.DataAccess;
 using StarterKit.DataAccess.Options;
-using StarterKit.Framework.Logging;
 using StarterKit.Shared.Extensions;
 using StarterKit.Shared.Options;
 using StarterKit.Shared.Swagger;
@@ -181,19 +180,12 @@ namespace StarterKit.Startup
 
     public void Configure(IApplicationBuilder app,
                           IApiVersionDescriptionProvider versionProvider,
-                          ILoggerFactory loggerFactory, IHostApplicationLifetime appLifetime,
-                          IApplicationLogger appLogger)
+                          ILoggerFactory loggerFactory, IHostApplicationLifetime appLifetime)
     {
       loggerFactory.AddLoggingEngine(app, appLifetime, Configuration);
 
       // Enable Serilog selflogging to console.
       Serilog.Debugging.SelfLog.Enable(Console.Out);
-
-      // log application lifetime events
-      var appName = app.ApplicationServices.GetService<IOptions<AppSettings>>().Value.AppName;
-      appLifetime.ApplicationStarted.Register(() => appLogger.LogInformation($"Application {appName} Started"));
-      appLifetime.ApplicationStopped.Register(() => appLogger.LogInformation($"Application {appName} Stopped"));
-      appLifetime.ApplicationStopping.Register(() => appLogger.LogInformation($"Application {appName} Stopping"));
 
       app.UseApiExtensions();
 

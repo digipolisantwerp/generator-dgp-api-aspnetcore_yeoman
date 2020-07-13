@@ -11,7 +11,6 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Core;
 using Serilog.Filters;
-using StarterKit.Framework.Logging;
 using StarterKit.Shared.Constants;
 using StarterKit.Shared.Options;
 
@@ -21,7 +20,7 @@ namespace StarterKit.Startup
   {
     public static IServiceCollection AddLoggingEngine(this IServiceCollection services)
     {
-      services.AddSingleton<IApplicationLogger, ApplicationLogger>();
+     
 
       services.AddSerilogExtensions(options =>
       {
@@ -38,15 +37,8 @@ namespace StarterKit.Startup
     {
       var enrich = app.ApplicationServices.GetServices<ILogEventEnricher>().ToArray();
 
-      var systemLogSection = config.GetSection("SystemLog");
-      var applicationLogSection = config.GetSection("ApplicationLog");
-
-      var appLogger = typeof(ApplicationLogger).FullName;
-
       Log.Logger = new LoggerConfiguration()
                       .Enrich.With(enrich)
-                      .WriteTo.Logger(l => l.ReadFrom.Configuration(systemLogSection).Filter.ByExcluding(Matching.FromSource(appLogger)))
-                      .WriteTo.Logger(l => l.ReadFrom.Configuration(applicationLogSection).Filter.ByIncludingOnly(Matching.FromSource(appLogger)))
                       .CreateLogger();
 
       loggerFactory.AddSerilog(dispose: true);
@@ -64,8 +56,6 @@ namespace StarterKit.Startup
     /// <returns></returns>
     public static IConfigurationBuilder AddLoggingConfiguration(this IConfigurationBuilder configurationBuilder, IWebHostEnvironment hostingEnv)
     {
-      var env = Environment.GetEnvironmentVariables();
-
       var environmentDict = new Dictionary<string, string>();
 
       // if this is deployed, overwrite some settings from the environment variables

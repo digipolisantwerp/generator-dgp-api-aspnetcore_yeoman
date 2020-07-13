@@ -8,22 +8,19 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using StarterKit.Framework.Extensions;
-using StarterKit.Framework.Logging;
 
 namespace StarterKit.Startup
 {
   public class ApiExceptionMapper : ExceptionMapper
   {
-    public ApiExceptionMapper(ILogger<ApiExceptionMapper> logger, IApplicationLogger appLogger, IWebHostEnvironment environment, ICorrelationService correlationService) : base()
+    public ApiExceptionMapper(ILogger<ApiExceptionMapper> logger, IWebHostEnvironment environment, ICorrelationService correlationService) : base()
     {
       Logger = logger ?? throw new ArgumentException($"{GetType().Name}.Ctr parameter {nameof(logger)} cannot be null.");
-      AppLogger = appLogger ?? throw new ArgumentException($"{GetType().Name}.Ctr parameter {nameof(appLogger)} cannot be null.");
       _environment = environment ?? throw new ArgumentException($"{GetType().Name}.Ctr parameter {nameof(environment)} cannot be null.");
       _correlationService = correlationService ?? throw new ArgumentException($"{GetType().Name}.Ctr parameter {nameof(environment)} cannot be null.");
     }
 
     protected ILogger<ApiExceptionMapper> Logger { get; private set; }
-    protected IApplicationLogger AppLogger { get; private set; }
     private readonly IWebHostEnvironment _environment;
     private readonly ICorrelationService _correlationService;
 
@@ -101,7 +98,6 @@ namespace StarterKit.Startup
       }
 
       Logger.LogError("Internal server error: {exceptionMessage}", exception.Message, exception);
-      AppLogger.LogError("Er is een technische fout opgetreden.");
     }
 
     protected override void CreateValidationMap(Error error, ValidationException exception)
@@ -111,8 +107,7 @@ namespace StarterKit.Startup
 
       error.Identifier = GetIdentifier();
       error.Title = exception.Message;
-      Logger.LogWarning($"Validation error: {exception.GetExceptionMessages()}, {exception.ToString()}");
-      AppLogger.LogWarning($"Er is een validatiefout opgetreden. {exception.GetExceptionMessages()}");
+      Logger.LogWarning($"Validation error: {exception.GetExceptionMessages()}, {exception}");
     }
 
     private void AddInnerExceptions(Error error, Exception exception, int level = 0)
