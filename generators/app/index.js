@@ -246,8 +246,8 @@ module.exports = class extends Generator {
 };
 
 function getDataProvider(input, projectName) {
-  var efCorePackage = '"Microsoft.EntityFrameworkCore": "2.1.4",\n';
-  var efDesignPackage = '        "Microsoft.EntityFrameworkCore.Design": "2.1.4",\n';
+  var efCorePackage = '"Microsoft.EntityFrameworkCore": "3.1.5",\n';
+  var efDesignPackage = '        "Microsoft.EntityFrameworkCore.Design": "3.1.5",\n';
   var npgSqlPackage = '        "Npgsql.EntityFrameworkCore.PostgreSQL": "3.1.4",\n';
   var sqlServerPackage = '        "Microsoft.EntityFrameworkCore.SqlServer": "3.1.5",\n';
   var dataAccessPackage = '        "Digipolis.DataAccess": "4.0.0",';
