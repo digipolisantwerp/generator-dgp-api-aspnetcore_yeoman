@@ -16,15 +16,15 @@
     "yeoman-generator"
   ],
   "dependencies": {
-    "@ljharb/eslint-config": "^17.1.0",
+    "@ljharb/eslint-config": "^17.2.0",
     "chalk": "^2.4.2",
     "del": "^5.0.0",
     "node-dir": "^0.1.17",
     "rimraf": "^2.6.3",
     "update-notifier": "^3.0.1",
     "uuid": "3.3.2",
-    "yeoman-generator": "^4.11.0",
-    "yeoman-test": "^2.6.0",
+    "yeoman-generator": "^4.12.0",
+    "yeoman-test": "^2.7.0",
     "yosay": "^2.0.2"
   },
   "devDependencies": {
