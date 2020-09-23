@@ -1,17 +1,18 @@
-using Digipolis.Web.Api;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using StarterKit.Api.Filters;
 using StarterKit.Api.Models;
-using StarterKit.Options;
+using StarterKit.Api.Models.Examples;
 using StarterKit.Shared.Constants;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using StarterKit.Shared.Options;
 
 namespace StarterKit.Api.Controllers
 {
-    [Route("[controller]")]
+    [Route("v{version:apiVersion}/[controller]")]
+    [ApiController, ApiVersion(Versions.V1)]
     public class ExamplesController : Controller
     {
         public ExamplesController(ILogger<ExamplesController> logger, IOptions<AppSettings> appSettings)
@@ -22,11 +23,11 @@ namespace StarterKit.Api.Controllers
             AppSettings = appSettings.Value;
         }
 
-        public ILogger<ExamplesController> Logger { get; private set; }
-        public AppSettings AppSettings { get; private set; }
+        public ILogger<ExamplesController> Logger { get; }
+        public AppSettings AppSettings { get; }
 
         // Normally this data would come from an injected business or repository class
-        private List<Example> _examples = new List<Example>()
+        private readonly List<Example> _examples = new List<Example>()
         {
             new Example() { Id = 1, Name = "Peter Parker" },
             new Example() { Id = 2, Name = "Clark Kent" },
@@ -35,7 +36,6 @@ namespace StarterKit.Api.Controllers
 
         // GET /api/examples
         [HttpGet]
-        [Versions(Versions.V1)]
         public IActionResult GetAll()
         {
             // this is how you log an information message
@@ -49,7 +49,7 @@ namespace StarterKit.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var example = _examples.Where(e => e.Id == id).FirstOrDefault();
+            var example = _examples.FirstOrDefault(e => e.Id == id);
 
             if ( example == null )
             {

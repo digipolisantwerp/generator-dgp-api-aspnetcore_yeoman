@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using StarterKit.Business.Monitoring;
 
-namespace StarterKit
+namespace StarterKit.Startup
 {
   public static class DependencyRegistration
   {

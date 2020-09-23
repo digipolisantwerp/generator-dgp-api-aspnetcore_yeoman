@@ -1,9 +1,10 @@
+using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using StarterKit.Shared.Options;
-using System;
-using System.Collections.Generic;
 
 namespace StarterKit.ServiceAgents.Options
 {
@@ -26,7 +27,7 @@ namespace StarterKit.ServiceAgents.Options
       }
     }
 
-    public static void RegisterConfiguration(IServiceCollection services, IConfigurationSection section, IHostingEnvironment env)
+    public static void RegisterConfiguration(IServiceCollection services, IConfigurationSection section, IWebHostEnvironment env)
     {
       services.Configure<ServiceAgentBaseSettings>(settings =>
       {
@@ -35,12 +36,12 @@ namespace StarterKit.ServiceAgents.Options
       });
     }
 
-    private void LoadFromConfigSection(IConfigurationSection section)
+    private void LoadFromConfigSection(IConfiguration section)
     {
       section.Bind(this);
     }
 
-    private void OverrideFromEnvironmentVariables(IHostingEnvironment env)
+    private void OverrideFromEnvironmentVariables(IHostEnvironment env)
     {
       if (env.IsDevelopment()) return;
 

@@ -1,40 +1,81 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using AutoMapper;
 using Digipolis.ApplicationServices;
 using Digipolis.Correlation;
-using Digipolis.Web;
-using Digipolis.Web.Startup;
-//--dataaccess-startupImports--
+using Digipolis.DataAccess;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Rewrite;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using StarterKit.Options;
+using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
+using Serilog.Sinks.Elasticsearch;
+using StarterKit.DataAccess;
+using StarterKit.DataAccess.Options;
+using StarterKit.Shared.Extensions;
+using StarterKit.Shared.Options;
 using StarterKit.Shared.Swagger;
-using Swashbuckle.AspNetCore.Swagger;
-using System;
-using System.IO;
-using System.Reflection;
 
-namespace StarterKit
+namespace StarterKit.Startup
 {
   public class Startup
   {
-    public Startup(IConfiguration configuration, IHostingEnvironment env)
+    public Startup(IConfiguration configuration, IHostEnvironment env)
     {
+      ApplicationBasePath = env.ContentRootPath;
       Configuration = configuration;
+      Environment = env;
     }
 
-    public IConfiguration Configuration { get; private set; }
-    public string ApplicationBasePath { get; private set; }
-
-    public void ConfigureServices(IServiceCollection services)
+    public IConfiguration Configuration { get; }
+    public string ApplicationBasePath { get; }
+    public IHostEnvironment Environment { get; }
+    private string XmlCommentsPath
     {
-      // Check out ExampleController to find out how these configs are injected into other classes
-      AppSettings.RegisterConfiguration(services, Configuration.GetSection("AppSettings"));
+      get
+      {
+        var fileName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name + ".xml";
+        return Path.Combine(ApplicationBasePath, fileName);
+      }
+    }
 
-      var appSettings = services.BuildServiceProvider().GetService<IOptions<AppSettings>>().Value;
+    public virtual void ConfigureServices(IServiceCollection services)
+    {
+      #region Read settings
+
+      // Check out ExampleController to find out how these configs are injected into other classes
+      AppSettings.RegisterConfiguration(services, Configuration.GetSection(Shared.Constants.ConfigurationSectionKey.AppSettings), Environment);
+      //--dataaccess-registerConfiguration--
+
+      AppSettings appSettings;
+      //--dataaccess-variable--
+
+      using (var provider = services.BuildServiceProvider())
+      {
+        appSettings = provider.GetService<IOptions<AppSettings>>().Value;
+        //--dataaccess-getService--
+      }
+
+      #endregion
+
+      #region Add Correlation and application services
+
+      services.AddCorrelation(options =>
+      {
+        options.CorrelationHeaderRequired = !Environment.IsDevelopment();
+      });
 
       services.AddApplicationServices(opt =>
       {
@@ -42,85 +83,111 @@ namespace StarterKit
         opt.ApplicationName = appSettings.AppName;
       });
 
-      services.AddCorrelation(options => { options.CorrelationHeaderRequired = true; });
+      #endregion
+
+      #region Logging
 
       services.AddLoggingEngine();
 
+      #endregion
+
       //--dataaccess-startupServices--
 
-      services.AddMvc()
-          .AddJsonOptions(options =>
-          {
-            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-            options.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-          })
-          .AddApiExtensions(null, options =>
-          {
-            options.DisableVersioning = true;
-          });
+      #region Add routing and versioning
+
+      services
+        .AddRouting(options =>
+        {
+          options.LowercaseUrls = true;
+          options.LowercaseQueryStrings = true;
+        })
+        .AddControllers()
+        .AddNewtonsoftJson(options =>
+        {
+          options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+          options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+          options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+          options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+          options.SerializerSettings.MetadataPropertyHandling = MetadataPropertyHandling.Ignore;
+          options.SerializerSettings.Converters.Add(new StringEnumConverter());
+        });
+
+      services
+        .AddApiVersioning(options =>
+        {
+          options.ReportApiVersions = true;
+          options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+          options.AssumeDefaultVersionWhenUnspecified = true;
+          options.UseApiBehavior = false;
+        })
+        .AddVersionedApiExplorer(options =>
+        {
+          options.GroupNameFormat = "'v'VVV";
+          options.SubstituteApiVersionInUrl = true;
+        });
+
+      #endregion
+
+      #region DI and Automapper
 
       services.AddBusinessServices();
       services.AddServiceAgentServices();
       services.AddDataAccessServices();
 
       services.AddAutoMapper(typeof(Startup).Assembly);
-      
-      services.AddSwaggerGen<ApiExtensionSwaggerSettings>((options) =>
+
+      #endregion
+
+      #region Swagger
+
+      services
+        .AddSwaggerGen(options =>
         {
-
-        });
-
-      services.ConfigureSwaggerGen(options =>
-      {
-        options.SwaggerDoc("v1",
-            new Info
+          // Define multiple swagger docs if you have multiple api versions
+          options.SwaggerDoc("v1",
+            new OpenApiInfo
             {
               Title = "STARTERKIT API",
               Version = "v1",
               Description = "<API DESCRIPTION>",
-              TermsOfService = "None",
-              Contact = new Contact()
+              TermsOfService = null,
+              Contact = new OpenApiContact()
               {
                 Email = "<MAIL>",
                 Name = "<NAME>"
               }
-            }
-         );
+            });
 
-        options.OperationFilter<AddCorrelationHeaderRequired>();
-        options.OperationFilter<AddAuthorizationHeaderRequired>();
-        options.OperationFilter<RemoveSyncRootParameter>();
-        options.OperationFilter<LowerCaseQueryAndBodyParameterFilter>();
+          options.OperationFilter<AddCorrelationHeaderRequired>();
+          options.OperationFilter<AddAuthorizationHeaderRequired>();
+          options.OperationFilter<RemoveSyncRootParameter>();
+          options.OperationFilter<LowerCaseQueryAndBodyParameterFilter>();
 
-        var location = Assembly.GetEntryAssembly().Location;
+          if (File.Exists(XmlCommentsPath))
+          {
+            options.IncludeXmlComments(XmlCommentsPath);
+          }
+        });
 
-        string xmlComments = Path.Combine(Path.GetDirectoryName(location), Path.GetFileNameWithoutExtension(location) + ".xml");
+      #endregion
 
-        if (File.Exists(xmlComments))
-        {
-          options.IncludeXmlComments(xmlComments);
-        }
-
-        options.DescribeAllEnumsAsStrings();
-      });
+      #region Global error handling
 
       services.AddGlobalErrorHandling<ApiExceptionMapper>();
+
+      #endregion
     }
 
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env,
-                          ILoggerFactory loggerFactory, IApplicationLifetime appLifetime,
-                          IApplicationLogger appLogger)
+    public void Configure(IApplicationBuilder app,
+                          IApiVersionDescriptionProvider versionProvider,
+                          ILoggerFactory loggerFactory, IHostApplicationLifetime appLifetime)
     {
       loggerFactory.AddLoggingEngine(app, appLifetime, Configuration);
 
       // Enable Serilog selflogging to console.
       Serilog.Debugging.SelfLog.Enable(Console.Out);
 
-      // log application lifetime events
-      var appName = app.ApplicationServices.GetService<IOptions<AppSettings>>().Value.AppName;
-      appLifetime.ApplicationStarted.Register(() => appLogger.LogInformation($"Application {appName} Started"));
-      appLifetime.ApplicationStopped.Register(() => appLogger.LogInformation($"Application {appName} Stopped"));
-      appLifetime.ApplicationStopping.Register(() => appLogger.LogInformation($"Application {appName} Stopping"));
+      app.UseApiExtensions();
 
       // CORS
       app.UseCors((policy) =>
@@ -128,27 +195,35 @@ namespace StarterKit
         policy.AllowAnyHeader();
         policy.AllowAnyMethod();
         policy.AllowAnyOrigin();
-        policy.AllowCredentials();
       });
 
-      app.UseApiExtensions();
+      var rewriteOptions = new RewriteOptions();
+      rewriteOptions.AddRedirect("^$", "swagger");
+      app.UseRewriter(rewriteOptions);
 
-      app.UseMvc(routes => { });
+      app.UseAuthentication();
+      app.UseRouting();
 
-      app.UseSwagger(c =>
+      app.UseAuthorization();
+      app.UseEndpoints(endpoints =>
+        endpoints.MapDefaultControllerRoute().RequireAuthorization("IsAuthenticated"));
+
+      app.UseSwagger(options =>
       {
-        c.PreSerializeFilters.Add((swagger, httpReq) => swagger.Host = httpReq.Host.Value);
+        options.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
+        {
+          swaggerDoc.Servers = new List<OpenApiServer>() { new OpenApiServer() { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}" } };
+        });
       });
 
       app.UseSwaggerUI(options =>
       {
-        options.RoutePrefix = "swagger";
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "V1 Docs");
+        foreach (var description in versionProvider.ApiVersionDescriptions)
+        {
+          options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+          options.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+        }
       });
-
-      app.UseSwaggerUiRedirect("swagger");
     }
-
-    //--dataaccess-connString--
   }
 }

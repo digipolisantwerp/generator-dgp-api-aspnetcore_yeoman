@@ -1,8 +1,10 @@
 {
   "AppSettings": {
-    "AppName": "StarterKit",
     "ApplicationId": "enter-your-application-id-here (get it from APPCONFIG)",
+    "AppName": "StarterKit",
     "DataDirectory": "/data/",
-    "TempDirectory": "/temp/"
+    "LogExceptions": "true",
+    "TempDirectory": "/temp/",
+    "DisableGlobalErrorHandling": "false"
   }
 }

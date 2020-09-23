@@ -1,17 +1,16 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <VersionPrefix>1.0.0-BUILDNUMBER</VersionPrefix>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <AssemblyName>StarterKit</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>StarterKit</PackageId>
-    <RuntimeFrameworkVersion>2.2.5</RuntimeFrameworkVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp2.2\StarterKit.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netcoreapp3.1\StarterKit.xml</DocumentationFile>
     <NoWarn>1701;1702;1705;1591</NoWarn>
   </PropertyGroup>
 
@@ -26,16 +25,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="AutoMapper" Version="8.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.1" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.4" />
-    <PackageReference Include="Digipolis.Web" Version="9.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="4.1.1" />
+    <!-- dataaccess-package -->
+    <!-- dataaccess-tools -->
     <PackageReference Include="Digipolis.DataAccess" Version="4.0.0" />
     <PackageReference Include="Digipolis.ApplicationServices" Version="2.0.0" />
     <PackageReference Include="Digipolis.Common" Version="3.0.0" />
     <PackageReference Include="Digipolis.Correlation" Version="5.3.1" />
-    <PackageReference Include="Digipolis.Errors" Version="5.2.0" />
+    <PackageReference Include="Digipolis.Errors" Version="7.0.0" />
     <PackageReference Include="Digipolis.Json" Version="3.0.0" />
     <PackageReference Include="Digipolis.Auth" Version="4.2.0" />
     <PackageReference Include="Digipolis.Serilog" Version="4.0.0" />
@@ -46,13 +47,13 @@
     <PackageReference Include="Digipolis.ServiceAgents" Version="7.1.0" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="7.1.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="4.0.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="4.0.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="4.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.5.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.5.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="5.5.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Shared\Swagger\" />
+    <Folder Include="Shared\Exceptions\Mapping\" />
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace StarterKit.Api.Models
+namespace StarterKit.Api.Models.Status
 {
     public class Component
     {
@@ -36,5 +32,10 @@ namespace StarterKit.Api.Models
         /// Optional field describing the error when the component is in status warning or error
         /// </summary>
         public string ErrorMessage { get; set; }
+
+        /// <summary>
+        /// Optional field describing the error code when the component is in status warning or error
+        /// </summary>
+        public string Code { get; set; }
     }
 }

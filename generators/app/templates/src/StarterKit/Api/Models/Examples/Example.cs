@@ -1,7 +1,6 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace StarterKit.Api.Models
+namespace StarterKit.Api.Models.Examples
 {
     public class Example : ModelBase
     {

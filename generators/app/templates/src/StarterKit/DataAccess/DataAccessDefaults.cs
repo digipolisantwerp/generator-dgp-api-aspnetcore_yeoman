@@ -1,5 +1,3 @@
-using System;
-
 namespace StarterKit.DataAccess
 {
     public static class DataAccessDefaults

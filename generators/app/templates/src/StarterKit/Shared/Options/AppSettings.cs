@@ -1,37 +1,41 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
+using Microsoft.Extensions.Hosting;
+using StarterKit.Shared.Constants;
 
-namespace StarterKit.Options
+namespace StarterKit.Shared.Options
 {
-  public class AppSettings
+  public class AppSettings: SettingsBase
   {
     public string AppName { get; set; }
     public string ApplicationId { get; set; }
     public string DataDirectory { get; set; }
     public string TempDirectory { get; set; }
+    public bool LogExceptions { get; set; }
+    public bool DisableGlobalErrorHandling { get; set; }
 
-    public static void RegisterConfiguration(IServiceCollection services, IConfigurationSection section)
+    public static void RegisterConfiguration(IServiceCollection services, IConfigurationSection section, IHostEnvironment environment)
     {
       services.Configure<AppSettings>(settings =>
       {
         settings.LoadFromConfigSection(section);
-        settings.OverrideFromEnvironmentVariables();
+        settings.OverrideFromEnvironmentVariables(environment);
       });
     }
 
-    private void LoadFromConfigSection(IConfigurationSection section)
+    private void LoadFromConfigSection(IConfiguration section)
     {
       section.Bind(this);
     }
 
-    private void OverrideFromEnvironmentVariables()
+    private void OverrideFromEnvironmentVariables(IHostEnvironment environment)
     {
-      var env = Environment.GetEnvironmentVariables();
-      AppName = env.Contains("APPSETTINGS_APPNAME") ? env["APPSETTINGS_APPNAME"].ToString() : AppName;
-      ApplicationId = env.Contains("APPSETTINGS_APPLICATIONID") ? env["APPSETTINGS_APPLICATIONID"].ToString() : ApplicationId;
-      DataDirectory = env.Contains("APPSETTINGS_DATADIRECTORY") ? env["APPSETTINGS_DATADIRECTORY"].ToString() : DataDirectory;
-      TempDirectory = env.Contains("APPSETTINGS_TEMPDIRECTORY") ? env["APPSETTINGS_TEMPDIRECTORY"].ToString() : TempDirectory;
+      AppName = GetValue(AppName, AppSettingsConfigKey.AppName, environment);
+      ApplicationId = GetValue(ApplicationId, AppSettingsConfigKey.ApplicationId, environment); 
+      DataDirectory = GetValue(DataDirectory, AppSettingsConfigKey.DataDirectory, environment);
+      TempDirectory = GetValue(TempDirectory, AppSettingsConfigKey.TempDirectory, environment);
+      LogExceptions = GetValue(LogExceptions, AppSettingsConfigKey.LogExceptions, environment);
+      DisableGlobalErrorHandling = GetValue(DisableGlobalErrorHandling, AppSettingsConfigKey.DisableGlobalErrorHandling, environment);
     }
   }
 }

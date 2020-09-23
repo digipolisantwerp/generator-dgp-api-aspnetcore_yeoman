@@ -1,24 +1,25 @@
+using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using StarterKit.Api.Controllers;
+using StarterKit.Api.Models.Status;
 using StarterKit.Business.Monitoring;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
+using Monitoring = StarterKit.Business.Monitoring.Monitoring;
+using Status = StarterKit.Business.Monitoring.Status;
 
-namespace StarterKit.UnitTests
+namespace StarterKit.UnitTests.Controllers
 {
   public class StatusControllerTest
   {
     [Fact]
     public void CtrThrowsExceptionIfIStatusReaderIsNull()
     {
-      var logger = new Moq.Mock<ILogger<StatusController>>().Object;
-      var mapper = new Moq.Mock<IMapper>().Object;
+      var logger = new Mock<ILogger<StatusController>>().Object;
+      var mapper = new Mock<IMapper>().Object;
 
       Assert.Throws<ArgumentException>(() => new StatusController(null, logger, mapper));
     }
@@ -26,8 +27,8 @@ namespace StarterKit.UnitTests
     [Fact]
     public void CtrThrowsExceptionIfLoggerIsNull()
     {
-      var statusReader = new Moq.Mock<IStatusReader>().Object;
-      var mapper = new Moq.Mock<IMapper>().Object;
+      var statusReader = new Mock<IStatusReader>().Object;
+      var mapper = new Mock<IMapper>().Object;
 
       Assert.Throws<ArgumentException>(() => new StatusController(statusReader, null, mapper));
     }
@@ -35,14 +36,14 @@ namespace StarterKit.UnitTests
     [Fact]
     public async Task GetStatusUsesIStatusReader()
     {
-      var logger = new Moq.Mock<ILogger<StatusController>>().Object;
-      var mapper = new Moq.Mock<IMapper>().Object;
-      var statusReaderMock = new Moq.Mock<IStatusReader>();
+      var logger = new Mock<ILogger<StatusController>>().Object;
+      var mapper = new Mock<IMapper>().Object;
+      var statusReaderMock = new Mock<IStatusReader>();
       statusReaderMock.Setup(x => x.GetStatus()).Returns(Task.FromResult(new Monitoring() { Status = Status.warning })).Verifiable();
 
       var controller = new StatusController(statusReaderMock.Object, logger,mapper);
 
-      var result = (Monitoring)(await controller.GetMonitoring() as OkObjectResult).Value;
+      var result = (Monitoring)(await controller.GetComponentsHealthStatus() as OkObjectResult)?.Value;
 
       statusReaderMock.Verify(x => x.GetStatus(), Times.Once());
     }
@@ -51,15 +52,16 @@ namespace StarterKit.UnitTests
     [Fact]
     public void GetPingReturnsStatusOk()
     {
-      var mapper = new Moq.Mock<IMapper>().Object;
-      var logger = new Moq.Mock<ILogger<StatusController>>().Object;
-      var statusReaderMock = new Moq.Mock<IStatusReader>();
+      var mapper = new Mock<IMapper>().Object;
+      var logger = new Mock<ILogger<StatusController>>().Object;
+      var statusReaderMock = new Mock<IStatusReader>();
 
       var controller = new StatusController(statusReaderMock.Object, logger,mapper);
 
-      var result = (Api.Models.StatusResponse)(controller.GetPing() as OkObjectResult).Value;
+      var result = (StatusResponse)(controller.GetHealthStatus() as OkObjectResult)?.Value;
 
-      Assert.Equal(Api.Models.Status.ok, result.Status);
+      Assert.NotNull(result);
+      Assert.Equal(Api.Models.Status.Status.ok, result.Status);
     }
   }
 }

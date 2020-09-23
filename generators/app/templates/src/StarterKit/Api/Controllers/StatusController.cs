@@ -1,73 +1,75 @@
-using AutoMapper;
-using Digipolis.Errors;
-using Digipolis.Web.Api;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using StarterKit.Api.Models;
-using StarterKit.Business.Monitoring;
-using StarterKit.Shared.Constants;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Dynamic;
 using System.Threading.Tasks;
+using AutoMapper;
+using Digipolis.Errors;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using StarterKit.Api.Models.Status;
+using StarterKit.Business.Monitoring;
+using StarterKit.Shared.Constants;
+using ComponentsHealthStatus = StarterKit.Api.Models.Status.ComponentsHealthStatus;
+using RuntimeInformation = StarterKit.Api.Models.Status.RuntimeInformation;
+using Status = StarterKit.Api.Models.Status.Status;
 
 namespace StarterKit.Api.Controllers
 {
 
-  [Route("[controller]")]
-  [ApiExplorerSettings(IgnoreApi = false)]
+  [Route("v{version:apiVersion}/[controller]")]
+  [ApiController, ApiVersion(Versions.V1)]
   [Authorize]
   public class StatusController : Controller
   {
 
-    private readonly IStatusReader _statusreader;
+    private readonly IStatusReader _statusReader;
     private readonly ILogger<StatusController> _logger;
     private readonly IMapper _mapper;
 
     public StatusController(IStatusReader statusReader, ILogger<StatusController> logger, IMapper mapper)
     {
-      _statusreader = statusReader ?? throw new ArgumentException($"StatusController.Ctr parameter {nameof(statusReader)} cannot be null.");
+      _statusReader = statusReader ?? throw new ArgumentException($"StatusController.Ctr parameter {nameof(statusReader)} cannot be null.");
       _logger = logger ?? throw new ArgumentException($"StatusController.Ctr parameter {nameof(logger)} cannot be null.");
       _mapper = mapper ?? throw new ArgumentException($"StatusController.Ctr parameter {nameof(mapper)} cannot be null.");
     }
 
     /// <summary>
-    /// Get the global API status and the components statusses.
+    /// Get the global API health status.
     /// </summary>
     /// <returns></returns>
-    [HttpGet("monitoring")]
+    [HttpGet("health")]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(Models.Monitoring), 200)]
+    [ProducesResponseType(typeof(StatusResponse), 200)]
     [ProducesResponseType(typeof(Error), 500)]
-    [Versions(Versions.V1)]
-    public async Task<IActionResult> GetMonitoring()
+    [AllowAnonymous]
+    public IActionResult GetHealthStatus()
     {
-      var status = await _statusreader.GetStatus();
+      // TODO: run checks here on all critical services (fe: db, serviceAgent, logging etc)
 
-      var result = _mapper.Map<Api.Models.Monitoring>(status);
+      return Ok(new StatusResponse()
+      {
+        Status = Status.ok
+      });
+    }
+
+    /// <summary>
+    /// Get the global API status and the components statuses.
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("health/components")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(ComponentsHealthStatus), 200)]
+    [ProducesResponseType(typeof(Error), 500)]
+    public async Task<IActionResult> GetComponentsHealthStatus()
+    {
+      var status = await _statusReader.GetStatus();
+
+      var result = _mapper.Map<ComponentsHealthStatus>(status);
 
       return Ok(result);
     }
 
-    /// <summary>
-    /// Get the global API status.
-    /// </summary>
-    /// <returns></returns>
-    [HttpGet("ping")]
-    [Produces("application/json")]
-    [ProducesResponseType(typeof(StatusResponse), 200)]
-    [ProducesResponseType(typeof(Error), 500)]
-    [Versions(Versions.V1)]
-    [AllowAnonymous]
-    public IActionResult GetPing()
-    {
-      return Ok(new StatusResponse()
-      {
-        Status = Models.Status.ok
-      });
-    }
 
     /// <summary>
     /// Get the runtime configuration
@@ -75,30 +77,31 @@ namespace StarterKit.Api.Controllers
     /// <returns></returns>
     [HttpGet("runtime")]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(IDictionary<string, Object>), 200)]
+    [ProducesResponseType(typeof(IDictionary<string, object>), 200)]
     [ProducesResponseType(typeof(Error), 500)]
-    [Versions(Versions.V1)]
     [AllowAnonymous]
     public IActionResult GetRuntimeValues()
     {
-      dynamic values = new ExpandoObject();
+      _logger.LogInformation("Getting runtime information");
 
-      Process curProces = System.Diagnostics.Process.GetCurrentProcess();
-
-      if (curProces != null)
+      var runtimeInformation = new RuntimeInformation
       {
-        values.machineName = Environment.MachineName;
-        values.hostName = System.Net.Dns.GetHostName();
-        values.startTime = curProces.StartTime;
-        values.threadCount = curProces.Threads?.Count ?? -1;
-        values.processorTime = new
-        {
-          user = curProces.UserProcessorTime.ToString(),
-          total = curProces.TotalProcessorTime.ToString()
-        };
+        ReleaseVersion = Environment.GetEnvironmentVariable("RELEASE_VERSION")
+      };
+
+      using (var currentProcess = Process.GetCurrentProcess())
+      {
+        runtimeInformation.MachineName = Environment.MachineName;
+        runtimeInformation.HostName = System.Net.Dns.GetHostName();
+        runtimeInformation.StartTime = currentProcess.StartTime;
+        runtimeInformation.ProcessorCount = Environment.ProcessorCount;
+        runtimeInformation.OperatingSystem = Environment.OSVersion.ToString();
+        runtimeInformation.ThreadCount = currentProcess.Threads?.Count ?? -1;
+        runtimeInformation.UserProcessorTime = currentProcess.UserProcessorTime;
+        runtimeInformation.TotalProcessorTime = currentProcess.TotalProcessorTime;
       }
 
-      return Ok(values);
+      return Ok(runtimeInformation);
     }
   }
 }

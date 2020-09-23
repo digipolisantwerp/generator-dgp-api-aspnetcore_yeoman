@@ -1,19 +1,18 @@
-using Swashbuckle.AspNetCore.Swagger;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using System;
 using System.Linq;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace StarterKit.Shared.Swagger
 {
     public class LowerCaseQueryAndBodyParameterFilter : IOperationFilter
     {
-        public void Apply(Operation operation, OperationFilterContext context)
+        public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
             if (operation.Parameters == null) return;
 
-            foreach (var parameter in operation.Parameters.Where(x => !String.IsNullOrWhiteSpace(x.In) && (x.In.Equals("query") || x.In.Equals("body"))))
+            foreach (var parameter in operation.Parameters.Where(x => x.In != null && (x.In == ParameterLocation.Query)))
             {
-                parameter.Name = parameter.Name.ToLowerInvariant();
+              parameter.Name = parameter.Name.ToLowerInvariant();
             }
         }
     }

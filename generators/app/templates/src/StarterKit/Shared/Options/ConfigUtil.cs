@@ -27,7 +27,7 @@ namespace StarterKit.Shared.Options
 
     public static int GetEnvironmentVariableAsInt(string variableKey, bool canBeNullOrWhiteSpace = false, int defaultWhenNullOrWhiteSpace = 0)
     {
-      string stringValue = GetEnvironmentVariable(variableKey, canBeNullOrWhiteSpace);
+      var stringValue = GetEnvironmentVariable(variableKey, canBeNullOrWhiteSpace);
 
       if (string.IsNullOrWhiteSpace(stringValue)) return defaultWhenNullOrWhiteSpace;
       
@@ -40,7 +40,7 @@ namespace StarterKit.Shared.Options
 
     public static bool GetEnvironmentVariableAsBool(string variableKey, bool canBeNullOrWhiteSpace = false, bool defaultWhenNullOrWhiteSpace = false)
     {
-      string stringValue = GetEnvironmentVariable(variableKey, canBeNullOrWhiteSpace);
+      var stringValue = GetEnvironmentVariable(variableKey, canBeNullOrWhiteSpace);
 
       if (string.IsNullOrWhiteSpace(stringValue)) return defaultWhenNullOrWhiteSpace;
 
@@ -53,14 +53,14 @@ namespace StarterKit.Shared.Options
 
     public static T GetEnvironmentVariable<T>(string variableKey, Func<string, T> convertToType, bool canBeNullOrWhiteSpace = false)
     {
-      string stringValue = GetEnvironmentVariable(variableKey, canBeNullOrWhiteSpace);
+      var stringValue = GetEnvironmentVariable(variableKey, canBeNullOrWhiteSpace);
 
       return convertToType(stringValue); ;
     }
 
     public static void FillFromEnvironment(string variableKey, string dictionaryKey, Dictionary<string, string> environmentDict, bool canBeNullOrWhiteSpace = false)
     {
-      string stringValue = GetEnvironmentVariable(variableKey, canBeNullOrWhiteSpace);
+      var stringValue = GetEnvironmentVariable(variableKey, canBeNullOrWhiteSpace);
 
       environmentDict.Add(dictionaryKey, stringValue);
     }

@@ -1,21 +1,23 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <DebugType>portable</DebugType>
     <AssemblyName>StarterKit.IntegrationTests</AssemblyName>
     <PackageId>StarterKit.IntegrationTests</PackageId>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
     <AssetTargetFallback>$(AssetTargetFallback);dotnet5.4;portable-net451+win8</AssetTargetFallback>
-    <RuntimeFrameworkVersion>2.2.5</RuntimeFrameworkVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.2.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
+    <PackageReference Include="FluentAssertions" Version="5.10.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.1.5" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
+    <PackageReference Include="Moq" Version="4.14.5" />
+    <PackageReference Include="Utf8Json" Version="1.3.7" />
     <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -26,6 +28,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\StarterKit\StarterKit.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Shared\Options\" />
   </ItemGroup>
 
 </Project>
