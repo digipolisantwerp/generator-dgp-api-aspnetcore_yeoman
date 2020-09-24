@@ -1,8 +1,8 @@
+using Digipolis.Errors.Exceptions;
 using System;
 using System.Collections.Generic;
-using Digipolis.Errors.Exceptions;
 
-namespace StarterKit.Framework.Exceptions
+namespace StarterKit.Shared.Exceptions.Models
 {
   public class KeyNotFoundException : BaseException
   {
