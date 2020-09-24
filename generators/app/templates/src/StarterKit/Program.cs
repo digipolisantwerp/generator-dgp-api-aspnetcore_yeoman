@@ -1,16 +1,14 @@
-using System;
-using System.IO;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
-using Serilog.Formatting.Compact;
 using StarterKit.Shared.Constants;
-using StarterKit.DataAccess.Options;
 using StarterKit.Startup;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace StarterKit
 {

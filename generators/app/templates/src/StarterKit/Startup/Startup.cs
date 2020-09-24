@@ -1,17 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
 using AutoMapper;
 using Digipolis.ApplicationServices;
 using Digipolis.Correlation;
-using Digipolis.DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Rewrite;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,12 +13,13 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Serilog.Sinks.Elasticsearch;
-using StarterKit.DataAccess;
-using StarterKit.DataAccess.Options;
 using StarterKit.Shared.Extensions;
 using StarterKit.Shared.Options;
 using StarterKit.Shared.Swagger;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 
 namespace StarterKit.Startup
 {
