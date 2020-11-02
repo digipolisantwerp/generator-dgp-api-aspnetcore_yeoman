@@ -70,15 +70,6 @@ namespace StarterKit
             //--dataaccess-config--
             config.AddEnvironmentVariables();
           })
-          .ConfigureLogging((hostingContext, logging) =>
-          {
-            logging.ClearProviders();
-            logging.SetMinimumLevel(LogLevel.Debug);
-
-            logging.AddConfiguration(hostingContext.Configuration.GetSection(ConfigurationSectionKey.Logging));
-            logging.AddConsole();
-            logging.AddDebug();
-          })
           .CaptureStartupErrors(true)
           .UseConfiguration(hostingConfig)
           .UseUrls(serverUrls);

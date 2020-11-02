@@ -30,24 +30,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="168f486b-076f-4357-9b0f-97f5981e10ca" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/Api/Controllers/DbExamplesController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/Api/Controllers/ValuesController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/Enrichers/TypeEnricher.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/Entities/MyEntity.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/Formatter/DigipolisFormatter.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/Framework/Extensions/StringExtensions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/Middleware/RequestResponseLoggingMiddleware.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/ServiceAgents/DemoTodo.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/ServiceAgents/IDemoTodo.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/Shared/LoggingHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/DataAccess/EntityContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/EntityContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Shared/Exceptions/Handler/ExceptionHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Shared/Exceptions/Handler/ExceptionHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Shared/Exceptions/Handler/IExceptionHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Shared/Exceptions/Handler/IExceptionHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/StarterKit.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/StarterKit.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Startup/LoggingEngineExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Startup/LoggingEngineExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Startup/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Startup/Startup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StarterKit/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Program.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/StarterKit/_config/logging.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/_config/logging.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/_config/serviceagents.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/_config/serviceagents.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,12 +46,13 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/StarterKit/_config/serviceagents.json" />
-        <option value="$PROJECT_DIR$/src/StarterKit/_config/logging.json" />
         <option value="$PROJECT_DIR$/src/StarterKit/Startup/LoggingEngineExtensions.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/EntityContext.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/Api/Controllers/DbExamplesController.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/Api/Controllers/ValuesController.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/Startup/Startup.cs" />
+        <option value="$PROJECT_DIR$/src/StarterKit/_config/logging.json" />
+        <option value="$PROJECT_DIR$/src/StarterKit/Program.cs" />
       </list>
     </option>
   </component>
@@ -159,7 +145,7 @@
       <workItem from="1603811516001" duration="1369000" />
       <workItem from="1603981718338" duration="1246000" />
       <workItem from="1604062624307" duration="793000" />
-      <workItem from="1604304530255" duration="7109000" />
+      <workItem from="1604304530255" duration="8431000" />
     </task>
     <servers />
   </component>

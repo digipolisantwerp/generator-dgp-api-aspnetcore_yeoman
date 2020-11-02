@@ -12,16 +12,16 @@
         "Name": "Console",
         "Args": {
           "nodeUris": "http://localhost:9200",
-          "indexFormat": "logstash-application-netloggertestapi-{0:yyyy.MM.dd}",
-          "templateName": "netloggertestapi-template",
+          "indexFormat": "logstash-application-starterkit-{0:yyyy.MM.dd}",
+          "templateName": "starterkit-template",
           "typeName": "AppLogEvent",
           "batchPostingLimit": 50,
           "period": 5,
-          "bufferBaseFilename": "C:/Temp/LogDigipolis/netloggertestapi-buffer-application",
+          "bufferBaseFilename": "C:/Temp/LogDigipolis/starterkit-buffer-application",
           "bufferLogShippingInterval": 5000,
           "restrictedToMinimumLevel": "Information",
           "connectionGlobalHeaders": "",
-          "formatter": "MyTestApi.Formatter.DigipolisFormatter, MyTestApi"
+          "formatter": "StarterKit.Formatter.DigipolisFormatter, StarterKit"
         }
       }
     ],
