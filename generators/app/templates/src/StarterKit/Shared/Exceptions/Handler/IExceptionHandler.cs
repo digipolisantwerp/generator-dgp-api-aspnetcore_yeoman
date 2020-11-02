@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace StarterKit.Shared.Exceptions
+namespace StarterKit.Shared.Exceptions.Handler
 {
   public interface IExceptionHandler
   {

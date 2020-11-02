@@ -1,25 +1,5 @@
 {
-  "Logging": {
-    "Console": {
-      "IncludeScopes": false,
-      "LogLevel": {
-        "Default": "Debug",
-        "System": "Information",
-        "Microsoft": "Information"
-      }
-    },
-    "Debug": {
-      "LogLevel": {
-        "Default": "Debug"
-      }
-    },
-    "LogLevel": {
-      "Default": "Debug",
-      "System": "Information",
-      "Microsoft": "Information"
-    }
-  },
-  "SystemLog": {
+  "Serilog": {
     "MinimumLevel": {
       "Default": "Debug",
       "Override": {
@@ -29,51 +9,23 @@
     },
     "WriteTo": [
       {
-        "Name": "LiterateConsole"
-      },
-      {
-        "Name": "Elasticsearch",
+        "Name": "Console",
         "Args": {
           "nodeUris": "http://localhost:9200",
-          "indexFormat": "logstash-application-starterkit-{0:yyyy.MM.dd}",
-          "templateName": "starterkit-template",
-          "typeName": "SystemLogEvent",
-          "batchPostingLimit": 50,
-          "period": 5,
-          "bufferBaseFilename": "C:/Temp/LogDigipolis/starterkit-buffer-system",
-          "bufferLogShippingInterval": 5000,
-          "restrictedToMinimumLevel": "Information",
-          "connectionGlobalHeaders": ""
-        }
-      }
-    ],
-    "Enrich": [ "FromLogContext" ]
-  },
-  "ApplicationLog": {
-    "MinimumLevel": {
-      "Default": "Debug",
-      "Override": {
-        "System": "Information",
-        "Microsoft": "Information"
-      }
-    },
-    "WriteTo": [
-      {
-        "Name": "Elasticsearch",
-        "Args": {
-          "nodeUris": "http://localhost:9200",
-          "indexFormat": "logstash-application-starterkit-{0:yyyy.MM.dd}",
-          "templateName": "starterkit-template",
+          "indexFormat": "logstash-application-netloggertestapi-{0:yyyy.MM.dd}",
+          "templateName": "netloggertestapi-template",
           "typeName": "AppLogEvent",
           "batchPostingLimit": 50,
           "period": 5,
-          "bufferBaseFilename": "C:/Temp/LogDigipolis/starterkit-buffer-application",
+          "bufferBaseFilename": "C:/Temp/LogDigipolis/netloggertestapi-buffer-application",
           "bufferLogShippingInterval": 5000,
           "restrictedToMinimumLevel": "Information",
-          "connectionGlobalHeaders": ""
+          "connectionGlobalHeaders": "",
+          "formatter": "MyTestApi.Formatter.DigipolisFormatter, MyTestApi"
         }
       }
     ],
     "Enrich": [ "FromLogContext" ]
   }
 }
+

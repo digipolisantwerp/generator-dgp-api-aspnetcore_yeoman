@@ -1,22 +1,6 @@
 ﻿{
-	"Service1": {
-        "AuthScheme": "basic",
-        "Domain": "DEV",
-		"User": "user.O",
-		"Password": "pwd",
-		"Scheme": "http://",
-        "Host": "esb-app1-o.antwerpen.be",
-        "Port": "80",
-		"Path": "/path1/"
-	},
-	"Service2": {
-        "AuthScheme": "basic",
-        "Domain": "DEV",
-		"User": "user.O",
-		"Password": "pwd",
-		"Scheme": "http://",
-        "Host": "esb-app1-o.antwerpen.be",
-        "Port": "80",
-		"Path": "/path2/"
-	}
+  "DemoTodo": {
+    "Scheme": "https",
+    "Host": "jsonplaceholder.typicode.com",
+  }
 }

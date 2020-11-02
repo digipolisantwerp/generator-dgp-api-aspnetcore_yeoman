@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using StarterKit.Shared.Options;
 
-namespace StarterKit.Shared.Exceptions
+namespace StarterKit.Shared.Exceptions.Handler
 {
   // Pulled out of Digipolis.Web package untill updated to .net core 3.1
   // https://github.com/digipolisantwerp/web_aspnetcore/blob/master/src/Digipolis.Web/Exceptions/ExceptionHandler.cs

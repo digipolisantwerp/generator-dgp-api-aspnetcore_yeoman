@@ -1,20 +1,32 @@
 using Digipolis.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using StarterKit.Entities;
 
 namespace StarterKit.DataAccess
 {
-    public class EntityContext : EntityContextBase<EntityContext>
+   public class EntityContext : EntityContextBase<EntityContext>
     {
-        public EntityContext(DbContextOptions<EntityContext> options) : base(options)
-        { }
+        private readonly ILoggerFactory _loggerFactory;
+
+        public EntityContext(DbContextOptions<EntityContext> options, ILoggerFactory loggerFactory) : base(options)
+        {
+            _loggerFactory = loggerFactory;
+        }
 
         // Add your DbSets here
+        public DbSet<MyEntity> MyEntities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema(DataAccessDefaults.SchemaName);       // Remove this if you are not using schema's
-        
+
             // Your modelBuilder code here
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLoggerFactory(_loggerFactory);
         }
     }
 }

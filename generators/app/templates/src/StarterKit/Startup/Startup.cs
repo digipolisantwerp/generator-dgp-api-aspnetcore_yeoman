@@ -20,6 +20,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Digipolis.DataAccess;
+using Digipolis.ServiceAgents;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
+using StarterKit.DataAccess;
+using StarterKit.Middleware;
+using StarterKit.Shared;
 
 namespace StarterKit.Startup
 {
@@ -81,10 +88,23 @@ namespace StarterKit.Startup
       #region Logging
 
       services.AddLoggingEngine();
+      services.AddTransient<LoggingHandler>();
 
       #endregion
 
       //--dataaccess-startupServices--
+
+      services.AddServiceAgents(settings =>
+      {
+        settings.FileName = Path.Combine(Directory.GetCurrentDirectory(), "_config/serviceagents.json");
+      }, (serviceProvider, client) =>
+      {
+        //do nothing, not needed
+      },(text, httpClientBuilder) =>
+      {
+        //add logging handler
+        httpClientBuilder.AddHttpMessageHandler<LoggingHandler>();
+      });
 
       #region Add routing and versioning
 
@@ -181,6 +201,7 @@ namespace StarterKit.Startup
       Serilog.Debugging.SelfLog.Enable(Console.Out);
 
       app.UseApiExtensions();
+      app.UseMiddleware<RequestResponseLoggingMiddleware>();
 
       // CORS
       app.UseCors((policy) =>
