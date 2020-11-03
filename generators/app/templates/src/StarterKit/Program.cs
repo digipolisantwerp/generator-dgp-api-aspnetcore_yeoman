@@ -24,7 +24,7 @@ namespace StarterKit
       Log.Logger = new LoggerConfiguration()
         .MinimumLevel.Debug()
         .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-        .ReadFrom.Configuration(loggingConfig, ConfigurationSectionKey.Logging)
+        .ReadFrom.Configuration(loggingConfig, ConfigurationSectionKey.Serilog)
         .Enrich.FromLogContext()
         // In this way logs can be picked up by an external system. Fe: FileBeat
         //.WriteTo.Console(new RenderedCompactJsonFormatter())
@@ -69,15 +69,6 @@ namespace StarterKit
             config.AddJsonFile(JsonFilesKey.AppJson);
             //--dataaccess-config--
             config.AddEnvironmentVariables();
-          })
-          .ConfigureLogging((hostingContext, logging) =>
-          {
-            logging.ClearProviders();
-            logging.SetMinimumLevel(LogLevel.Debug);
-
-            logging.AddConfiguration(hostingContext.Configuration.GetSection(ConfigurationSectionKey.Logging));
-            logging.AddConsole();
-            logging.AddDebug();
           })
           .CaptureStartupErrors(true)
           .UseConfiguration(hostingConfig)

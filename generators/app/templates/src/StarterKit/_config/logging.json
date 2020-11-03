@@ -1,25 +1,5 @@
 {
-  "Logging": {
-    "Console": {
-      "IncludeScopes": false,
-      "LogLevel": {
-        "Default": "Debug",
-        "System": "Information",
-        "Microsoft": "Information"
-      }
-    },
-    "Debug": {
-      "LogLevel": {
-        "Default": "Debug"
-      }
-    },
-    "LogLevel": {
-      "Default": "Debug",
-      "System": "Information",
-      "Microsoft": "Information"
-    }
-  },
-  "SystemLog": {
+  "Serilog": {
     "MinimumLevel": {
       "Default": "Debug",
       "Override": {
@@ -29,37 +9,7 @@
     },
     "WriteTo": [
       {
-        "Name": "LiterateConsole"
-      },
-      {
-        "Name": "Elasticsearch",
-        "Args": {
-          "nodeUris": "http://localhost:9200",
-          "indexFormat": "logstash-application-starterkit-{0:yyyy.MM.dd}",
-          "templateName": "starterkit-template",
-          "typeName": "SystemLogEvent",
-          "batchPostingLimit": 50,
-          "period": 5,
-          "bufferBaseFilename": "C:/Temp/LogDigipolis/starterkit-buffer-system",
-          "bufferLogShippingInterval": 5000,
-          "restrictedToMinimumLevel": "Information",
-          "connectionGlobalHeaders": ""
-        }
-      }
-    ],
-    "Enrich": [ "FromLogContext" ]
-  },
-  "ApplicationLog": {
-    "MinimumLevel": {
-      "Default": "Debug",
-      "Override": {
-        "System": "Information",
-        "Microsoft": "Information"
-      }
-    },
-    "WriteTo": [
-      {
-        "Name": "Elasticsearch",
+        "Name": "Console",
         "Args": {
           "nodeUris": "http://localhost:9200",
           "indexFormat": "logstash-application-starterkit-{0:yyyy.MM.dd}",
@@ -70,10 +20,30 @@
           "bufferBaseFilename": "C:/Temp/LogDigipolis/starterkit-buffer-application",
           "bufferLogShippingInterval": 5000,
           "restrictedToMinimumLevel": "Information",
-          "connectionGlobalHeaders": ""
+          "connectionGlobalHeaders": "",
+          "formatter": "StarterKit.Formatter.DigipolisFormatter, StarterKit"
+        }
+      }
+    ],
+    "Enrich": [ "FromLogContext" ]
+  },
+  "SerilogDev": {
+    "MinimumLevel": {
+      "Default": "Debug",
+      "Override": {
+        "System": "Information",
+        "Microsoft": "Information"
+      }
+    },
+    "WriteTo": [
+      {
+        "Name": "Console",
+        "Args": {
+          "restrictedToMinimumLevel": "Information"
         }
       }
     ],
     "Enrich": [ "FromLogContext" ]
   }
 }
+
