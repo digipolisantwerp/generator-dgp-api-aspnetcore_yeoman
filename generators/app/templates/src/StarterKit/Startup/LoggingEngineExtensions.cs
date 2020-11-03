@@ -34,14 +34,23 @@ namespace StarterKit.Startup
       return services;
     }
 
-    public static ILoggerFactory AddLoggingEngine(this ILoggerFactory loggerFactory, IApplicationBuilder app, IHostApplicationLifetime appLifetime, IConfiguration config)
+    public static ILoggerFactory AddLoggingEngine(
+      this ILoggerFactory loggerFactory,
+      IApplicationBuilder app,
+      IHostApplicationLifetime appLifetime,
+      IConfiguration config,
+      IHostEnvironment hostingEnv)
     {
       var enrich = app.ApplicationServices.GetServices<ILogEventEnricher>().ToArray();
+
+      var logSection = hostingEnv.EnvironmentName == Environments.Development
+        ? ConfigurationSectionKey.SerilogDev
+        : ConfigurationSectionKey.Serilog;
 
       Log.Logger = new LoggerConfiguration()
         .Enrich.With(enrich)
         .Enrich.With(new TypeEnricher())
-        .ReadFrom.Configuration(config)
+        .ReadFrom.Configuration(config, logSection)
         .CreateLogger();
 
       loggerFactory.AddSerilog(dispose: true);

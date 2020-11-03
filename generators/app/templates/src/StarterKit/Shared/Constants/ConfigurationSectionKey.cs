@@ -10,5 +10,7 @@ namespace StarterKit.Shared.Constants
     public const string ConnectionString = "ConnectionString";
     public const string SystemLog = "SystemLog";
     public const string Logging = "Logging";
+    public const string Serilog = "Serilog";
+    public const string SerilogDev = "SerilogDev";
   }
 }

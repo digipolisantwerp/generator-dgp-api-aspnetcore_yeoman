@@ -195,7 +195,7 @@ namespace StarterKit.Startup
                           IApiVersionDescriptionProvider versionProvider,
                           ILoggerFactory loggerFactory, IHostApplicationLifetime appLifetime)
     {
-      loggerFactory.AddLoggingEngine(app, appLifetime, Configuration);
+      loggerFactory.AddLoggingEngine(app, appLifetime, Configuration, Environment);
 
       // Enable Serilog selflogging to console.
       Serilog.Debugging.SelfLog.Enable(Console.Out);

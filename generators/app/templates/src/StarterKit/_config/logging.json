@@ -26,6 +26,24 @@
       }
     ],
     "Enrich": [ "FromLogContext" ]
+  },
+  "SerilogDev": {
+    "MinimumLevel": {
+      "Default": "Debug",
+      "Override": {
+        "System": "Information",
+        "Microsoft": "Information"
+      }
+    },
+    "WriteTo": [
+      {
+        "Name": "Console",
+        "Args": {
+          "restrictedToMinimumLevel": "Information"
+        }
+      }
+    ],
+    "Enrich": [ "FromLogContext" ]
   }
 }
 
