@@ -1,6 +1,8 @@
 using Digipolis.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Events;
 using StarterKit.Entities;
 
 namespace StarterKit.DataAccess
@@ -27,6 +29,10 @@ namespace StarterKit.DataAccess
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLoggerFactory(_loggerFactory);
+            if (Log.IsEnabled(LogEventLevel.Debug))
+            {
+              optionsBuilder.EnableSensitiveDataLogging();
+            }
         }
     }
 }
