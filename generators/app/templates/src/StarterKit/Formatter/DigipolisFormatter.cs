@@ -38,7 +38,7 @@ namespace StarterKit.Formatter
         /// <param name="formatProvider">Supplies culture-specific formatting information, or null.</param>
         public DigipolisFormatter(
             string closingDelimiter = null,
-            bool renderMessage = false,
+            bool renderMessage = true,
             IFormatProvider formatProvider = null)
             : this(false, closingDelimiter, renderMessage, formatProvider)
         {
@@ -60,7 +60,7 @@ namespace StarterKit.Formatter
         public DigipolisFormatter(
             bool omitEnclosingObject,
             string closingDelimiter = null,
-            bool renderMessage = false,
+            bool renderMessage = true,
             IFormatProvider formatProvider = null)
         {
             _omitEnclosingObject = omitEnclosingObject;
@@ -111,11 +111,15 @@ namespace StarterKit.Formatter
             var delim = "";
             WriteTimestamp(logEvent.Timestamp, ref delim, output);
             WriteLevel(logEvent.Level, ref delim, output);
-            WriteMessageTemplate(logEvent.MessageTemplate.Text, ref delim, output);
+
             if (_renderMessage)
             {
                 var message = logEvent.RenderMessage(_formatProvider);
                 WriteRenderedMessage(message, ref delim, output);
+            }
+            else
+            {
+                WriteMessageTemplate(logEvent.MessageTemplate.Text, ref delim, output);
             }
 
             if (logEvent.Exception != null)
@@ -245,7 +249,7 @@ namespace StarterKit.Formatter
         [Obsolete(ExtensionPointObsoletionMessage)]
         protected virtual void WriteRenderedMessage(string message, ref string delim, TextWriter output)
         {
-            WriteJsonProperty("RenderedMessage", message, ref delim, output);
+            WriteJsonProperty("Message", message, ref delim, output);
         }
 
         /// <summary>
@@ -416,7 +420,7 @@ namespace StarterKit.Formatter
         {
             JsonValueFormatter.WriteQuotedJsonString(value, output);
         }
-        
+
         static string FormatProperty(string property)
         {
             return property.ToCamelCase();
