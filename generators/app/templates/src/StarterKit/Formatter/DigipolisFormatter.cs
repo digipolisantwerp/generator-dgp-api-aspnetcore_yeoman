@@ -19,6 +19,23 @@ namespace StarterKit.Formatter
                                                        "be removed in a future Serilog version. Write a custom formatter " +
                                                        "based on JsonValueFormatter instead. See https://github.com/serilog/serilog/pull/819.";
 
+        private static readonly string[] AllowedProperties =
+        {
+            "CorrelationId",
+            "ApplicationId",
+            "Host",
+            "Headers",
+            "Path",
+            "Payload",
+            "Protocol",
+            "Method",
+            "Status",
+            "Duration",
+            "Type",
+            "MessageUser",
+            "MessageUserIsAuthenticated",
+        };
+
         // Ignore obsoletion errors
         #pragma warning disable 618
 
@@ -94,6 +111,29 @@ namespace StarterKit.Formatter
         }
 
         /// <summary>
+        /// filter out properties that we don't want
+        /// Do include the properties used to create the messageTemplate as we do want to keep those
+        /// </summary>
+        /// <param name="properties"></param>
+        /// <param name="tokens"></param>
+        /// <returns></returns>
+        private IReadOnlyDictionary<string, LogEventPropertyValue> GetFilteredProperties(
+            IReadOnlyDictionary<string, LogEventPropertyValue> properties, IEnumerable<MessageTemplateToken> tokens)
+        {
+            var propertiesAllowed = AllowedProperties.ToList();
+            propertiesAllowed.AddRange(
+                tokens.OfType<PropertyToken>()
+                        .Select(t => t.PropertyName)
+                );
+
+            return properties
+                .Where(p => propertiesAllowed.Contains(p.Key))
+                .ToDictionary(
+                    k => k.Key,
+                    v => v.Value);
+        }
+
+        /// <summary>
         /// Format the log event into the output.
         /// </summary>
         /// <param name="logEvent">The event to format.</param>
@@ -112,7 +152,8 @@ namespace StarterKit.Formatter
             WriteTimestamp(logEvent.Timestamp, ref delim, output);
             WriteLevel(logEvent.Level, ref delim, output);
 
-            if (_renderMessage)
+            // if it is an exception or a database log we need to keep a small message template text, else render
+            if (logEvent.Exception == null)
             {
                 var message = logEvent.RenderMessage(_formatProvider);
                 WriteRenderedMessage(message, ref delim, output);
@@ -125,19 +166,9 @@ namespace StarterKit.Formatter
             if (logEvent.Exception != null)
                 WriteException(logEvent.Exception, ref delim, output);
 
-            if (logEvent.Properties.Count != 0)
-                WriteProperties(logEvent.Properties, output);
-
-            var tokensWithFormat = logEvent.MessageTemplate.Tokens
-                .OfType<PropertyToken>()
-                .Where(pt => pt.Format != null)
-                .GroupBy(pt => pt.PropertyName)
-                .ToArray();
-
-            if (tokensWithFormat.Length != 0)
-            {
-                WriteRenderings(tokensWithFormat, logEvent.Properties, output);
-            }
+            var properties = GetFilteredProperties(logEvent.Properties, logEvent.MessageTemplate.Tokens);
+            if (properties.Count != 0)
+                WriteProperties(properties, output);
 
             if (!_omitEnclosingObject)
             {
@@ -258,7 +289,7 @@ namespace StarterKit.Formatter
         [Obsolete(ExtensionPointObsoletionMessage)]
         protected virtual void WriteMessageTemplate(string template, ref string delim, TextWriter output)
         {
-            WriteJsonProperty("MessageTemplate", template, ref delim, output);
+            WriteJsonProperty("Message", template, ref delim, output);
         }
 
         /// <summary>

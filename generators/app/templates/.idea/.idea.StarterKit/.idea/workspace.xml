@@ -29,19 +29,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="168f486b-076f-4357-9b0f-97f5981e10ca" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/contentModel.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/indexLayout.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/projectSettingsUpdater.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.StarterKit/riderModule.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/DataAccess/EntityContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/EntityContext.cs" afterDir="false" />
-    </list>
+    <list default="true" id="168f486b-076f-4357-9b0f-97f5981e10ca" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -160,7 +148,7 @@
       <workItem from="1604304530255" duration="8899000" />
       <workItem from="1604322166942" duration="4100000" />
       <workItem from="1604397848467" duration="1094000" />
-      <workItem from="1604411821146" duration="3095000" />
+      <workItem from="1604411821146" duration="3355000" />
     </task>
     <servers />
   </component>
