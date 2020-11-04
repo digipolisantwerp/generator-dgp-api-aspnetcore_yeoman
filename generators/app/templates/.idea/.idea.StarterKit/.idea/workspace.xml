@@ -29,7 +29,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="168f486b-076f-4357-9b0f-97f5981e10ca" name="Default Changelist" comment="" />
+    <list default="true" id="168f486b-076f-4357-9b0f-97f5981e10ca" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,19 +40,23 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ADFB7DB4-1E77-42A8-A18D-384321C0FE0C/bd/303a758a/ConsoleSink.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8BD019AB-B1B5-40C7-A9DB-076BAE2B53A3/f7/e6d240f7/AddAuthServiceEnricherExt.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/StarterKit/_config/serviceagents.json" />
         <option value="$PROJECT_DIR$/src/StarterKit/Api/Controllers/DbExamplesController.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/Api/Controllers/ValuesController.cs" />
-        <option value="$PROJECT_DIR$/src/StarterKit/Formatter/DigipolisFormatter.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/_config/logging.json" />
         <option value="$PROJECT_DIR$/src/StarterKit/Shared/Constants/ConfigurationSectionKey.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/Program.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/Startup/Startup.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/Startup/LoggingEngineExtensions.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/EntityContext.cs" />
+        <option value="$PROJECT_DIR$/src/StarterKit/Formatter/DigipolisFormatter.cs" />
       </list>
     </option>
   </component>
@@ -149,6 +155,7 @@
       <workItem from="1604322166942" duration="4100000" />
       <workItem from="1604397848467" duration="1094000" />
       <workItem from="1604411821146" duration="3355000" />
+      <workItem from="1604496071868" duration="646000" />
     </task>
     <servers />
   </component>

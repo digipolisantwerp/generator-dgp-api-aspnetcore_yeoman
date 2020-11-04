@@ -115,16 +115,25 @@ namespace StarterKit.Formatter
         /// Do include the properties used to create the messageTemplate as we do want to keep those
         /// </summary>
         /// <param name="properties"></param>
-        /// <param name="tokens"></param>
+        /// <param name="template"></param>
         /// <returns></returns>
         private IReadOnlyDictionary<string, LogEventPropertyValue> GetFilteredProperties(
+            IReadOnlyDictionary<string, LogEventPropertyValue> properties)
+        {
+
+            return properties
+                .Where(p => AllowedProperties.Contains(p.Key))
+                .ToDictionary(
+                    k => k.Key,
+                    v => v.Value);
+        }
+
+        private IReadOnlyDictionary<string, LogEventPropertyValue> GetMessageProperties(
             IReadOnlyDictionary<string, LogEventPropertyValue> properties, IEnumerable<MessageTemplateToken> tokens)
         {
-            var propertiesAllowed = AllowedProperties.ToList();
-            propertiesAllowed.AddRange(
+            var propertiesAllowed =
                 tokens.OfType<PropertyToken>()
-                        .Select(t => t.PropertyName)
-                );
+                    .Select(t => t.PropertyName);
 
             return properties
                 .Where(p => propertiesAllowed.Contains(p.Key))
@@ -153,20 +162,27 @@ namespace StarterKit.Formatter
             WriteLevel(logEvent.Level, ref delim, output);
 
             // if it is an exception or a database log we need to keep a small message template text, else render
-            if (logEvent.Exception == null)
+            if (logEvent.Exception != null)
+            {
+                WriteMessageTemplate(logEvent.MessageTemplate.Text, ref delim, output);
+                WriteException(logEvent.Exception, ref delim, output);
+            }
+            else if (logEvent.MessageTemplate.Text.StartsWith("Failed executing DbCommand"))
+            {
+                WriteRenderedMessage("Failed executing DbCommand", ref delim, output);
+            }
+            else
             {
                 var message = logEvent.RenderMessage(_formatProvider);
                 WriteRenderedMessage(message, ref delim, output);
             }
-            else
-            {
-                WriteMessageTemplate(logEvent.MessageTemplate.Text, ref delim, output);
-            }
 
-            if (logEvent.Exception != null)
-                WriteException(logEvent.Exception, ref delim, output);
+            //now write all message properties as a messageProperties object
+            var messageProperties = GetMessageProperties(logEvent.Properties, logEvent.MessageTemplate.Tokens);
+            if (messageProperties.Count != 0)
+                WriteMessageProperties(messageProperties, output);
 
-            var properties = GetFilteredProperties(logEvent.Properties, logEvent.MessageTemplate.Tokens);
+            var properties = GetFilteredProperties(logEvent.Properties);
             if (properties.Count != 0)
                 WriteProperties(properties, output);
 
@@ -239,6 +255,18 @@ namespace StarterKit.Formatter
 
                 output.Write("]");
             }
+        }
+
+        /// <summary>
+        /// Writes all message template specific properties to a separate object
+        /// </summary>
+        protected virtual void WriteMessageProperties(
+            IReadOnlyDictionary<string, LogEventPropertyValue> properties,
+            TextWriter output)
+        {
+            output.Write(",\"{0}\":{{", (object) "messageProperties");
+            WritePropertiesValues(properties, output);
+            output.Write("}");
         }
 
         /// <summary>
