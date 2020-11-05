@@ -10,12 +10,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Core;
-using Serilog.Filters;
-using StarterKit.Enrichers;
 using StarterKit.Shared.Constants;
 using StarterKit.Shared.Options;
 
-namespace StarterKit.Startup
+namespace StarterKit.Logging
 {
   public static class LoggingEngineExtensions
   {
@@ -75,12 +73,6 @@ namespace StarterKit.Startup
       // if this is deployed, overwrite some settings from the environment variables
       if (hostingEnv.EnvironmentName != Environments.Development)
       {
-
-        // SYSTEM
-        ConfigUtil.FillFromEnvironment($"LOG_SYSTEM_BUFFERPATH", "Serilog:WriteTo:1:Args:bufferBaseFilename", environmentDict);
-        ConfigUtil.FillFromEnvironment($"LOG_SYSTEM_HEADERS", "Serilog:WriteTo:1:Args:connectionGlobalHeaders", environmentDict);
-        ConfigUtil.FillFromEnvironment($"LOG_SYSTEM_URL", "Serilog:WriteTo:1:Args:nodeUris", environmentDict);
-
         ConfigUtil.FillFromEnvironment($"LOG_SYSTEM_MINIMUMLEVEL_DEFAULT", "Serilog:MinimumLevel:Default", environmentDict);
         ConfigUtil.FillFromEnvironment($"LOG_SYSTEM_MINIMUMLEVEL_OVERRIDE_SYSTEM", "Serilog:MinimumLevel:Override:System", environmentDict);
         ConfigUtil.FillFromEnvironment($"LOG_SYSTEM_MINIMUMLEVEL_OVERRIDE_MICROSOFT", "Serilog:MinimumLevel:Override:Microsoft", environmentDict);

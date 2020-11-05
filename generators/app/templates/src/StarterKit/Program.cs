@@ -9,6 +9,7 @@ using StarterKit.Startup;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using StarterKit.Logging;
 
 namespace StarterKit
 {

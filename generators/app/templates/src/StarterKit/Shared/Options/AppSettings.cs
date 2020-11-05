@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -13,6 +14,9 @@ namespace StarterKit.Shared.Options
     public string TempDirectory { get; set; }
     public bool LogExceptions { get; set; }
     public bool DisableGlobalErrorHandling { get; set; }
+
+    public RequestLogging RequestLogging { get; set; }
+
 
     public static void RegisterConfiguration(IServiceCollection services, IConfigurationSection section, IHostEnvironment environment)
     {
@@ -30,12 +34,37 @@ namespace StarterKit.Shared.Options
 
     private void OverrideFromEnvironmentVariables(IHostEnvironment environment)
     {
+      const string APPSETTINGS = "APPSETTINGS";
+
       AppName = GetValue(AppName, AppSettingsConfigKey.AppName, environment);
-      ApplicationId = GetValue(ApplicationId, AppSettingsConfigKey.ApplicationId, environment); 
+      ApplicationId = GetValue(ApplicationId, AppSettingsConfigKey.ApplicationId, environment);
       DataDirectory = GetValue(DataDirectory, AppSettingsConfigKey.DataDirectory, environment);
       TempDirectory = GetValue(TempDirectory, AppSettingsConfigKey.TempDirectory, environment);
       LogExceptions = GetValue(LogExceptions, AppSettingsConfigKey.LogExceptions, environment);
       DisableGlobalErrorHandling = GetValue(DisableGlobalErrorHandling, AppSettingsConfigKey.DisableGlobalErrorHandling, environment);
+
+      bool parseResultSuccess;
+
+      parseResultSuccess = bool.TryParse(Environment.GetEnvironmentVariable($"{APPSETTINGS}_REQUESTLOGGING_INCOMINGENABLED"), out bool incomingRequestLoggingEnabled);
+
+      if (parseResultSuccess)
+      {
+        RequestLogging.IncomingEnabled = incomingRequestLoggingEnabled;
+      }
+
+      parseResultSuccess = bool.TryParse(Environment.GetEnvironmentVariable($"{APPSETTINGS}_REQUESTLOGGING_OUTGOINGENABLED"), out bool outgoingRequestLoggingEnabled);
+
+      if (parseResultSuccess)
+      {
+        RequestLogging.OutgoingEnabled = outgoingRequestLoggingEnabled;
+      }
+
     }
+  }
+
+  public class RequestLogging
+  {
+    public bool IncomingEnabled { get; set; }
+    public bool OutgoingEnabled { get; set; }
   }
 }

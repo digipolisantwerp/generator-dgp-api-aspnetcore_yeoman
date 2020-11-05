@@ -1,10 +1,7 @@
-﻿using System.Data;
-using System.Data.Common;
-using Microsoft.EntityFrameworkCore;
-using Serilog.Core;
+﻿using Serilog.Core;
 using Serilog.Events;
 
-namespace StarterKit.Enrichers
+namespace StarterKit.Logging
 {
     public class TypeEnricher : ILogEventEnricher
     {
@@ -16,11 +13,6 @@ namespace StarterKit.Enrichers
             {
                 case null:
                     type = "application";
-                    break;
-                case DbUpdateException a:
-                case DbException b:
-                case DBConcurrencyException c:
-                    type = "privacy";
                     break;
                 default:
                     type = "technical";

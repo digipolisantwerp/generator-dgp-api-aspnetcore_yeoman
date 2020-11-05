@@ -11,7 +11,7 @@ using Serilog.Formatting.Json;
 using Serilog.Parsing;
 using StarterKit.Framework.Extensions;
 
-namespace StarterKit.Formatter
+namespace StarterKit.Logging
 {
     public class DigipolisFormatter : ITextFormatter
     {

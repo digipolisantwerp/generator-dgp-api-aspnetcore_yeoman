@@ -66,15 +66,9 @@
               <e p="DataAccessSettings.npg.cs" t="Include" />
             </e>
           </e>
-          <e p="Enrichers" t="Include">
-            <e p="TypeEnricher.cs" t="Include" />
-          </e>
           <e p="Entities" t="Include">
             <e p=".gitkeep" t="Include" />
             <e p="MyEntity.cs" t="Include" />
-          </e>
-          <e p="Formatter" t="Include">
-            <e p="DigipolisFormatter.cs" t="Include" />
           </e>
           <e p="Framework" t="Include">
             <e p="Extensions" t="Include">
@@ -83,8 +77,12 @@
               <e p="StringExtensions.cs" t="Include" />
             </e>
           </e>
-          <e p="Middleware" t="Include">
+          <e p="Logging" t="Include">
+            <e p="DigipolisFormatter.cs" t="Include" />
+            <e p="HttpMessageLoggingHandler.cs" t="Include" />
+            <e p="LoggingEngineExtensions.cs" t="Include" />
             <e p="RequestResponseLoggingMiddleware.cs" t="Include" />
+            <e p="TypeEnricher.cs" t="Include" />
           </e>
           <e p="obj" t="ExcludeRecursive">
             <e p="Debug" t="Include">
@@ -140,7 +138,6 @@
             <e p="Extensions" t="Include">
               <e p="ApiExtensionsBuilder.cs" t="Include" />
             </e>
-            <e p="LoggingHandler.cs" t="Include" />
             <e p="Options" t="Include">
               <e p="AppSettings.cs" t="Include" />
               <e p="ConfigUtil.cs" t="Include" />
@@ -157,7 +154,6 @@
           <e p="Startup" t="Include">
             <e p="ApiExceptionMapper.cs" t="Include" />
             <e p="DependencyRegistration.cs" t="Include" />
-            <e p="LoggingEngineExtensions.cs" t="Include" />
             <e p="Startup.cs" t="Include" />
           </e>
           <e p="web.config" t="Include" />

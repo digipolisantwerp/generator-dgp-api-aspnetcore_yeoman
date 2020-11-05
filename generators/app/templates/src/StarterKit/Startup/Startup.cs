@@ -25,7 +25,7 @@ using Digipolis.ServiceAgents;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using StarterKit.DataAccess;
-using StarterKit.Middleware;
+using StarterKit.Logging;
 using StarterKit.Shared;
 
 namespace StarterKit.Startup
@@ -88,7 +88,7 @@ namespace StarterKit.Startup
       #region Logging
 
       services.AddLoggingEngine();
-      services.AddTransient<LoggingHandler>();
+      services.AddTransient<HttpMessageLoggingHandler>();
 
       #endregion
 
@@ -103,7 +103,7 @@ namespace StarterKit.Startup
       },(text, httpClientBuilder) =>
       {
         //add logging handler
-        httpClientBuilder.AddHttpMessageHandler<LoggingHandler>();
+        httpClientBuilder.AddHttpMessageHandler<HttpMessageLoggingHandler>();
       });
 
       #region Add routing and versioning

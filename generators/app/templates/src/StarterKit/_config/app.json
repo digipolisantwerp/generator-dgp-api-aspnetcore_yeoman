@@ -5,6 +5,10 @@
     "DataDirectory": "/data/",
     "LogExceptions": "true",
     "TempDirectory": "/temp/",
-    "DisableGlobalErrorHandling": "false"
+    "DisableGlobalErrorHandling": "false",
+    "RequestLogging": {
+      "IncomingEnabled": true,
+      "OutgoingEnabled": true
+    }
   }
 }
