@@ -21,10 +21,8 @@
           </e>
           <e p="Api" t="Include">
             <e p="Controllers" t="Include">
-              <e p="DbExamplesController.cs" t="Include" />
               <e p="ExamplesController.cs" t="Include" />
               <e p="StatusController.cs" t="Include" />
-              <e p="ValuesController.cs" t="Include" />
             </e>
             <e p="Filters" t="Include">
               <e p="ValidateModelStateAttribute.cs" t="Include" />
@@ -68,7 +66,6 @@
           </e>
           <e p="Entities" t="Include">
             <e p=".gitkeep" t="Include" />
-            <e p="MyEntity.cs" t="Include" />
           </e>
           <e p="Framework" t="Include">
             <e p="Extensions" t="Include">

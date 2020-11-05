@@ -20,13 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Digipolis.DataAccess;
 using Digipolis.ServiceAgents;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations;
-using StarterKit.DataAccess;
 using StarterKit.Logging;
-using StarterKit.Shared;
 
 namespace StarterKit.Startup
 {
@@ -93,18 +88,6 @@ namespace StarterKit.Startup
       #endregion
 
       //--dataaccess-startupServices--
-
-      services.AddServiceAgents(settings =>
-      {
-        settings.FileName = Path.Combine(Directory.GetCurrentDirectory(), "_config/serviceagents.json");
-      }, (serviceProvider, client) =>
-      {
-        //do nothing, not needed
-      },(text, httpClientBuilder) =>
-      {
-        //add logging handler
-        httpClientBuilder.AddHttpMessageHandler<HttpMessageLoggingHandler>();
-      });
 
       #region Add routing and versioning
 

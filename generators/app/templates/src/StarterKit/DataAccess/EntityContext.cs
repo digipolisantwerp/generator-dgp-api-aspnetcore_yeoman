@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
-using StarterKit.Entities;
 
 namespace StarterKit.DataAccess
 {
@@ -17,7 +16,6 @@ namespace StarterKit.DataAccess
         }
 
         // Add your DbSets here
-        public DbSet<MyEntity> MyEntities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

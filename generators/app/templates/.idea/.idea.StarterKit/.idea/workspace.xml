@@ -30,9 +30,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="168f486b-076f-4357-9b0f-97f5981e10ca" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/Logger/DigipolisFormatterTest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StarterKit/Api/Controllers/DbExamplesController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StarterKit/Api/Controllers/ValuesController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StarterKit/DataAccess/EntityContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/EntityContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StarterKit/Entities/MyEntity.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StarterKit/Startup/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Startup/Startup.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +56,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ADFB7DB4-1E77-42A8-A18D-384321C0FE0C/bd/303a758a/ConsoleSink.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8BD019AB-B1B5-40C7-A9DB-076BAE2B53A3/f7/e6d240f7/AddAuthServiceEnricherExt.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/AE7C1865-47F4-431A-A8D8-66290FEC562D/37/HttpClient.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/A9C37662-579A-499A-A4DE-B3C85349280D/338/TextWriter.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -63,9 +67,7 @@
         <option value="$PROJECT_DIR$/src/StarterKit/Api/Controllers/ValuesController.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/Shared/Constants/ConfigurationSectionKey.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/Program.cs" />
-        <option value="$PROJECT_DIR$/src/StarterKit/Startup/Startup.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/Startup/LoggingEngineExtensions.cs" />
-        <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/EntityContext.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/Formatter/DigipolisFormatter.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/Enrichers/TypeEnricher.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/Shared/LoggingHandler.cs" />
@@ -81,6 +83,8 @@
         <option value="$PROJECT_DIR$/src/StarterKit/Logging/HttpMessageLoggingHandler.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/_config/logging.json" />
         <option value="$PROJECT_DIR$/test/StarterKit.UnitTests/Logger/DigipolisFormatterTest.cs" />
+        <option value="$PROJECT_DIR$/src/StarterKit/Startup/Startup.cs" />
+        <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/EntityContext.cs" />
       </list>
     </option>
   </component>
@@ -180,7 +184,7 @@
       <workItem from="1604397848467" duration="1094000" />
       <workItem from="1604411821146" duration="3355000" />
       <workItem from="1604496071868" duration="2850000" />
-      <workItem from="1604563311873" duration="18572000" />
+      <workItem from="1604563311873" duration="19700000" />
     </task>
     <servers />
   </component>
