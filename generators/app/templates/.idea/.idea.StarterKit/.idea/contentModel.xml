@@ -96,8 +96,6 @@
             <e p="launchSettings.json" t="Include" />
           </e>
           <e p="ServiceAgents" t="Include">
-            <e p="DemoTodo.cs" t="Include" />
-            <e p="IDemoTodo.cs" t="Include" />
             <e p="Options" t="Include">
               <e p="ServiceAgentBaseSettings.cs" t="Include" />
               <e p="ServiceAgentSettingsExtensions.cs" t="Include" />
@@ -201,7 +199,9 @@
             <e p="StatusControllerTest.cs" t="Include" />
           </e>
           <e p="Logger" t="Include">
+            <e p="DbContextTest.cs" t="Include" />
             <e p="DigipolisFormatterTest.cs" t="Include" />
+            <e p="HttpMessageLoggingHandlerTest.cs" t="Include" />
           </e>
           <e p="obj" t="ExcludeRecursive">
             <e p="Debug" t="Include">
