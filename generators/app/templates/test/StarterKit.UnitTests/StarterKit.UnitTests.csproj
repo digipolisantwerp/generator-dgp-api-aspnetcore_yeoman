@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="JetBrains.DotMemoryUnit" Version="3.1.20200127.214830" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.9" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
     <PackageReference Include="Moq" Version="4.14.5" />
     <PackageReference Include="xunit" Version="2.4.1" />
@@ -26,6 +27,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\StarterKit\StarterKit.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DataAccess" />
   </ItemGroup>
 
 </Project>

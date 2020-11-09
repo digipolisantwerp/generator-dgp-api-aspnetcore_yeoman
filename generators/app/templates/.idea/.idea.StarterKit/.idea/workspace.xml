@@ -30,73 +30,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="168f486b-076f-4357-9b0f-97f5981e10ca" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/Context/ContextBase.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/Context/IContextBase.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/Context/ModelBuilderExtensions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/DataAccess.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/Options/ConnectionString.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/Options/Defaults.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/Query/Filter.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/Query/Includes.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/Query/ReplaceExpressionVisitor.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/Repositories/EntityRepositoryBase.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/Repositories/GenericEntityRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/Repositories/IRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/Repositories/IRepositoryInjection.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/Repositories/RepositoryBase.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/Entities/EntityBase.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/Entities/IEntityBase.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StarterKit/Exceptions/RepositoryNotFoundException.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Api/Controllers/ExamplesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Api/Controllers/ExamplesController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Api/Controllers/StatusController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Api/Controllers/StatusController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Api/Filters/ValidateModelStateAttribute.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Api/Filters/ValidateModelStateAttribute.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Api/Mapping/StatusProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Api/Mapping/StatusProfile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Api/Models/Examples/Example.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Api/Models/Examples/Example.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Api/Models/ModelBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Api/Models/ModelBase.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Api/Models/Page.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Api/Models/Page.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Api/Models/Status/Component.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Api/Models/Status/Component.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Api/Models/Status/ComponentsHealthStatus.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Api/Models/Status/ComponentsHealthStatus.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Api/Models/Status/Status.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Api/Models/Status/Status.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Api/Models/Status/StatusResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Api/Models/Status/StatusResponse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Business/Monitoring/Component.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Business/Monitoring/Component.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Business/Monitoring/IStatusReader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Business/Monitoring/IStatusReader.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Business/Monitoring/Monitoring.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Business/Monitoring/Monitoring.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Business/Monitoring/Status.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Business/Monitoring/Status.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Business/Monitoring/StatusReader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Business/Monitoring/StatusReader.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/DataAccess/DataAccessDefaults.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/DataAccessDefaults.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/DataAccess/EntityContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/EntityContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/DataAccess/Options/DataAccessSettings.ms.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/Options/DataAccessSettings.ms.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/DataAccess/Options/DataAccessSettings.npg.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/Options/DataAccessSettings.npg.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Framework/Extensions/CollectionExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Framework/Extensions/CollectionExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Framework/Extensions/ExceptionExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Framework/Extensions/ExceptionExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Properties/GlobalSuppressions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Properties/GlobalSuppressions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/ServiceAgents/Options/ServiceAgentBaseSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/ServiceAgents/Options/ServiceAgentBaseSettings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/ServiceAgents/Options/ServiceAgentSettingsExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/ServiceAgents/Options/ServiceAgentSettingsExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Shared/Constants/AuthScheme.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Shared/Constants/AuthScheme.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Shared/Constants/JsonFilesKey.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Shared/Constants/JsonFilesKey.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Shared/Constants/MediaType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Shared/Constants/MediaType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Shared/Exceptions/Handler/ExceptionHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Shared/Exceptions/Handler/ExceptionHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Shared/Exceptions/Models/BadGatewayException.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Shared/Exceptions/Models/BadGatewayException.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Shared/Exceptions/Models/Defaults.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Shared/Exceptions/Models/Defaults.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Shared/Exceptions/Models/GatewayTimeoutException.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Shared/Exceptions/Models/GatewayTimeoutException.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Shared/Exceptions/Models/InvalidArgumentException.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Shared/Exceptions/Models/InvalidArgumentException.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Shared/Exceptions/Models/InvalidConfigurationException.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Shared/Exceptions/Models/InvalidConfigurationException.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Shared/Exceptions/Models/KeyNotFoundException.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Shared/Exceptions/Models/KeyNotFoundException.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Shared/Exceptions/Models/ServiceAgentException.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Shared/Exceptions/Models/ServiceAgentException.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Shared/Extensions/ApiExtensionsBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Shared/Extensions/ApiExtensionsBuilder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Shared/Options/AppSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Shared/Options/AppSettings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Shared/Options/ConfigUtil.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Shared/Options/ConfigUtil.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Shared/SettingsBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Shared/SettingsBase.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Shared/Swagger/AddAuthorizationHeaderRequired.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Shared/Swagger/AddAuthorizationHeaderRequired.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Shared/Swagger/AddCorrelationHeaderRequired.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Shared/Swagger/AddCorrelationHeaderRequired.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Shared/Swagger/LowerCaseQueryAndBodyParameterFilter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Shared/Swagger/LowerCaseQueryAndBodyParameterFilter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Shared/Swagger/RemoveSyncRootParameter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Shared/Swagger/RemoveSyncRootParameter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Startup/ApiExceptionMapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Startup/ApiExceptionMapper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Startup/DependencyRegistration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Startup/DependencyRegistration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Startup/LoggingEngineExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Startup/LoggingEngineExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/Startup/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Startup/Startup.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/web.config" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/web.config" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Exceptions/EntityNotFoundExceptionTests/InstantiationTests.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Options/ConnectionStringTests/InstantiationTests.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Options/ConnectionStringTests/ToStringTests.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Paging/DataPagerTests.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Repositories/GenericEntityRepositoryTests.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Startup/ServiceCollectionExtensionsTests/AddDataAccessOptionsTests.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestData/dbconfig1.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestData/dbconfig2.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/Foo.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/FooRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/IFooRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/InMemoryContext.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/TestContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/StarterKit.UnitTests/StarterKit.UnitTests.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/StarterKit.UnitTests.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,6 +120,8 @@
         <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/Repositories/EntityRepositoryBase.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/Repositories/IRepository.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/Entities/EntityBase.cs" />
+        <option value="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/InMemoryContext.cs" />
+        <option value="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/FooRepository.cs" />
       </list>
     </option>
   </component>
@@ -273,7 +223,7 @@
       <workItem from="1604496071868" duration="2850000" />
       <workItem from="1604563311873" duration="21215000" />
       <workItem from="1604650153438" duration="12768000" />
-      <workItem from="1604913489528" duration="8173000" />
+      <workItem from="1604913489528" duration="8659000" />
     </task>
     <servers />
   </component>

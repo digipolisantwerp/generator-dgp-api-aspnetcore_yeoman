@@ -32,7 +32,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="4.1.1" />
     <!-- dataaccess-package -->
     <!-- dataaccess-tools -->
-    <PackageReference Include="Digipolis.DataAccess" Version="4.0.0" />
     <PackageReference Include="Digipolis.ApplicationServices" Version="2.0.0" />
     <PackageReference Include="Digipolis.Common" Version="3.0.0" />
     <PackageReference Include="Digipolis.Correlation" Version="5.3.1" />
