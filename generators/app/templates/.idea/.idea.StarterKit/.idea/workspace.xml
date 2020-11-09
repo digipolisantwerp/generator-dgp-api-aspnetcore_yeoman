@@ -30,13 +30,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="168f486b-076f-4357-9b0f-97f5981e10ca" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/Logger/DbContextTest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/Logger/HttpMessageLoggingHandlerTest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/ServiceAgents/DemoTodo.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StarterKit/ServiceAgents/IDemoTodo.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/StarterKit.UnitTests/StarterKit.UnitTests.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/StarterKit.UnitTests.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StarterKit/Logging/DigipolisFormatter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Logging/DigipolisFormatter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StarterKit/Logging/HttpMessageLoggingHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Logging/HttpMessageLoggingHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StarterKit/Logging/LoggingEngineExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Logging/LoggingEngineExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StarterKit/Logging/RequestResponseLoggingMiddleware.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Logging/RequestResponseLoggingMiddleware.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StarterKit/Logging/TypeEnricher.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/Logging/TypeEnricher.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +49,6 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/80027CDD-172F-4CD2-B5A6-1C03E0FF1FAD/23/dbc9e6f9/ScalarValue.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/377B61B6-13EA-444F-826F-377D9474FFCA/31/7aeb5dd7/ExecutionTimer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/80027CDD-172F-4CD2-B5A6-1C03E0FF1FAD/7f/2a431b83/LogEvent.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/80027CDD-172F-4CD2-B5A6-1C03E0FF1FAD/f8/c2a49ad5/JsonFormatter.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FFA4F6F7-8432-4AB8-ADD1-33B8E97D557C/68/11414497/ConfigurationLoggerConfigurationExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/7278F2E5-EE52-4646-8F71-0B5B8E56986C/9/InMemoryDbContextOptionsExtensions.cs" root0="SKIP_HIGHLIGHTING" />
@@ -61,7 +59,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0998BF91-1F01-4E78-84D2-695C95A67016/4c/6e1113ea/DbSet`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ADFB7DB4-1E77-42A8-A18D-384321C0FE0C/6a/3fc83106/ConsoleLoggerConfigurationExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/12891E82-5FCE-44A5-81E5-BBBB579C1D49/f0/5e0ad572/JsonConvert.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8C007C53-4D3D-4AF3-B4C0-B266EB015FCE/d4/2a38e6ab/AddSerilogExtensionsExt.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/377B61B6-13EA-444F-826F-377D9474FFCA/8b/31e18c55/TestInvoker`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6783F137-1409-4FF2-B939-C717A51BB483/7/OptionsFactory.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -344,13 +342,15 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state width="968" height="528" key="XDebugger.FullValuePopup/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604654973718" />
-    <state x="2544" y="253" width="671" height="534" key="find.popup" timestamp="1604311313517">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state x="624" y="253" width="671" height="534" key="find.popup" timestamp="1604938463587">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="624" y="253" width="671" height="534" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1604938463587" />
     <state x="2544" y="253" width="671" height="534" key="find.popup/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604311313517" />
-    <state x="2543" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1604588162105">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1604936595381">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1604936595381" />
     <state x="2543" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604588162105" />
   </component>
   <component name="XDebuggerManager">

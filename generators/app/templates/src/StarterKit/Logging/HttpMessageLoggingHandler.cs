@@ -16,7 +16,9 @@ namespace StarterKit.Logging
 
     public HttpMessageLoggingHandler(IOptions<AppSettings> appSettings)
     {
-      _appSettings = appSettings.Value  ?? throw new ArgumentNullException($"{nameof(HttpMessageLoggingHandler)}.Ctr parameter {nameof(appSettings)} cannot be null.");
+      _appSettings = appSettings.Value ??
+                     throw new ArgumentNullException(
+                       $"{nameof(HttpMessageLoggingHandler)}.Ctr parameter {nameof(appSettings)} cannot be null.");
     }
 
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,

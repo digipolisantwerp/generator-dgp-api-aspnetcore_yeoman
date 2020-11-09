@@ -18,8 +18,11 @@ namespace StarterKit.Logging
 
     public RequestResponseLoggingMiddleware(RequestDelegate next, IOptions<AppSettings> appSettings)
     {
-      _next = next ?? throw new ArgumentNullException($"{nameof(RequestResponseLoggingMiddleware)}.Ctr parameter {nameof(next)} cannot be null.");
-      _appSettings = appSettings.Value  ?? throw new ArgumentNullException($"{nameof(RequestResponseLoggingMiddleware)}.Ctr parameter {nameof(appSettings)} cannot be null.");
+      _next = next ??
+              throw new ArgumentNullException(
+                $"{nameof(RequestResponseLoggingMiddleware)}.Ctr parameter {nameof(next)} cannot be null.");
+      _appSettings = appSettings.Value ?? throw new ArgumentNullException(
+        $"{nameof(RequestResponseLoggingMiddleware)}.Ctr parameter {nameof(appSettings)} cannot be null.");
     }
 
     public async Task Invoke(HttpContext context)

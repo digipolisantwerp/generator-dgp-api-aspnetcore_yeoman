@@ -19,8 +19,6 @@ namespace StarterKit.Logging
   {
     public static IServiceCollection AddLoggingEngine(this IServiceCollection services)
     {
-
-
       services.AddSerilogExtensions(options =>
       {
         options.AddApplicationServicesEnricher();
@@ -64,7 +62,8 @@ namespace StarterKit.Logging
     /// <param name="configurationBuilder"></param>
     /// <param name="hostingEnv"></param>
     /// <returns></returns>
-    public static IConfigurationBuilder AddLoggingConfiguration(this IConfigurationBuilder configurationBuilder, IWebHostEnvironment hostingEnv)
+    public static IConfigurationBuilder AddLoggingConfiguration(this IConfigurationBuilder configurationBuilder,
+      IWebHostEnvironment hostingEnv)
     {
       var env = Environment.GetEnvironmentVariables();
 
@@ -73,9 +72,12 @@ namespace StarterKit.Logging
       // if this is deployed, overwrite some settings from the environment variables
       if (hostingEnv.EnvironmentName != Environments.Development)
       {
-        ConfigUtil.FillFromEnvironment($"LOG_SYSTEM_MINIMUMLEVEL_DEFAULT", "Serilog:MinimumLevel:Default", environmentDict);
-        ConfigUtil.FillFromEnvironment($"LOG_SYSTEM_MINIMUMLEVEL_OVERRIDE_SYSTEM", "Serilog:MinimumLevel:Override:System", environmentDict);
-        ConfigUtil.FillFromEnvironment($"LOG_SYSTEM_MINIMUMLEVEL_OVERRIDE_MICROSOFT", "Serilog:MinimumLevel:Override:Microsoft", environmentDict);
+        ConfigUtil.FillFromEnvironment($"LOG_SYSTEM_MINIMUMLEVEL_DEFAULT", "Serilog:MinimumLevel:Default",
+          environmentDict);
+        ConfigUtil.FillFromEnvironment($"LOG_SYSTEM_MINIMUMLEVEL_OVERRIDE_SYSTEM",
+          "Serilog:MinimumLevel:Override:System", environmentDict);
+        ConfigUtil.FillFromEnvironment($"LOG_SYSTEM_MINIMUMLEVEL_OVERRIDE_MICROSOFT",
+          "Serilog:MinimumLevel:Override:Microsoft", environmentDict);
       }
 
       // load in this order so that json-settings will be overridden with environment settings when getting the configuration section
@@ -83,7 +85,6 @@ namespace StarterKit.Logging
       configurationBuilder.AddInMemoryCollection(environmentDict);
       return configurationBuilder;
     }
-
   }
 }
 
