@@ -8,7 +8,7 @@ using StarterKit.Shared.Constants;
 
 namespace StarterKit.DataAccess.Options
 {
-  public class DataAccessSettingsNpg: SettingsBase
+  public class DataAccessSettingsNpg : SettingsBase
   {
     public string Host { get; set; }
     public string Port { get; set; }
@@ -16,7 +16,8 @@ namespace StarterKit.DataAccess.Options
     public string User { get; set; }
     public string Password { get; set; }
 
-    public static void RegisterConfiguration(IServiceCollection services, IConfigurationSection section, IHostEnvironment environment)
+    public static void RegisterConfiguration(IServiceCollection services, IConfigurationSection section,
+      IHostEnvironment environment)
     {
       services.Configure<DataAccessSettingsNpg>(settings =>
       {

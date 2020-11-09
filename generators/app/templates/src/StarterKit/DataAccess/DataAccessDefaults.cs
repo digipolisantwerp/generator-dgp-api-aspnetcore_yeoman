@@ -1,7 +1,7 @@
 namespace StarterKit.DataAccess
 {
-    public static class DataAccessDefaults
-    {
-        public const string SchemaName = "main";
-    }
+  public static class DataAccessDefaults
+  {
+    public const string SchemaName = "main";
+  }
 }
