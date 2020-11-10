@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using StarterKit.DataAccess.Context;
 using StarterKit.Entities;
 
 namespace StarterKit.DataAccess.Repositories

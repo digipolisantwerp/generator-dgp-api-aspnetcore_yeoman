@@ -5,7 +5,9 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Digipolis.Paging.Predicates;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using StarterKit.DataAccess.Context;
 using StarterKit.Entities;
 
 namespace StarterKit.DataAccess.Repositories
@@ -14,7 +16,7 @@ namespace StarterKit.DataAccess.Repositories
   public abstract class EntityRepositoryBase<TContext, TEntity> : EntityRepositoryBase<TContext, TEntity, int>
     where TContext : DbContext where TEntity : class, IEntityBase<int>, new()
   {
-    protected EntityRepositoryBase(ILogger<DataAccess> logger, TContext context) : base(logger, context)
+    protected EntityRepositoryBase(ILogger<DataAccess> logger, IServiceScopeFactory serviceScopeFactory) : base(logger, serviceScopeFactory)
     {
     }
   }
@@ -22,8 +24,9 @@ namespace StarterKit.DataAccess.Repositories
   public abstract class EntityRepositoryBase<TContext, TEntity, TId> : RepositoryBase<TContext>, IRepository<TEntity, TId>
     where TContext : DbContext where TEntity : class, IEntityBase<TId>, new()
   {
-    protected EntityRepositoryBase(ILogger<DataAccess> logger, TContext context) : base(logger,
-      context)
+
+    protected EntityRepositoryBase(ILogger<DataAccess> logger, IServiceScopeFactory serviceScopeFactory) : base(logger,
+      serviceScopeFactory)
     {
     }
 

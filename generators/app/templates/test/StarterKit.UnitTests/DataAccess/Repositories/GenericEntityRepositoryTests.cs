@@ -34,6 +34,26 @@ namespace StarterKit.UnitTests.DataAccess.Repositories
       _context.SaveChanges();
     }
 
+    [Fact]
+    public void TransactionShouldRollback()
+    {
+      // Arrange
+      AddEntitiesToContext(10);
+
+      _context.BeginTransaction();
+
+      // Act
+      var result = _fooRepository.GetAll();
+
+      _context.Foos.Add(new Foo { Id = 1 });
+      _context.SaveChanges();
+
+      _context.Commit();
+
+      // Assert
+      Assert.NotNull(result);
+    }
+
     [Theory]
     [InlineData(0)]
     [InlineData(10)]

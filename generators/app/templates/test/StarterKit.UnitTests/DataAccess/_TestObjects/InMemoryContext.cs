@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using StarterKit.DataAccess.Context;
 
@@ -26,6 +27,7 @@ namespace StarterKit.UnitTests.DataAccess._TestObjects
       // InMemory database and the new service provider.
       var builder = new DbContextOptionsBuilder<InMemoryContext>();
       builder.UseInMemoryDatabase("TestDatabase")
+        .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
         .UseInternalServiceProvider(serviceProvider);
 
       return new InMemoryContext(builder.Options);

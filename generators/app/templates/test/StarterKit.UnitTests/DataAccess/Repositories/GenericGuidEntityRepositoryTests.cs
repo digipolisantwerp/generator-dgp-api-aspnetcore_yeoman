@@ -19,6 +19,7 @@ namespace StarterKit.UnitTests.DataAccess.Repositories
       _context = InMemoryContext.Create();
       ((IRepositoryInjection) _fooRepository).SetContext(_context);
 
+      // add sorted GUID dictionary so we can easily access all ID's and verify the correct order
       _keys = new Dictionary<int, Guid>
       {
         { 1, new Guid("366f2b72-c8df-4dbc-9b54-1940a897cab3")},
@@ -39,7 +40,7 @@ namespace StarterKit.UnitTests.DataAccess.Repositories
       // Add entities to context
       for (var i = 1; i <= count; i++)
       {
-        var foo = new FooGuid()
+        var foo = new FooGuid
         {
           Id = _keys[i]
         };
