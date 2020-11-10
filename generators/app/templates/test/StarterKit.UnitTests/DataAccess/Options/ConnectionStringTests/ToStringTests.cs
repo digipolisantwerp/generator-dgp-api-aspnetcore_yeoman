@@ -1,4 +1,4 @@
-﻿using Digipolis.DataAccess;
+﻿using StarterKit.DataAccess.Options;
 using Xunit;
 
 namespace StarterKit.UnitTests.DataAccess.Options.ConnectionStringTests

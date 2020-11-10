@@ -30,21 +30,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="168f486b-076f-4357-9b0f-97f5981e10ca" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Exceptions/EntityNotFoundExceptionTests/InstantiationTests.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Options/ConnectionStringTests/InstantiationTests.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Options/ConnectionStringTests/ToStringTests.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Paging/DataPagerTests.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Repositories/GenericEntityRepositoryTests.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Startup/ServiceCollectionExtensionsTests/AddDataAccessOptionsTests.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestData/dbconfig1.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestData/dbconfig2.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/Foo.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/FooRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/IFooRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/InMemoryContext.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/TestContext.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Repositories/GenericGuidEntityRepositoryTests.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/FooGuid.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/FooGuidRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/StarterKit.UnitTests/StarterKit.UnitTests.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/StarterKit.UnitTests.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StarterKit/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StarterKit/DataAccess/Options/ConnectionString.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/Options/ConnectionString.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StarterKit/DataAccess/Options/DataAccessSettings.ms.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/Options/DataAccessSettings.ms.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StarterKit/DataAccess/Options/DataAccessSettings.npg.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/Options/DataAccessSettings.npg.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StarterKit/DataAccess/Repositories/EntityRepositoryBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/Repositories/EntityRepositoryBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StarterKit/DataAccess/Repositories/GenericEntityRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/Repositories/GenericEntityRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StarterKit/DataAccess/Repositories/IRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/DataAccess/Repositories/IRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StarterKit/StarterKit.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/StarterKit/StarterKit.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Exceptions/EntityNotFoundExceptionTests/InstantiationTests.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Options/ConnectionStringTests/InstantiationTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Options/ConnectionStringTests/InstantiationTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Options/ConnectionStringTests/ToStringTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Options/ConnectionStringTests/ToStringTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Paging/DataPagerTests.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Repositories/GenericEntityRepositoryTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Repositories/GenericEntityRepositoryTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Startup/ServiceCollectionExtensionsTests/AddDataAccessOptionsTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Startup/ServiceCollectionExtensionsTests/AddDataAccessOptionsTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/Foo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/Foo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/FooRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/FooRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/InMemoryContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/InMemoryContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/TestContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/TestContext.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,23 +73,17 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/AE7C1865-47F4-431A-A8D8-66290FEC562D/37/HttpClient.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/A9C37662-579A-499A-A4DE-B3C85349280D/338/TextWriter.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0998BF91-1F01-4E78-84D2-695C95A67016/4c/6e1113ea/DbSet`1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2A925EDF-E558-4632-978E-98FD8509CDF4/fc/f7b7a6c3/ExceptionAggregator.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ADFB7DB4-1E77-42A8-A18D-384321C0FE0C/6a/3fc83106/ConsoleLoggerConfigurationExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/12891E82-5FCE-44A5-81E5-BBBB579C1D49/f0/5e0ad572/JsonConvert.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/252D2D6B-91B4-43E4-91D2-CFD081958B22/dc/72a96106/OrderPredicate.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8C007C53-4D3D-4AF3-B4C0-B266EB015FCE/d4/2a38e6ab/AddSerilogExtensionsExt.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/377B61B6-13EA-444F-826F-377D9474FFCA/8b/31e18c55/TestInvoker`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6783F137-1409-4FF2-B939-C717A51BB483/7/OptionsFactory.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/StarterKit/_config/serviceagents.json" />
-        <option value="$PROJECT_DIR$/src/StarterKit/Api/Controllers/DbExamplesController.cs" />
-        <option value="$PROJECT_DIR$/src/StarterKit/Api/Controllers/ValuesController.cs" />
-        <option value="$PROJECT_DIR$/src/StarterKit/Shared/Constants/ConfigurationSectionKey.cs" />
-        <option value="$PROJECT_DIR$/src/StarterKit/Program.cs" />
-        <option value="$PROJECT_DIR$/src/StarterKit/Startup/LoggingEngineExtensions.cs" />
-        <option value="$PROJECT_DIR$/src/StarterKit/Formatter/DigipolisFormatter.cs" />
-        <option value="$PROJECT_DIR$/src/StarterKit/Enrichers/TypeEnricher.cs" />
-        <option value="$PROJECT_DIR$/src/StarterKit/Shared/LoggingHandler.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/Middleware/RequestResponseLoggingMiddleware.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/Shared/HttpMessageLoggingHandler.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/Logging/TypeEnricher.cs" />
@@ -102,7 +103,6 @@
         <option value="$PROJECT_DIR$/test/StarterKit.UnitTests/Logger/DbContextTest.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/Context/ModelBuilderExtensions.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/Exceptions/RepositoryNotFoundException.cs" />
-        <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/Options/ConnectionString.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/Options/Defaults.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/Query/Includes.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/Query/ReplaceExpressionVisitor.cs" />
@@ -113,15 +113,28 @@
         <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/Context/IContextBase.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/Context/ContextBase.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/EntityContext.cs" />
-        <option value="$PROJECT_DIR$/src/StarterKit/Entities/IEntityBase.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/DataAccess.cs" />
-        <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/Repositories/GenericEntityRepository.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/Repositories/RepositoryBase.cs" />
-        <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/Repositories/EntityRepositoryBase.cs" />
-        <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/Repositories/IRepository.cs" />
         <option value="$PROJECT_DIR$/src/StarterKit/Entities/EntityBase.cs" />
-        <option value="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/InMemoryContext.cs" />
+        <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/Options/ConnectionString.cs" />
+        <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/Options/DataAccessSettings.ms.cs" />
+        <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/Options/DataAccessSettings.npg.cs" />
+        <option value="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/Foo.cs" />
+        <option value="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/TestContext.cs" />
+        <option value="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Options/ConnectionStringTests/InstantiationTests.cs" />
+        <option value="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Options/ConnectionStringTests/ToStringTests.cs" />
+        <option value="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Startup/ServiceCollectionExtensionsTests/AddDataAccessOptionsTests.cs" />
+        <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/Repositories/GenericEntityRepository.cs" />
         <option value="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/FooRepository.cs" />
+        <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/Repositories/EntityRepositoryBase.cs" />
+        <option value="$PROJECT_DIR$/src/StarterKit/Entities/IEntityBase.cs" />
+        <option value="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/FooGuid.cs" />
+        <option value="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/FooGuidRepository.cs" />
+        <option value="$PROJECT_DIR$/src/StarterKit/DataAccess/Repositories/IRepository.cs" />
+        <option value="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Repositories/GenericEntityRepositoryTests.cs" />
+        <option value="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Repositories/BaseRepositoryTests.cs" />
+        <option value="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/_TestObjects/InMemoryContext.cs" />
+        <option value="$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Repositories/GenericGuidEntityRepositoryTests.cs" />
       </list>
     </option>
   </component>
@@ -224,6 +237,7 @@
       <workItem from="1604563311873" duration="21215000" />
       <workItem from="1604650153438" duration="12768000" />
       <workItem from="1604913489528" duration="8659000" />
+      <workItem from="1604994785159" duration="6720000" />
     </task>
     <servers />
   </component>
@@ -248,118 +262,122 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="689" height="464" key="DebuggerActiveHint" timestamp="1604665204717">
+    <state width="689" height="464" key="DebuggerActiveHint" timestamp="1605002148632">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="689" height="464" key="DebuggerActiveHint/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604665204717" />
+    <state width="689" height="464" key="DebuggerActiveHint/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605002148632" />
     <state x="2410" y="179" key="EditorConfigExporter" timestamp="1604565724298">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2410" y="179" key="EditorConfigExporter/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604565724298" />
-    <state width="1877" height="248" key="GridCell.Tab.0.bottom" timestamp="1604667743721">
+    <state width="1877" height="248" key="GridCell.Tab.0.bottom" timestamp="1605002226262">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603197889135" />
-    <state width="1877" height="248" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604667743721" />
+    <state width="1877" height="248" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605002226262" />
     <state width="1877" height="250" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1604601626182" />
-    <state width="1877" height="248" key="GridCell.Tab.0.center" timestamp="1604667743721">
+    <state width="1877" height="248" key="GridCell.Tab.0.center" timestamp="1605002226262">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603197889135" />
-    <state width="1877" height="248" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604667743721" />
+    <state width="1877" height="248" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605002226262" />
     <state width="1877" height="250" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1604601626181" />
-    <state width="1877" height="248" key="GridCell.Tab.0.left" timestamp="1604667743721">
+    <state width="1877" height="248" key="GridCell.Tab.0.left" timestamp="1605002226262">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603197889135" />
-    <state width="1877" height="248" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604667743721" />
+    <state width="1877" height="248" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605002226262" />
     <state width="1877" height="250" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1604601626181" />
-    <state width="1877" height="248" key="GridCell.Tab.0.right" timestamp="1604667743721">
+    <state width="1877" height="248" key="GridCell.Tab.0.right" timestamp="1605002226262">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603197889135" />
-    <state width="1877" height="248" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604667743721" />
+    <state width="1877" height="248" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605002226262" />
     <state width="1877" height="250" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1604601626182" />
-    <state width="1877" height="248" key="GridCell.Tab.1.bottom" timestamp="1604667743721">
+    <state width="1877" height="248" key="GridCell.Tab.1.bottom" timestamp="1605002226263">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="248" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604667743721" />
+    <state width="1877" height="248" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605002226263" />
     <state width="1877" height="250" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1604601626182" />
-    <state width="1877" height="248" key="GridCell.Tab.1.center" timestamp="1604667743721">
+    <state width="1877" height="248" key="GridCell.Tab.1.center" timestamp="1605002226262">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="248" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604667743721" />
+    <state width="1877" height="248" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605002226262" />
     <state width="1877" height="250" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1604601626182" />
-    <state width="1877" height="248" key="GridCell.Tab.1.left" timestamp="1604667743721">
+    <state width="1877" height="248" key="GridCell.Tab.1.left" timestamp="1605002226262">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="248" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604667743721" />
+    <state width="1877" height="248" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605002226262" />
     <state width="1877" height="250" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1604601626182" />
-    <state width="1877" height="248" key="GridCell.Tab.1.right" timestamp="1604667743721">
+    <state width="1877" height="248" key="GridCell.Tab.1.right" timestamp="1605002226262">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="248" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604667743721" />
+    <state width="1877" height="248" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605002226262" />
     <state width="1877" height="250" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1604601626182" />
-    <state width="1877" height="248" key="GridCell.Tab.2.bottom" timestamp="1604667743721">
+    <state width="1877" height="248" key="GridCell.Tab.2.bottom" timestamp="1605002226263">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="248" key="GridCell.Tab.2.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604667743721" />
+    <state width="1877" height="248" key="GridCell.Tab.2.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605002226263" />
     <state width="1877" height="250" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1604601626184" />
-    <state width="1877" height="248" key="GridCell.Tab.2.center" timestamp="1604667743721">
+    <state width="1877" height="248" key="GridCell.Tab.2.center" timestamp="1605002226263">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="248" key="GridCell.Tab.2.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604667743721" />
+    <state width="1877" height="248" key="GridCell.Tab.2.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605002226263" />
     <state width="1877" height="250" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1604601626183" />
-    <state width="1877" height="248" key="GridCell.Tab.2.left" timestamp="1604667743721">
+    <state width="1877" height="248" key="GridCell.Tab.2.left" timestamp="1605002226263">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="248" key="GridCell.Tab.2.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604667743721" />
+    <state width="1877" height="248" key="GridCell.Tab.2.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605002226263" />
     <state width="1877" height="250" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1604601626183" />
-    <state width="1877" height="248" key="GridCell.Tab.2.right" timestamp="1604667743721">
+    <state width="1877" height="248" key="GridCell.Tab.2.right" timestamp="1605002226263">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="248" key="GridCell.Tab.2.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604667743721" />
+    <state width="1877" height="248" key="GridCell.Tab.2.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605002226263" />
     <state width="1877" height="250" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1604601626183" />
-    <state width="1877" height="248" key="GridCell.Tab.3.bottom" timestamp="1604667743722">
+    <state width="1877" height="248" key="GridCell.Tab.3.bottom" timestamp="1605002226263">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="248" key="GridCell.Tab.3.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604667743722" />
+    <state width="1877" height="248" key="GridCell.Tab.3.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605002226263" />
     <state width="1877" height="250" key="GridCell.Tab.3.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1604601626184" />
-    <state width="1877" height="248" key="GridCell.Tab.3.center" timestamp="1604667743721">
+    <state width="1877" height="248" key="GridCell.Tab.3.center" timestamp="1605002226263">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="248" key="GridCell.Tab.3.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604667743721" />
+    <state width="1877" height="248" key="GridCell.Tab.3.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605002226263" />
     <state width="1877" height="250" key="GridCell.Tab.3.center/0.0.1920.1040@0.0.1920.1040" timestamp="1604601626184" />
-    <state width="1877" height="248" key="GridCell.Tab.3.left" timestamp="1604667743721">
+    <state width="1877" height="248" key="GridCell.Tab.3.left" timestamp="1605002226263">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="248" key="GridCell.Tab.3.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604667743721" />
+    <state width="1877" height="248" key="GridCell.Tab.3.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605002226263" />
     <state width="1877" height="250" key="GridCell.Tab.3.left/0.0.1920.1040@0.0.1920.1040" timestamp="1604601626184" />
-    <state width="1877" height="248" key="GridCell.Tab.3.right" timestamp="1604667743721">
+    <state width="1877" height="248" key="GridCell.Tab.3.right" timestamp="1605002226263">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="248" key="GridCell.Tab.3.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604667743721" />
+    <state width="1877" height="248" key="GridCell.Tab.3.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605002226263" />
     <state width="1877" height="250" key="GridCell.Tab.3.right/0.0.1920.1040@0.0.1920.1040" timestamp="1604601626184" />
-    <state width="1877" height="248" key="GridCell.Tab.4.bottom" timestamp="1604667743722">
+    <state width="1877" height="248" key="GridCell.Tab.4.bottom" timestamp="1605002226263">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="248" key="GridCell.Tab.4.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604667743722" />
+    <state width="1877" height="248" key="GridCell.Tab.4.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605002226263" />
     <state width="1877" height="250" key="GridCell.Tab.4.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1604601626185" />
-    <state width="1877" height="248" key="GridCell.Tab.4.center" timestamp="1604667743722">
+    <state width="1877" height="248" key="GridCell.Tab.4.center" timestamp="1605002226263">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="248" key="GridCell.Tab.4.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604667743722" />
+    <state width="1877" height="248" key="GridCell.Tab.4.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605002226263" />
     <state width="1877" height="250" key="GridCell.Tab.4.center/0.0.1920.1040@0.0.1920.1040" timestamp="1604601626185" />
-    <state width="1877" height="248" key="GridCell.Tab.4.left" timestamp="1604667743722">
+    <state width="1877" height="248" key="GridCell.Tab.4.left" timestamp="1605002226263">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="248" key="GridCell.Tab.4.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604667743722" />
+    <state width="1877" height="248" key="GridCell.Tab.4.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605002226263" />
     <state width="1877" height="250" key="GridCell.Tab.4.left/0.0.1920.1040@0.0.1920.1040" timestamp="1604601626184" />
-    <state width="1877" height="248" key="GridCell.Tab.4.right" timestamp="1604667743722">
+    <state width="1877" height="248" key="GridCell.Tab.4.right" timestamp="1605002226263">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="248" key="GridCell.Tab.4.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604667743722" />
+    <state width="1877" height="248" key="GridCell.Tab.4.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605002226263" />
     <state width="1877" height="250" key="GridCell.Tab.4.right/0.0.1920.1040@0.0.1920.1040" timestamp="1604601626185" />
+    <state x="2296" y="210" key="RiderGenerateDialog" timestamp="1604997895086">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2296" y="210" key="RiderGenerateDialog/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604997895086" />
     <state x="2381" y="165" width="1304" height="710" key="SettingsEditor" timestamp="1604565718262">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
@@ -368,10 +386,10 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2012" y="92" width="1736" height="856" key="VCS.FileHistoryDialog/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604659712417" />
-    <state width="968" height="528" key="XDebugger.FullValuePopup" timestamp="1604654973718">
+    <state width="968" height="528" key="XDebugger.FullValuePopup" timestamp="1605002184308">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="968" height="528" key="XDebugger.FullValuePopup/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604654973718" />
+    <state width="968" height="528" key="XDebugger.FullValuePopup/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605002184308" />
     <state x="2544" y="253" width="671" height="534" key="find.popup" timestamp="1604311313517">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
@@ -387,28 +405,42 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/test/StarterKit.UnitTests/Logger/DbContextTest.cs</url>
           <line>65</line>
-          <properties documentPath="C:\Git\generator-dgp-api-aspnetcore_yeoman\generators\app\templates\test\StarterKit.UnitTests\Logger\DbContextTest.cs" initialLine="49">
-            <startOffsets>
-              <option value="1791" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1823" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Git\generator-dgp-api-aspnetcore_yeoman\generators\app\templates\test\StarterKit.UnitTests\Logger\DbContextTest.cs" initialLine="49" />
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/test/StarterKit.UnitTests/Logger/DbContextTest.cs</url>
           <line>63</line>
-          <properties documentPath="C:\Git\generator-dgp-api-aspnetcore_yeoman\generators\app\templates\test\StarterKit.UnitTests\Logger\DbContextTest.cs" initialLine="63">
+          <properties documentPath="C:\Git\generator-dgp-api-aspnetcore_yeoman\generators\app\templates\test\StarterKit.UnitTests\Logger\DbContextTest.cs" initialLine="63" />
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/test/StarterKit.UnitTests/DataAccess/Repositories/GenericGuidEntityRepositoryTests.cs</url>
+          <line>263</line>
+          <properties documentPath="C:\Git\generator-dgp-api-aspnetcore_yeoman\generators\app\templates\test\StarterKit.UnitTests\DataAccess\Repositories\GenericGuidEntityRepositoryTests.cs" initialLine="263">
             <startOffsets>
-              <option value="1706" />
+              <option value="6679" />
+              <option value="6716" />
             </startOffsets>
             <endOffsets>
-              <option value="1781" />
+              <option value="6735" />
+              <option value="6733" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="9" />
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/src/StarterKit/DataAccess/Repositories/EntityRepositoryBase.cs</url>
+          <line>173</line>
+          <properties documentPath="C:\Git\generator-dgp-api-aspnetcore_yeoman\generators\app\templates\src\StarterKit\DataAccess\Repositories\EntityRepositoryBase.cs" initialLine="173">
+            <startOffsets>
+              <option value="5864" />
+            </startOffsets>
+            <endOffsets>
+              <option value="5915" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

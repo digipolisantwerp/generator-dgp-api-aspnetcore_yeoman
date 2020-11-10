@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using Digipolis.DataAccess.Options;
 
 namespace StarterKit.DataAccess.Options
 {

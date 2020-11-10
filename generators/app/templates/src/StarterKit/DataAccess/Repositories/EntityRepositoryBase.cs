@@ -3,69 +3,72 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Digipolis.DataAccess.Query;
+using Digipolis.Paging.Predicates;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using StarterKit.Entities;
 
 namespace StarterKit.DataAccess.Repositories
 {
-  public abstract class EntityRepositoryBase<TContext, TEntity, TId> : RepositoryBase<TContext>, IRepository<TEntity, TId>
-    where TContext : DbContext where TId : class where TEntity : class, IEntityBase<TId>, new()
-  {
-    private readonly OrderBy<TEntity> DefaultOrderBy = new OrderBy<TEntity>(qry => qry.OrderBy(e => e.Id));
 
+  public abstract class EntityRepositoryBase<TContext, TEntity> : EntityRepositoryBase<TContext, TEntity, int>
+    where TContext : DbContext where TEntity : class, IEntityBase<int>, new()
+  {
+    protected EntityRepositoryBase(ILogger<DataAccess> logger, TContext context) : base(logger, context)
+    {
+    }
+  }
+
+  public abstract class EntityRepositoryBase<TContext, TEntity, TId> : RepositoryBase<TContext>, IRepository<TEntity, TId>
+    where TContext : DbContext where TEntity : class, IEntityBase<TId>, new()
+  {
     protected EntityRepositoryBase(ILogger<DataAccess> logger, TContext context) : base(logger,
       context)
     {
     }
 
-    public virtual IEnumerable<TEntity> GetAll(Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+    public virtual IEnumerable<TEntity> GetAll(string sortString = null,
       Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
     {
-      var result = QueryDb(null, orderBy, includes);
+      var result = QueryDb(null, includes, sortString);
       return result.ToList();
     }
 
     public virtual async Task<IEnumerable<TEntity>> GetAllAsync(
-      Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+      string sortString = null,
       Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
     {
-      var result = QueryDb(null, orderBy, includes);
+      var result = QueryDb(null, includes, sortString);
       return await result.ToListAsync();
     }
 
-    public virtual void Load(Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+    public virtual void Load(string sortString = null,
       Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
     {
-      var result = QueryDb(null, orderBy, includes);
+      var result = QueryDb(null, includes, sortString);
       result.Load();
     }
 
-    public virtual async Task LoadAsync(Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+    public virtual async Task LoadAsync(string sortString = null,
       Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
     {
-      var result = QueryDb(null, orderBy, includes);
+      var result = QueryDb(null, includes, sortString);
       await result.LoadAsync();
     }
 
     public virtual IEnumerable<TEntity> GetPage(int startRow, int pageLength,
-      Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+      string sortString = null,
       Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
     {
-      orderBy ??= DefaultOrderBy.Expression;
-
-      var result = QueryDb(null, orderBy, includes);
+      var result = QueryDb(null, includes, sortString);
       return result.Skip(startRow).Take(pageLength).ToList();
     }
 
     public virtual async Task<IEnumerable<TEntity>> GetPageAsync(int startRow, int pageLength,
-      Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+      string sortString = null,
       Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
     {
-      if (orderBy == null) orderBy = DefaultOrderBy.Expression;
-
-      var result = QueryDb(null, orderBy, includes);
+      var result = QueryDb(null, includes, sortString);
       return await result.Skip(startRow).Take(pageLength).ToListAsync();
     }
 
@@ -78,7 +81,7 @@ namespace StarterKit.DataAccess.Repositories
         query = includes(query);
       }
 
-      return query.SingleOrDefault(x => x.Id == id);
+      return query.SingleOrDefault(x => Equals(x.Id, id));
     }
 
     public virtual Task<TEntity> GetAsync(TId id, Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
@@ -90,58 +93,55 @@ namespace StarterKit.DataAccess.Repositories
         query = includes(query);
       }
 
-      return query.SingleOrDefaultAsync(x => x.Id == id);
+      return query.SingleOrDefaultAsync(x => Equals(x.Id, id));
     }
 
     public virtual IEnumerable<TEntity> Query(Expression<Func<TEntity, bool>> filter,
-      Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+      string sortString = null,
       Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
     {
-      var result = QueryDb(filter, orderBy, includes);
+      var result = QueryDb(filter, includes, sortString);
       return result.ToList();
     }
 
     public virtual async Task<IEnumerable<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> filter,
-      Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+      string sortString = null,
       Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
     {
-      var result = QueryDb(filter, orderBy, includes);
+      var result = QueryDb(filter, includes, sortString);
       return await result.ToListAsync();
     }
 
     public virtual void Load(Expression<Func<TEntity, bool>> filter,
-      Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+      string sortString = null,
       Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
     {
-      var result = QueryDb(filter, orderBy, includes);
+      var result = QueryDb(filter, includes, sortString);
       result.Load();
     }
 
     public virtual async Task LoadAsync(Expression<Func<TEntity, bool>> filter,
-      Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+      string sortString = null,
       Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
     {
-      var result = QueryDb(filter, orderBy, includes);
+      var result = QueryDb(filter, includes, sortString);
       await result.LoadAsync();
     }
 
     public virtual IEnumerable<TEntity> QueryPage(int startRow, int pageLength, Expression<Func<TEntity, bool>> filter,
-      Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+      string sortString = null,
       Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
     {
-      if (orderBy == null) orderBy = DefaultOrderBy.Expression;
-
-      var result = QueryDb(filter, orderBy, includes);
+      var result = QueryDb(filter, includes, sortString);
       return result.Skip(startRow).Take(pageLength).ToList();
     }
 
     public virtual async Task<IEnumerable<TEntity>> QueryPageAsync(int startRow, int pageLength,
-      Expression<Func<TEntity, bool>> filter, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+      Expression<Func<TEntity, bool>> filter,
+      string sortString = null,
       Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
     {
-      if (orderBy == null) orderBy = DefaultOrderBy.Expression;
-
-      var result = QueryDb(filter, orderBy, includes);
+      var result = QueryDb(filter, includes, sortString);
       return await result.Skip(startRow).Take(pageLength).ToListAsync();
     }
 
@@ -218,8 +218,8 @@ namespace StarterKit.DataAccess.Repositories
     }
 
     protected IQueryable<TEntity> QueryDb(Expression<Func<TEntity, bool>> filter,
-      Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy,
-      Func<IQueryable<TEntity>, IQueryable<TEntity>> includes)
+      Func<IQueryable<TEntity>, IQueryable<TEntity>> includes,
+      string sortString = null)
     {
       IQueryable<TEntity> query = Context.Set<TEntity>();
 
@@ -233,10 +233,8 @@ namespace StarterKit.DataAccess.Repositories
         query = includes(query);
       }
 
-      if (orderBy != null)
-      {
-        query = orderBy(query);
-      }
+
+      query = query.OrderBy(sortString);
 
       return query;
     }

@@ -1,10 +1,10 @@
-﻿using Digipolis.DataAccess.Context;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using StarterKit.DataAccess.Context;
 
 namespace StarterKit.UnitTests.DataAccess._TestObjects
 {
-  public class InMemoryContext : EntityContextBase<InMemoryContext>
+  public class InMemoryContext : ContextBase<InMemoryContext>
   {
     public InMemoryContext(DbContextOptions<InMemoryContext> options)
       : base(options)
@@ -12,6 +12,7 @@ namespace StarterKit.UnitTests.DataAccess._TestObjects
     }
 
     public DbSet<Foo> Foos { get; set; }
+    public DbSet<FooGuid> FooGuids { get; set; }
 
     public static InMemoryContext Create()
     {

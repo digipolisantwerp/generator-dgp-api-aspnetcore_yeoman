@@ -220,15 +220,12 @@
             </e>
             <e p="_TestObjects" t="Include">
               <e p="Foo.cs" t="Include" />
+              <e p="FooGuid.cs" t="Include" />
+              <e p="FooGuidRepository.cs" t="Include" />
               <e p="FooRepository.cs" t="Include" />
               <e p="IFooRepository.cs" t="Include" />
               <e p="InMemoryContext.cs" t="Include" />
               <e p="TestContext.cs" t="Include" />
-            </e>
-            <e p="Exceptions" t="Include">
-              <e p="EntityNotFoundExceptionTests" t="Include">
-                <e p="InstantiationTests.cs" t="Include" />
-              </e>
             </e>
             <e p="Options" t="Include">
               <e p="ConnectionStringTests" t="Include">
@@ -236,11 +233,9 @@
                 <e p="ToStringTests.cs" t="Include" />
               </e>
             </e>
-            <e p="Paging" t="Include">
-              <e p="DataPagerTests.cs" t="Include" />
-            </e>
             <e p="Repositories" t="Include">
               <e p="GenericEntityRepositoryTests.cs" t="Include" />
+              <e p="GenericGuidEntityRepositoryTests.cs" t="Include" />
             </e>
             <e p="Startup" t="Include">
               <e p="ServiceCollectionExtensionsTests" t="Include">

@@ -1,4 +1,4 @@
-﻿using Digipolis.DataAccess.Entities;
+﻿using StarterKit.Entities;
 
 namespace StarterKit.UnitTests.DataAccess._TestObjects
 {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reflection;
-using Digipolis.DataAccess;
-using Digipolis.DataAccess.Options;
+using StarterKit.DataAccess.Options;
 using Xunit;
 
 namespace StarterKit.UnitTests.DataAccess.Options.ConnectionStringTests
