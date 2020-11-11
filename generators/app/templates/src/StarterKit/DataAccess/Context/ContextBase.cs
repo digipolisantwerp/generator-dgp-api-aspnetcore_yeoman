@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace StarterKit.DataAccess.Context
 {
-  public class ContextBase<TContext> : DbContext, IContextBase where TContext : DbContext
+  public class Context<TContext> : DbContext, IContext where TContext : DbContext
   {
     private IDbContextTransaction _transaction;
 
-    public ContextBase(DbContextOptions<TContext> options) : base(options)
+    public Context(DbContextOptions<TContext> options) : base(options)
     {
     }
 

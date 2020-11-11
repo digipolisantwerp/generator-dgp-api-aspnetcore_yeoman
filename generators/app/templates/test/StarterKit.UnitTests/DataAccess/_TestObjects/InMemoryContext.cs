@@ -5,7 +5,7 @@ using StarterKit.DataAccess.Context;
 
 namespace StarterKit.UnitTests.DataAccess._TestObjects
 {
-  public class InMemoryContext : ContextBase<InMemoryContext>
+  public class InMemoryContext : Context<InMemoryContext>
   {
     public InMemoryContext(DbContextOptions<InMemoryContext> options)
       : base(options)

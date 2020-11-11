@@ -16,7 +16,7 @@ namespace StarterKit.DataAccess.Repositories
     protected ILogger Logger { get; private set; }
     public TContext Context { get; private set; }
 
-    protected readonly IServiceScopeFactory _serviceScopeFactory;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
 
     public virtual TContext SetNewContext(bool trackChanges = true)
     {

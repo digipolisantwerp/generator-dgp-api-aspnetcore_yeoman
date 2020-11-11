@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace StarterKit.DataAccess
 {
-  public class EntityContext : Context.ContextBase<EntityContext>
+  public class EntityContext : Context.Context<EntityContext>
   {
     public EntityContext(DbContextOptions<EntityContext> options) : base(options)
     {
