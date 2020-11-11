@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Digipolis.ServiceAgents;
-using StarterKit.Logging;
+using StarterKit.Framework.Logging;
 
 namespace StarterKit.Startup
 {

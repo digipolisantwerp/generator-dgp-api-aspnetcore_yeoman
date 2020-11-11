@@ -13,7 +13,7 @@ using Serilog.Events;
 using Serilog.Parsing;
 using Serilog.Sinks.TestCorrelator;
 using StarterKit.Api.Controllers;
-using StarterKit.Logging;
+using StarterKit.Framework.Logging;
 using StarterKit.Shared.Options;
 using Xunit;
 

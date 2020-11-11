@@ -1,7 +1,7 @@
 ﻿using Serilog.Core;
 using Serilog.Events;
 
-namespace StarterKit.Logging
+namespace StarterKit.Framework.Logging
 {
   public class TypeEnricher : ILogEventEnricher
   {

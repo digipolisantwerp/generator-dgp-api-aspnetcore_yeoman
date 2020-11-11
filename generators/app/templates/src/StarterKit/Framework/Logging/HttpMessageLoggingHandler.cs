@@ -8,7 +8,7 @@ using Serilog;
 using Serilog.Events;
 using StarterKit.Shared.Options;
 
-namespace StarterKit.Logging
+namespace StarterKit.Framework.Logging
 {
   public class HttpMessageLoggingHandler : DelegatingHandler
   {

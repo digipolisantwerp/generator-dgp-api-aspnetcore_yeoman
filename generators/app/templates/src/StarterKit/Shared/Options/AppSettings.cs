@@ -45,16 +45,12 @@ namespace StarterKit.Shared.Options
 
       bool parseResultSuccess;
 
-      parseResultSuccess = bool.TryParse(Environment.GetEnvironmentVariable($"{APPSETTINGS}_REQUESTLOGGING_INCOMINGENABLED"), out bool incomingRequestLoggingEnabled);
-
-      if (parseResultSuccess)
+      if(bool.TryParse(Environment.GetEnvironmentVariable($"{APPSETTINGS}_REQUESTLOGGING_INCOMINGENABLED"), out bool incomingRequestLoggingEnabled))
       {
         RequestLogging.IncomingEnabled = incomingRequestLoggingEnabled;
       }
 
-      parseResultSuccess = bool.TryParse(Environment.GetEnvironmentVariable($"{APPSETTINGS}_REQUESTLOGGING_OUTGOINGENABLED"), out bool outgoingRequestLoggingEnabled);
-
-      if (parseResultSuccess)
+      if(bool.TryParse(Environment.GetEnvironmentVariable($"{APPSETTINGS}_REQUESTLOGGING_OUTGOINGENABLED"), out bool outgoingRequestLoggingEnabled))
       {
         RequestLogging.OutgoingEnabled = outgoingRequestLoggingEnabled;
       }

@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using Serilog.Events;
 using Serilog.Parsing;
 using StarterKit.Api.Controllers;
-using StarterKit.Logging;
+using StarterKit.Framework.Logging;
 using Xunit;
 
 namespace StarterKit.UnitTests.Logger
