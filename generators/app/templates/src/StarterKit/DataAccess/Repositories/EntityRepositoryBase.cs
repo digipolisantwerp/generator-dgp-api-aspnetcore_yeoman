@@ -15,7 +15,7 @@ namespace StarterKit.DataAccess.Repositories
   public abstract class EntityRepositoryBase<TContext, TEntity> : EntityRepositoryBase<TContext, TEntity, int>
     where TContext : DbContext where TEntity : class, IEntityBase<int>, new()
   {
-    protected EntityRepositoryBase(ILogger<DataAccess> logger, IServiceScopeFactory serviceScopeFactory) : base(logger, serviceScopeFactory)
+    protected EntityRepositoryBase(ILogger<DataAccess> logger, TContext context) : base(logger, context)
     {
     }
   }
@@ -24,8 +24,7 @@ namespace StarterKit.DataAccess.Repositories
     where TContext : DbContext where TEntity : class, IEntityBase<TId>, new()
   {
 
-    protected EntityRepositoryBase(ILogger<DataAccess> logger, IServiceScopeFactory serviceScopeFactory) : base(logger,
-      serviceScopeFactory)
+    protected EntityRepositoryBase(ILogger<DataAccess> logger, TContext context) : base(logger, context)
     {
     }
 

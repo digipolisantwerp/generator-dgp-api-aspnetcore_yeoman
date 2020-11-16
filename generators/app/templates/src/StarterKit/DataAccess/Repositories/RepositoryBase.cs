@@ -7,30 +7,14 @@ namespace StarterKit.DataAccess.Repositories
 {
   public abstract class RepositoryBase<TContext> : IRepositoryInjection where TContext : DbContext
   {
-    protected RepositoryBase(ILogger<DataAccess> logger, IServiceScopeFactory serviceScopeFactory)
+    protected RepositoryBase(ILogger<DataAccess> logger, TContext context)
     {
       this.Logger = logger;
-      _serviceScopeFactory = serviceScopeFactory;
+      Context = context;
     }
 
     protected ILogger Logger { get; private set; }
     public TContext Context { get; private set; }
-
-    private readonly IServiceScopeFactory _serviceScopeFactory;
-
-    public virtual TContext SetNewContext(bool trackChanges = true)
-    {
-      var context = _serviceScopeFactory.CreateScope().ServiceProvider.GetRequiredService<TContext>();
-
-      if (!trackChanges)
-      {
-        context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-      }
-
-      SetContext(context);
-
-      return context;
-    }
 
     public IRepositoryInjection SetContext(DbContext context)
     {

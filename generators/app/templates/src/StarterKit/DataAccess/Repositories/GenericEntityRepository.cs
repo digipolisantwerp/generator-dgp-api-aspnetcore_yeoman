@@ -9,7 +9,7 @@ namespace StarterKit.DataAccess.Repositories
   public class GenericEntityRepository<TEntity> : EntityRepositoryBase<DbContext, TEntity, int>
     where TEntity : class, IEntityBase<int>, new()
   {
-    public GenericEntityRepository(ILogger<DataAccess> logger, IServiceScopeFactory serviceScopeFactory = null) : base(logger, serviceScopeFactory)
+    public GenericEntityRepository(ILogger<DataAccess> logger) : base(logger, null)
     {
     }
   }
@@ -17,7 +17,7 @@ namespace StarterKit.DataAccess.Repositories
   public class GenericEntityRepository<TEntity, TId> : EntityRepositoryBase<DbContext, TEntity, TId>
     where TEntity : class, IEntityBase<TId>, new()
   {
-    public GenericEntityRepository(ILogger<DataAccess> logger, IServiceScopeFactory serviceScopeFactory = null) : base(logger, serviceScopeFactory)
+    public GenericEntityRepository(ILogger<DataAccess> logger) : base(logger, null)
     {
     }
   }

@@ -7,7 +7,7 @@ namespace StarterKit.UnitTests.DataAccess._TestObjects
 {
   public class FooGuidRepository : EntityRepositoryBase<InMemoryContext, FooGuid, Guid>, IFooRepository
   {
-    public FooGuidRepository(ILogger<StarterKit.DataAccess.DataAccess> logger, IServiceScopeFactory serviceScopeFactory) : base(logger, serviceScopeFactory)
+    public FooGuidRepository(ILogger<StarterKit.DataAccess.DataAccess> logger, InMemoryContext context) : base(logger, context)
     {
     }
   }
