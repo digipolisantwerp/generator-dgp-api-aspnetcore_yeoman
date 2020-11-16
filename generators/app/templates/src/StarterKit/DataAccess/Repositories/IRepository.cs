@@ -63,5 +63,9 @@ namespace StarterKit.DataAccess.Repositories
     Task<int> CountAsync(Expression<Func<TEntity, bool>> filter = null);
 
     void SetUnchanged(TEntity entity);
+    void AddBatch(IEnumerable<TEntity> entities);
+    IEnumerable<TEntity> UpdateBatch(IEnumerable<TEntity> entities);
+    void RemoveBatch(IEnumerable<TEntity> entities);
+    void RemoveBatch(IEnumerable<TId> ids);
   }
 }

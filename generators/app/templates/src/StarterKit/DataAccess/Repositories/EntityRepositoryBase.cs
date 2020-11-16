@@ -152,9 +152,21 @@ namespace StarterKit.DataAccess.Repositories
       Context.Set<TEntity>().Add(entity);
     }
 
+    public virtual void AddBatch(IEnumerable<TEntity> entities)
+    {
+      if (entities == null) throw new ArgumentNullException(nameof(entities));
+      Context.Set<TEntity>().AddRange(entities);
+    }
+
     public virtual TEntity Update(TEntity entity)
     {
       return Context.Set<TEntity>().Update(entity).Entity;
+    }
+
+    public virtual IEnumerable<TEntity> UpdateBatch(IEnumerable<TEntity> entities)
+    {
+      if (entities == null) throw new ArgumentNullException(nameof(entities));
+      return entities.Select(Update);
     }
 
     public virtual void Remove(TEntity entity)
@@ -164,10 +176,24 @@ namespace StarterKit.DataAccess.Repositories
       Context.Set<TEntity>().Remove(entity);
     }
 
+    public virtual void RemoveBatch(IEnumerable<TEntity> entities)
+    {
+      if (entities == null) throw new ArgumentNullException(nameof(entities));
+      Context.Set<TEntity>().RemoveRange(entities);
+    }
+
     public virtual void Remove(TId id)
     {
-      var entity = new TEntity {Id = id};
-      this.Remove(entity);
+      Remove(Get(id));
+    }
+
+    public virtual void RemoveBatch(IEnumerable<TId> ids)
+    {
+      if (ids == null) throw new ArgumentNullException(nameof(ids));
+      foreach (var id in ids)
+      {
+        Remove(id);
+      }
     }
 
     public virtual bool Any(Expression<Func<TEntity, bool>> filter = null)

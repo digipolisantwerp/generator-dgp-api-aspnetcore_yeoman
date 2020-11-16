@@ -5,5 +5,6 @@ namespace StarterKit.UnitTests.DataAccess._TestObjects
 {
   public class FooGuid : EntityBase<Guid>
   {
+    public string Name { get; set; }
   }
 }

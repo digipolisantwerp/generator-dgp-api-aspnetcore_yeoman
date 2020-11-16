@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using StarterKit.DataAccess.Repositories;
 using StarterKit.UnitTests.DataAccess._TestObjects;
@@ -18,8 +19,9 @@ namespace StarterKit.UnitTests.DataAccess.Repositories
       ((IRepositoryInjection) _fooRepository).SetContext(_context);
     }
 
-    private void AddEntitiesToContext(int count = 10)
+    private IEnumerable<Foo> GetEntities(int count = 10)
     {
+      var result = new List<Foo>();
       // Add entities to context
       for (var i = 1; i <= count; i++)
       {
@@ -28,8 +30,16 @@ namespace StarterKit.UnitTests.DataAccess.Repositories
           Id = i
         };
 
-        _context.Foos.Add(foo);
+        result.Add(foo);
       }
+
+      return result;
+    }
+
+    private void AddEntitiesToContext(int count = 10)
+    {
+      // Add entities to context
+      _context.AddRange(GetEntities(count));
 
       _context.SaveChanges();
     }
@@ -249,6 +259,81 @@ namespace StarterKit.UnitTests.DataAccess.Repositories
 
       // Assert
       Assert.False(result);
+    }
+
+    [Fact]
+    public void RemoveOne()
+    {
+      AddEntitiesToContext();
+      _fooRepository.Remove(_fooRepository.Get(1));
+      _context.SaveChanges();
+
+      Assert.Equal(9, _context.Foos.Count());
+      Assert.False(_context.Foos.Any(f => f.Id == 1));
+    }
+
+    [Fact]
+    public void RemoveOneById()
+    {
+      AddEntitiesToContext();
+      _fooRepository.Remove(1);
+      _context.SaveChanges();
+
+      Assert.Equal(9, _context.Foos.Count());
+      Assert.False(_context.Foos.Any(f => f.Id == 1));
+    }
+
+    [Fact]
+    public void RemoveRangeById()
+    {
+      AddEntitiesToContext();
+      _fooRepository.RemoveBatch(new []{1, 2, 3, 4, 5});
+      _context.SaveChanges();
+
+      Assert.Equal(5, _context.Foos.Count());
+      Assert.False(_context.Foos.Any(f =>
+        f.Id == 1
+        || f.Id == 2
+        || f.Id == 3
+        || f.Id == 4
+        || f.Id == 5));
+    }
+
+    [Fact]
+    public void RemoveRange()
+    {
+      AddEntitiesToContext();
+      var listToRemove = _fooRepository.GetAll();
+
+      _fooRepository.RemoveBatch(listToRemove);
+      _context.SaveChanges();
+
+      Assert.Equal(0, _context.Foos.Count());
+    }
+
+    [Fact]
+    public void AddRange()
+    {
+      _fooRepository.AddBatch(GetEntities());
+      _context.SaveChanges();
+
+      Assert.Equal(10, _context.Foos.Count());
+    }
+
+    [Fact]
+    public void UpdateRange()
+    {
+      AddEntitiesToContext();
+      var entitiesToUpdate = _context.Foos.Take(5);
+      foreach (var entity in entitiesToUpdate)
+      {
+        entity.Name = "Updated";
+      }
+
+      _fooRepository.UpdateBatch(entitiesToUpdate);
+      _context.SaveChanges();
+
+      Assert.Equal(5, _context.Foos.Count(f => f.Name == "Updated"));
     }
   }
 }
