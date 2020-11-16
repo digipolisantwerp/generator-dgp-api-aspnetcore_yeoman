@@ -15,6 +15,11 @@ namespace StarterKit.UnitTests.DataAccess._TestObjects
     public DbSet<Foo> Foos { get; set; }
     public DbSet<FooGuid> FooGuids { get; set; }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+      // override without the camelcase as that function breaks on in memory databases
+    }
+
     public static InMemoryContext Create()
     {
       // Create a fresh service provider, and therefore a fresh

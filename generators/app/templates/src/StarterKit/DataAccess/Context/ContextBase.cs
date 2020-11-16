@@ -11,6 +11,13 @@ namespace StarterKit.DataAccess.Context
     {
     }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+      modelBuilder.LowerCaseTablesAndFields();
+
+      base.OnModelCreating(modelBuilder);
+    }
+
     public void BeginTransaction()
     {
       _transaction = Database.BeginTransaction();
