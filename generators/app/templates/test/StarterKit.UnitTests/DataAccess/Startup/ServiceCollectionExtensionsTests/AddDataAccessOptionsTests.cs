@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
+using StarterKit.DataAccess.Context;
 using StarterKit.DataAccess.Repositories;
 using StarterKit.Startup;
 using StarterKit.UnitTests.DataAccess._TestObjects;
@@ -18,10 +19,13 @@ namespace StarterKit.UnitTests.DataAccess.Startup.ServiceCollectionExtensionsTes
       services.AddDataAccess<TestContext>();
 
       var registrations = services.Where(sd => sd.ServiceType == typeof(IRepository<,>)
-                                               && sd.ImplementationType == typeof(GenericEntityRepository<>))
-        .ToArray();
+                                               && sd.ImplementationType == typeof(GenericEntityRepository<>)).ToArray();
       Assert.Single(registrations);
       Assert.Equal(ServiceLifetime.Transient, registrations[0].Lifetime);
+
+      var contexts = services.Where(sd => sd.ServiceType == typeof(IContext)).ToArray();
+      Assert.Single(contexts);
+      Assert.Equal(ServiceLifetime.Scoped, contexts[0].Lifetime);
     }
 
   }

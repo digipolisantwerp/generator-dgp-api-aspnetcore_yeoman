@@ -18,7 +18,7 @@ namespace StarterKit.Startup
     private static void RegisterDataAccess<TEntityContext>(IServiceCollection services)
       where TEntityContext : Context<TEntityContext>
     {
-      services.TryAddTransient<IContext, TEntityContext>();
+      services.TryAddScoped<IContext, TEntityContext>();
       services.TryAddTransient(typeof(IRepository<,>), typeof(GenericEntityRepository<>));
     }
 
