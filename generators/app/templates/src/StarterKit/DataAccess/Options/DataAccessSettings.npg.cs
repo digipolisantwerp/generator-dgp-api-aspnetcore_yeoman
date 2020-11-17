@@ -7,6 +7,10 @@ using StarterKit.Shared.Constants;
 
 namespace StarterKit.DataAccess.Options
 {
+  /// <summary>
+  /// These are the dataaccess settings for Entity Framework PostgreSQL.
+  /// When PostgreSQL is chosen as the DB provider this file will be used
+  /// </summary>
   public class DataAccessSettingsNpg : SettingsBase
   {
     public string Host { get; set; }

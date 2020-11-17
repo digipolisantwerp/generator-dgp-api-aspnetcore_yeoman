@@ -7,6 +7,11 @@ using StarterKit.Shared.Constants;
 
 namespace StarterKit.DataAccess.Options
 {
+
+  /// <summary>
+  /// These are the dataaccess settings for Entity Framework MSSQL.
+  /// When MSSQL is chosen as the DB provider this file will be used
+  /// </summary>
   public class DataAccessSettingsMs : SettingsBase
   {
     public string Host { get; set; }

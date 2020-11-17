@@ -3,6 +3,7 @@ using System.Reflection;
 
 namespace StarterKit.DataAccess.Options
 {
+
   public class ConnectionString
   {
     public ConnectionString() : this(Defaults.ConnectionString.Host, Defaults.ConnectionString.Port,
