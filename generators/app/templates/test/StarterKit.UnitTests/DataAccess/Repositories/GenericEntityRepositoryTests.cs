@@ -16,7 +16,7 @@ namespace StarterKit.UnitTests.DataAccess.Repositories
     {
       _fooRepository = new GenericEntityRepository<Foo>(null);
       _context = InMemoryContext.Create();
-      ((IRepositoryInjection) _fooRepository).SetContext(_context);
+      _fooRepository.SetContext(_context);
     }
 
     private IEnumerable<Foo> GetEntities(int count = 10)

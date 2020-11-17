@@ -17,7 +17,7 @@ namespace StarterKit.UnitTests.DataAccess.Repositories
     {
       _fooRepository = new GenericEntityRepository<FooGuid, Guid>(null);
       _context = InMemoryContext.Create();
-      ((IRepositoryInjection) _fooRepository).SetContext(_context);
+      _fooRepository.SetContext(_context);
 
       // add sorted GUID dictionary so we can easily access all ID's and verify the correct order
       _keys = new Dictionary<int, Guid>

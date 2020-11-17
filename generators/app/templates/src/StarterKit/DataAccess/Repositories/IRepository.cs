@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StarterKit.DataAccess.Repositories
 {
-  public interface IRepository<TEntity, in TId>
+  public interface IRepository<TEntity, in TId> : IRepositoryInjection
   {
     IEnumerable<TEntity> GetAll(string sortString = null,
       Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null);
