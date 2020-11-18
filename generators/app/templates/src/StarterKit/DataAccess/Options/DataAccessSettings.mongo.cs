@@ -15,6 +15,7 @@ namespace StarterKit.DataAccess.Options
   public class DataAccessSettingsMongo : SettingsBase
   {
     public string Host { get; set; }
+    public string DbName { get; set; }
     public string Port { get; set; }
     public string User { get; set; }
     public string Password { get; set; }
@@ -41,7 +42,7 @@ namespace StarterKit.DataAccess.Options
         throw new InvalidOperationException("Database port must be a number from 0 to 65536.", ex.InnerException ?? ex);
       }
 
-      var connectionString = new ConnectionString(ConnectionType.MongoDB, Host, port, null, User, Password);
+      var connectionString = new ConnectionString(ConnectionType.MongoDB, Host, port, DbName, User, Password);
       return connectionString.ToString();
     }
 
@@ -54,6 +55,7 @@ namespace StarterKit.DataAccess.Options
     {
       Host = GetValue(Host, DataAccessSettingsConfigKeyMongo.Host, environment);
       Port = GetValue(Port, DataAccessSettingsConfigKeyMongo.Port, environment);
+      DbName = GetValue(DbName, DataAccessSettingsConfigKeyMongo.DbName, environment);
       User = GetValue(User, DataAccessSettingsConfigKeyMongo.User, environment);
       Password = GetValue(Password, DataAccessSettingsConfigKeyMongo.PassWord, environment);
     }
