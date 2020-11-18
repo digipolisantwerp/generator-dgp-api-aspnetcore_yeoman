@@ -1,5 +1,8 @@
 namespace StarterKit.Shared.Constants
 {
+  /// <summary>
+  /// MSSQL specific environment variables. Use these to override existing settings
+  /// </summary>
   public class DataAccessSettingsConfigKeyMs
   {
     public const string Host = "DB_MSSQL_CONNECTION_HOST";
