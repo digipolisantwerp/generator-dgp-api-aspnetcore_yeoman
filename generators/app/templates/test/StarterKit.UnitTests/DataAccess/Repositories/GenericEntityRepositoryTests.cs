@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using StarterKit.DataAccess.Repositories;
 using StarterKit.UnitTests.DataAccess._TestObjects;
 using Xunit;

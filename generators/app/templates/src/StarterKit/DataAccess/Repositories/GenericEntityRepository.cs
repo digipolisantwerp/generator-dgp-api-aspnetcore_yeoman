@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using StarterKit.DataAccess.Context;
 using StarterKit.Entities;
 
 namespace StarterKit.DataAccess.Repositories

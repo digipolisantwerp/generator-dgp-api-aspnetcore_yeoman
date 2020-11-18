@@ -6,24 +6,26 @@ using System.Threading.Tasks;
 using Digipolis.Paging.Predicates;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
+using StarterKit.DataAccess.Context;
 using StarterKit.Entities;
 
 namespace StarterKit.DataAccess.Repositories
 {
 
-  public abstract class EntityRepositoryBase<TContext, TEntity> : EntityRepositoryBase<TContext, TEntity, int>
-    where TContext : DbContext where TEntity : class, IEntityBase<int>, new()
+  public abstract class EntityRepositoryBaseMongo<TEntity> : RepositoryBaseMongo<TEntity, string>
+    where TEntity : class, IEntityBase<string>, new()
   {
-    protected EntityRepositoryBase(ILogger<DataAccess> logger, TContext context) : base(logger, context)
+    protected EntityRepositoryBaseMongo(ILogger<DataAccess> logger, ContextMongo context) : base(logger, context)
     {
     }
   }
 
-  public abstract class EntityRepositoryBase<TContext, TEntity, TId> : RepositoryBase<TContext>, IRepository<TEntity, TId>
-    where TContext : DbContext where TEntity : class, IEntityBase<TId>, new()
+  public abstract class EntityRepositoryBaseMongo<TEntity, TId> : RepositoryBaseMongo<TEntity, TId>, IRepositoryMongo<TEntity, TId>
+    where TEntity : class, IEntityBase<TId>, new()
   {
 
-    protected EntityRepositoryBase(ILogger<DataAccess> logger, TContext context) : base(logger, context)
+    protected EntityRepositoryBaseMongo(ILogger<DataAccess> logger, ContextMongo context) : base(logger, context)
     {
     }
 
@@ -72,9 +74,21 @@ namespace StarterKit.DataAccess.Repositories
       return await result.Skip(startRow).Take(pageLength).ToListAsync();
     }
 
-    public virtual TEntity Get(TId id, Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
+    private Expression<Func<TEntity, bool>> CombineExpressions(
+      Expression<Func<TEntity, bool>> defExpression, Expression<Func<TEntity, bool>> includes)
     {
-      IQueryable<TEntity> query = Context.Set<TEntity>();
+      if (includes == null)
+      {
+        return defExpression;
+      }
+      var body = Expression.AndAlso(includes.Body, defExpression.Body);
+      return Expression.Lambda<Func<TEntity,bool>>(body, defExpression.Parameters[0]);
+    }
+
+    public virtual TEntity Get(TId id,
+      Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
+    {
+      IQueryable<TEntity> query = EntityCollection.AsQueryable();
 
       if (includes != null)
       {
@@ -84,9 +98,10 @@ namespace StarterKit.DataAccess.Repositories
       return query.SingleOrDefault(x => Equals(x.Id, id));
     }
 
-    public virtual Task<TEntity> GetAsync(TId id, Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
+    public virtual Task<TEntity> GetAsync(TId id,
+      Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
     {
-      IQueryable<TEntity> query = Context.Set<TEntity>();
+      IQueryable<TEntity> query = EntityCollection.AsQueryable();
 
       if (includes != null)
       {
@@ -148,18 +163,25 @@ namespace StarterKit.DataAccess.Repositories
     public virtual void Add(TEntity entity)
     {
       if (entity == null) throw new InvalidOperationException("Unable to add a null entity to the repository.");
-      Context.Set<TEntity>().Add(entity);
+      EntityCollection.InsertOne(entity);
     }
 
     public virtual void AddBatch(IEnumerable<TEntity> entities)
     {
       if (entities == null) throw new ArgumentNullException(nameof(entities));
-      Context.Set<TEntity>().AddRange(entities);
+      EntityCollection.InsertMany(entities);
     }
 
-    public virtual TEntity Update(TEntity entity)
+    public virtual bool Update(TEntity entity)
     {
-      return Context.Set<TEntity>().Update(entity).Entity;
+      var actionResult = EntityCollection
+          .ReplaceOne(n => n.Id.Equals(entity.Id),
+            entity,
+            new ReplaceOptions
+            {
+              IsUpsert = true
+            });
+      return actionResult.IsAcknowledged && actionResult.ModifiedCount > 0;
     }
 
     public virtual IEnumerable<TEntity> UpdateBatch(IEnumerable<TEntity> entities)
@@ -247,7 +269,7 @@ namespace StarterKit.DataAccess.Repositories
       Func<IQueryable<TEntity>, IQueryable<TEntity>> includes,
       string sortString = null)
     {
-      IQueryable<TEntity> query = Context.Set<TEntity>();
+      IQueryable<TEntity> query = EntityCollection.AsQueryable();
 
       if (filter != null)
       {
@@ -259,15 +281,9 @@ namespace StarterKit.DataAccess.Repositories
         query = includes(query);
       }
 
-
       query = query.OrderBy(sortString);
 
       return query;
-    }
-
-    public void SetUnchanged(TEntity entity)
-    {
-      base.Context.Entry<TEntity>(entity).State = EntityState.Unchanged;
     }
   }
 }
