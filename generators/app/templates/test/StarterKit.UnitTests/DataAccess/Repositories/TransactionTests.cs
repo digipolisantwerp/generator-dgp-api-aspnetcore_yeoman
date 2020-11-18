@@ -17,7 +17,7 @@ namespace StarterKit.UnitTests.DataAccess.Repositories
     public TransactionTests()
     {
       _fooRepository = new GenericEntityRepository<Foo>(null);
-      
+
       _context = new SqlLiteContext();
 
       //delete the old database

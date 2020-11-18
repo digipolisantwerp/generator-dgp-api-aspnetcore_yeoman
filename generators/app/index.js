@@ -60,7 +60,7 @@ module.exports = class extends Generator {
     }, {
       type: 'input',
       name: 'dataProvider',
-      message: 'Will you be using Entity Framework with MSSQL, PostgreSQL or Not ? (m/p/n):',
+      message: 'Which data provider will you be using? MongoDB, MSSQL, PostgreSQL or Not ? (mo/ms/p/n):',
       default:
 				'p'
     }
@@ -202,7 +202,7 @@ module.exports = class extends Generator {
             ignoreFiles.push(files[i]);
           }
           break;
-        case 'm':
+        case 'ms':
           if (files[i].indexOf('dataaccess.npg.json') > -1) {
             ignoreFiles.push(files[i]);
           }
@@ -244,20 +244,20 @@ module.exports = class extends Generator {
 
 function getDataProvider(input, projectName) {
   var efCorePackage =
-      '<PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />\n';
+      '<PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.9" />\n';
   var efDesignPackage =
-      '<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.5">\n' +
+      '<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.9">\n' +
       '<PrivateAssets>all</PrivateAssets>\n' +
       '<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>\n' +
       '</PackageReference>\n';
   var npgSqlPackage =
-    '<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />\n';
+    '<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.9" />\n';
   var sqlServerPackage =
-    '<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />\n';
+    '<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.9" />\n';
   var usings = 'using Microsoft.EntityFrameworkCore;\nusing Microsoft.EntityFrameworkCore.Migrations;\nusing Digipolis.DataAccess;\nusing StarterKit.DataAccess;\nusing StarterKit.DataAccess.Options;\nusing Microsoft.EntityFrameworkCore.Diagnostics;'.replace(/StarterKit/g, projectName);
   var programConfig = 'config.AddJsonFile(JsonFilesKey.DataAccessJson);\n';
   var tools =
-      '<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.5">\n' +
+      '<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.9">\n' +
       '<PrivateAssets>all</PrivateAssets>\n' +
       '<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>\n' +
       '</PackageReference>\n';
@@ -295,7 +295,7 @@ function getDataProvider(input, projectName) {
     dataProvider.registerConfiguration = registerConfiguration;
     dataProvider.variable = variable;
     dataProvider.getService = getService;
-  } else if (input.toLowerCase() === 'm') {
+  } else if (input.toLowerCase() === 'ms') {
     dataProvider.package = efCorePackage + efDesignPackage + sqlServerPackage;
     dataProvider.startupServices =
 		'      services.AddDataAccess<EntityContext>()\n' +

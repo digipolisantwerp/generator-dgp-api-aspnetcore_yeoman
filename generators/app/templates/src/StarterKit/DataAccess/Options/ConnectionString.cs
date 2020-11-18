@@ -1,17 +1,24 @@
 ﻿using System;
 using System.Reflection;
+using System.Text;
 
 namespace StarterKit.DataAccess.Options
 {
+  public enum ConnectionType
+  {
+    MongoDB,
+    MSSQL,
+    PostgreSQL
+  }
 
   public class ConnectionString
   {
-    public ConnectionString() : this(Defaults.ConnectionString.Host, Defaults.ConnectionString.Port,
+    public ConnectionString() : this(ConnectionType.PostgreSQL, Defaults.ConnectionString.Host, Defaults.ConnectionString.Port,
       Assembly.GetEntryAssembly().GetName().Name)
     {
     }
 
-    public ConnectionString(string host, ushort port, string dbname, string user = null, string password = null)
+    public ConnectionString(ConnectionType type, string host, ushort port, string dbname, string user = null, string password = null)
     {
       ValidateArguments(host, dbname);
       Host = host;
@@ -19,6 +26,7 @@ namespace StarterKit.DataAccess.Options
       DbName = dbname;
       User = user;
       Password = password;
+      Type = type;
     }
 
     public string Host { get; set; }
@@ -26,6 +34,7 @@ namespace StarterKit.DataAccess.Options
     public string DbName { get; set; }
     public string User { get; set; }
     public string Password { get; set; }
+    public ConnectionType Type { get; set; }
 
     private void ValidateArguments(string host, string dbname)
     {
@@ -38,6 +47,24 @@ namespace StarterKit.DataAccess.Options
 
     public override string ToString()
     {
+      if (Type == ConnectionType.MongoDB)
+      {
+        var sb = new StringBuilder("mongodb://");
+        if (!string.IsNullOrWhiteSpace(User))
+        {
+          sb.Append($"{User}:{Password}@");
+        }
+
+        sb.Append(Host);
+
+        if (Port > 0)
+        {
+          sb.Append($":{Port}");
+        }
+
+        return sb.ToString();
+      }
+
       var result = $"Server={Host};Database={DbName};";
 
       if (Port > 0) result += $"Port={Port};";

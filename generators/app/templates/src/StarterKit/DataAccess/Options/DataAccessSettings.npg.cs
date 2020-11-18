@@ -41,7 +41,7 @@ namespace StarterKit.DataAccess.Options
         throw new InvalidOperationException("Database port must be a number from 0 to 65536.", ex.InnerException ?? ex);
       }
 
-      var connectionString = new ConnectionString(Host, port, DbName, User, Password);
+      var connectionString = new ConnectionString(ConnectionType.PostgreSQL, Host, port, DbName, User, Password);
       return connectionString.ToString();
     }
 
