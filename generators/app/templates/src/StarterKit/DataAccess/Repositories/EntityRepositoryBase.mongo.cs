@@ -16,7 +16,7 @@ namespace StarterKit.DataAccess.Repositories
   public abstract class EntityRepositoryBaseMongo<TEntity> : RepositoryBaseMongo<TEntity, string>
     where TEntity : class, IEntityBase<string>, new()
   {
-    protected EntityRepositoryBaseMongo(ILogger<DataAccess> logger, ContextMongo context) : base(logger, context)
+    protected EntityRepositoryBaseMongo(ILogger<DataAccess> logger, ContextBase context) : base(logger, context)
     {
     }
   }
@@ -25,7 +25,7 @@ namespace StarterKit.DataAccess.Repositories
     where TEntity : class, IEntityBase<TId>, new()
   {
 
-    protected EntityRepositoryBaseMongo(ILogger<DataAccess> logger, ContextMongo context) : base(logger, context)
+    protected EntityRepositoryBaseMongo(ILogger<DataAccess> logger, ContextBase context) : base(logger, context)
     {
     }
 

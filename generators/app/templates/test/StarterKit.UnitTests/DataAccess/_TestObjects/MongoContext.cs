@@ -4,7 +4,7 @@ using StarterKit.DataAccess.Options;
 
 namespace StarterKit.UnitTests.DataAccess._TestObjects
 {
-  public class MongoContext : ContextMongo
+  public class MongoContext : ContextBase
   {
     public MongoContext(DataAccessSettingsMongo options)
      : base (options)

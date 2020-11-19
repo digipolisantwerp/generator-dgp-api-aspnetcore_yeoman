@@ -3,13 +3,13 @@ using StarterKit.DataAccess.Options;
 
 namespace StarterKit.DataAccess.Context
 {
-  public class ContextMongo : IContext
+  public class ContextBase : IContext
   {
     private IClientSessionHandle _transactionSession;
     protected readonly MongoClient Client;
     protected readonly IMongoDatabase Database;
 
-    public ContextMongo(DataAccessSettingsMongo options)
+    public ContextBase(DataAccessSettingsMongo options)
     {
       Client = new MongoClient(options.GetConnectionString());
       Database = Client.GetDatabase(options.DbName);

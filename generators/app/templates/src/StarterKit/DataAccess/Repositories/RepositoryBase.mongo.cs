@@ -9,7 +9,7 @@ namespace StarterKit.DataAccess.Repositories
 {
   public abstract class RepositoryBaseMongo<TEntity, TId> : IRepositoryInjectionMongo<TEntity, TId> where TEntity : IEntityBase<TId>
   {
-    protected RepositoryBaseMongo(ILogger<DataAccess> logger, ContextMongo context)
+    protected RepositoryBaseMongo(ILogger<DataAccess> logger, ContextBase context)
     {
       Logger = logger;
       Context = context;
@@ -17,7 +17,7 @@ namespace StarterKit.DataAccess.Repositories
     }
 
     protected ILogger Logger { get; private set; }
-    public ContextMongo Context { get; private set; }
+    public ContextBase Context { get; private set; }
 
     public IMongoCollection<TEntity> EntityCollection { get; private set; }
 
@@ -45,7 +45,7 @@ namespace StarterKit.DataAccess.Repositories
       EntityCollection = collectionProperty.GetValue(Context) as IMongoCollection<TEntity>;
     }
 
-    public void SetContext(ContextMongo context)
+    public void SetContext(ContextBase context)
     {
       Context = context;
       SetEntityCollection();

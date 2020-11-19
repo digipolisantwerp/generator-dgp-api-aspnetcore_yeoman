@@ -6,20 +6,20 @@ using StarterKit.DataAccess.Repositories;
 
 namespace StarterKit.Startup
 {
-  public static class ServiceCollectionExtensions
+  public static class ServiceCollectionExtensionsMongo
   {
     public static IServiceCollection AddDataAccess<TEntityContext>(this IServiceCollection services)
-      where TEntityContext : Context<TEntityContext>
+      where TEntityContext : ContextBase
     {
       RegisterDataAccess<TEntityContext>(services);
       return services;
     }
 
     private static void RegisterDataAccess<TEntityContext>(IServiceCollection services)
-      where TEntityContext : Context<TEntityContext>
+      where TEntityContext : ContextBase
     {
       services.TryAddScoped<IContext, TEntityContext>();
-      services.TryAddTransient(typeof(IRepository<,>), typeof(GenericEntityRepository<>));
+      services.TryAddTransient(typeof(IRepository<,>), typeof(GenericEntityRepositoryMongo<>));
     }
 
     private static void ValidateMandatoryField(string field, string fieldName)

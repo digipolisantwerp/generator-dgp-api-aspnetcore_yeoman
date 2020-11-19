@@ -106,12 +106,27 @@ module.exports = class extends Generator {
           .replace(/starterkit/g, lowerProjectName)
           .replace(/DataAccessSettingsNpg/g, 'DataAccessSettings')
           .replace(/DataAccessSettingsMs/g, 'DataAccessSettings')
+          .replace(/DataAccessSettingsMongo/g, 'DataAccessSettings')
+          .replace(/EntityRepositoryBaseMongo/g, 'EntityRepositoryBase')
+          .replace(/GenericEntityRepositoryMongo/g, 'GenericEntityRepository')
+          .replace(/IRepositoryMongo/g, 'IRepository')
+          .replace(/IRepositoryInjectionMongo/g, 'IRepositoryInjection')
+          .replace(/RepositoryBaseMongo/g, 'RepositoryBase')
+          .replace(/EntityContextMongo/g, 'EntityContext')
+          .replace(/EntityBaseMongo/g, 'EntityBase')
+          .replace(/EntityContextMongo/g, 'EntityContext')
+          .replace(/ServiceCollectionExtensionsMongo/g, 'ServiceCollectionExtensions')
+          .replace(/ControllerTestBaseMongo/g, 'ControllerTestBase')
           .replace(
             /DataAccessSettingsConfigKeyMs/g,
             'DataAccessSettingsConfigKey'
           )
           .replace(
             /DataAccessSettingsConfigKeyNpg/g,
+            'DataAccessSettingsConfigKey'
+          )
+		  .replace(
+            /DataAccessSettingsConfigKeyMongo/g,
             'DataAccessSettingsConfigKey'
           )
           .replace(
@@ -185,33 +200,109 @@ module.exports = class extends Generator {
           .replace('.npmignore', '.gitignore')
           .replace('dataaccess.ms.json', 'dataaccess.json')
           .replace('dataaccess.npg.json', 'dataaccess.json')
+		  .replace('dataaccess.mongo.json', 'dataaccess.json')
           .replace('DataAccessSettings.ms.cs', 'DataAccessSettings.cs')
           .replace('DataAccessSettings.npg.cs', 'DataAccessSettings.cs')
+		  .replace('DataAccessSettings.mongo.cs', 'DataAccessSettings.cs')
           .replace('DataAccessSettingsConfigKey.ms.cs', 'DataAccessSettingsConfigKey.cs')
           .replace('DataAccessSettingsConfigKey.npg.cs', 'DataAccessSettingsConfigKey.cs')
+          .replace('DataAccessSettingsConfigKey.mongo.cs', 'DataAccessSettingsConfigKey.cs')
+		  .replace('EntityRepositoryBase.mongo.cs', 'EntityRepositoryBase.cs')
+		  .replace('GenericEntityRepository.mongo.cs', 'GenericEntityRepository.cs')
+		  .replace('IRepository.mongo.cs', 'IRepository.cs')
+		  .replace('IRepositoryInjection.mongo.cs', 'IRepositoryInjection.cs')
+		  .replace('RepositoryBase.mongo.cs', 'RepositoryBase.cs')
+		  .replace('EntityBase.mongo.cs', 'EntityBase.cs')
+		  .replace('ContextBase.mongo.cs', 'ContextBase.cs')
+		  .replace('EntityContext.mongo.cs', 'EntityContext.cs')
+		  .replace('ServiceCollectionExtensions.mongo.cs', 'ServiceCollectionExtensions.cs')
+		  .replace('ControllerTestBase.mongo.cs', 'ControllerTestBase.cs')
           .replace(source, dest);
         switch (dataProvider.input) {
         case 'p':
-          if (files[i].indexOf('dataaccess.ms.json') > -1) {
+		  if (
+            files[i].indexOf('dataaccess.ms.json') > -1 ||
+            files[i].indexOf('DataAccessSettings.ms.cs') > -1 ||
+            files[i].indexOf('DataAccessSettingsConfigKey.ms.cs') > -1 ||
+			files[i].indexOf('dataaccess.mongo.json') > -1 ||
+            files[i].indexOf('DataAccessSettings.mongo.cs') > -1 ||
+            files[i].indexOf('DataAccessSettingsConfigKey.mongo.cs') > -1 ||
+            files[i].indexOf('EntityRepositoryBase.mongo.cs') > -1 ||
+			files[i].indexOf('GenericEntityRepository.mongo.cs') > -1 ||
+			files[i].indexOf('IRepository.mongo.cs') > -1 ||
+            files[i].indexOf('IRepositoryInjection.mongo.cs') > -1 ||
+            files[i].indexOf('RepositoryBase.mongo.cs') > -1 ||
+            files[i].indexOf('EntityBase.mongo.cs') > -1 ||
+            files[i].indexOf('ContextBase.mongo.cs') > -1 ||            
+            files[i].indexOf('EntityContext.mongo.cs') > -1 ||         
+            files[i].indexOf('ControllerTestBase.mongo.cs') > -1 ||         
+            files[i].indexOf('ServiceCollectionExtensions.mongo.cs') > -1            
+          ) {
             ignoreFiles.push(files[i]);
           }
-          if (files[i].indexOf('DataAccessSettings.ms.cs') > -1) {
-            ignoreFiles.push(files[i]);
-          }
-          if (files[i].indexOf('DataAccessSettingsConfigKey.ms.cs') > -1) {
-            ignoreFiles.push(files[i]);
-          }
+		  
           break;
         case 'ms':
-          if (files[i].indexOf('dataaccess.npg.json') > -1) {
+		  if (
+            files[i].indexOf('dataaccess.npg.json') > -1 ||
+            files[i].indexOf('DataAccessSettings.npg.cs') > -1 ||
+            files[i].indexOf('DataAccessSettingsConfigKey.npg.cs') > -1 ||
+			files[i].indexOf('dataaccess.mongo.json') > -1 ||
+            files[i].indexOf('DataAccessSettings.mongo.cs') > -1 ||
+            files[i].indexOf('DataAccessSettingsConfigKey.mongo.cs') > -1 ||
+            files[i].indexOf('EntityRepositoryBase.mongo.cs') > -1 ||
+			files[i].indexOf('GenericEntityRepository.mongo.cs') > -1 ||
+			files[i].indexOf('IRepository.mongo.cs') > -1 ||
+            files[i].indexOf('IRepositoryInjection.mongo.cs') > -1 ||
+            files[i].indexOf('RepositoryBase.mongo.cs') > -1 ||
+            files[i].indexOf('EntityBase.mongo.cs') > -1 ||
+            files[i].indexOf('ContextBase.mongo.cs') > -1 ||            
+            files[i].indexOf('EntityContext.mongo.cs') > -1 ||      
+			files[i].indexOf('ControllerTestBase.mongo.cs') > -1 ||  			
+            files[i].indexOf('ServiceCollectionExtensions.mongo.cs') > -1       
+          ) {
             ignoreFiles.push(files[i]);
           }
-          if (files[i].indexOf('DataAccessSettings.npg.cs') > -1) {
+
+          break;
+		case 'mo':
+		  if (
+            files[i].indexOf('dataaccess.npg.json') > -1 ||
+            files[i].indexOf('DataAccessSettings.npg.cs') > -1 ||
+            files[i].indexOf('DataAccessSettingsConfigKey.npg.cs') > -1 ||
+			files[i].indexOf('dataaccess.ms.json') > -1 ||
+            files[i].indexOf('DataAccessSettings.ms.cs') > -1 ||
+            files[i].indexOf('DataAccessSettingsConfigKey.ms.cs') > -1 ||
+			files[i].indexOf('EntityRepositoryBase.cs') > -1 ||
+			files[i].indexOf('GenericEntityRepository.cs') > -1 ||
+			files[i].indexOf('IRepository.cs') > -1 ||
+            files[i].indexOf('IRepositoryInjection.cs') > -1 ||
+            files[i].indexOf('RepositoryBase.cs') > -1 ||
+            files[i] === 'EntityBase.cs' ||
+            files[i].indexOf('ContextBase.cs') > -1 ||            
+            files[i].indexOf('EntityContext.cs') > -1 ||         
+            files[i].indexOf('ServiceCollectionExtensions.cs') > -1 ||
+			files[i].indexOf('ControllerTestBase.cs') > -1 || 
+            files[i].indexOf('ModelBuilderExtensions.cs') > -1 ||
+            files[i].indexOf('Foo.cs') > -1 ||
+            files[i].indexOf('FooGuid.cs') > -1 ||
+            files[i].indexOf('FooGuidRepository.cs') > -1 ||
+            files[i] === 'FooRepository.cs' ||
+            files[i].indexOf('FooSqlLiteRepository.cs') > -1 ||
+            files[i].indexOf('InMemoryContext.cs') > -1 ||
+            files[i].indexOf('TestContext.cs') > -1 ||
+            files[i].indexOf('SqlLiteContext.cs') > -1 ||
+            files[i].indexOf('EfTransactionTests.cs') > -1 ||
+            files[i].indexOf('GenericEntityRepositoryTests.cs') > -1 || 
+            files[i].indexOf('GenericGuidEntityRepositoryTests.cs') > -1 || 
+            files[i].indexOf('SqlLiteContextModelSnapshot.cs') > -1 || 
+            files[i].indexOf('20201117100448_InitialSqlLite.cs') > -1 || 
+            files[i].indexOf('20201117100448_InitialSqlLite.Designer.cs') > -1 || 
+            files[i].indexOf('AddDataAccessOptionsTests.cs') > -1     
+          ) {
             ignoreFiles.push(files[i]);
           }
-          if (files[i].indexOf('DataAccessSettingsConfigKey.npg.cs') > -1) {
-            ignoreFiles.push(files[i]);
-          }
+
           break;
         default:
           if (
@@ -222,7 +313,15 @@ module.exports = class extends Generator {
             files[i].indexOf('DataAccessSettings.ms.cs') > -1 ||
             files[i].indexOf('DataAccessSettings.npg.cs') > -1 ||
             files[i].indexOf('DataAccessSettingsConfigKey.ms.cs') > -1 ||
-            files[i].indexOf('DataAccessSettingsConfigKey.npg.cs') > -1
+            files[i].indexOf('DataAccessSettingsConfigKey.npg.cs') > -1 ||
+			files[i].indexOf('dataaccess.mongo.json') > -1 ||
+            files[i].indexOf('EntityRepositoryBase.mongo.cs') > -1 ||
+			files[i].indexOf('GenericEntityRepository.mongo.cs') > -1 ||
+			files[i].indexOf('IRepository.mongo.cs') > -1 ||
+            files[i].indexOf('IRepositoryInjection.mongo.cs') > -1 ||
+            files[i].indexOf('RepositoryBase.mongo.cs') > -1 ||
+            files[i].indexOf('EntityBase.mongo.cs') > -1 ||
+            files[i].indexOf('ContextBase.mongo.cs') > -1   
           ) {
             ignoreFiles.push(files[i]);
           }
@@ -266,6 +365,9 @@ function getDataProvider(input, projectName) {
   var variable = 'DataAccessSettings dataAccessSettings;';
   var getService =
     'dataAccessSettings = provider.GetService<IOptions<DataAccessSettings>>().Value;';
+  var mongoPackages =
+      '<PackageReference Include="MongoDB.Bson" Version="2.11.4" />\n' +
+      '<PackageReference Include="MongoDB.Driver" Version="2.11.4" />\n';
 
   var dataProvider = {
     input: input,
@@ -306,6 +408,16 @@ function getDataProvider(input, projectName) {
     dataProvider.startupImports = usings;
     dataProvider.programConfig = programConfig;
     dataProvider.tools = tools;
+    dataProvider.registerConfiguration = registerConfiguration;
+    dataProvider.variable = variable;
+    dataProvider.getService = getService;
+  } else if (input.toLowerCase() === 'mo') {
+    dataProvider.package = mongoPackages;
+    dataProvider.startupServices =
+		'      services.AddDataAccess<EntityContext>();';
+
+    dataProvider.startupImports = usings;
+    dataProvider.programConfig = programConfig;
     dataProvider.registerConfiguration = registerConfiguration;
     dataProvider.variable = variable;
     dataProvider.getService = getService;
