@@ -3,9 +3,9 @@ using StarterKit.DataAccess.Repositories;
 
 namespace StarterKit.UnitTests.DataAccess._TestObjects
 {
-  public class FooSqlLiteRepository : EntityRepositoryBase<SqlLiteContext, Foo>, IFooRepository
+  public class FooMongoRepository : EntityRepositoryBaseMongo<FooMongo>, IFooRepository
   {
-    public FooSqlLiteRepository(ILogger<StarterKit.DataAccess.DataAccess> logger, SqlLiteContext context) : base(logger, context)
+    public FooMongoRepository(ILogger<StarterKit.DataAccess.DataAccess> logger, MongoContext context) : base(logger, context)
     {
     }
   }

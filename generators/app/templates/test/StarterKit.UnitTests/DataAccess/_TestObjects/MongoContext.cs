@@ -1,24 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MongoDB.Driver;
 using StarterKit.DataAccess.Context;
+using StarterKit.DataAccess.Options;
 
 namespace StarterKit.UnitTests.DataAccess._TestObjects
 {
-  public class SqlLiteContext : Context<SqlLiteContext>
+  public class MongoContext : ContextMongo
   {
-    public SqlLiteContext()
-      : base(new DbContextOptions<SqlLiteContext>())
+    public MongoContext(DataAccessSettingsMongo options)
+     : base (options)
     {
     }
 
-    public SqlLiteContext(DbContextOptions<SqlLiteContext> options)
-      : base(options)
-    {
-    }
-
-    public DbSet<Foo> Foos { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-      => options.UseSqlite("Data Source=TestDatabase.db");
-
+    public IMongoCollection<FooMongo> Foos => Database.GetCollection<FooMongo>("Foos");
   }
 }
