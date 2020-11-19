@@ -15,13 +15,15 @@ namespace StarterKit.DataAccess.Context
       Database = Client.GetDatabase(options.DbName);
     }
 
+    /*
+     * add IMongoCollections in derived class like so:
+     * public IMongoCollection<EntityBase> Entities => _database.GetCollection<EntityBase>("Entities");
+     */
+
     /// <summary>
-    /// add IMongoCollections in derived class like so:
-    ///
-    /// public IMongoCollection<EntityBase> Entities => _database.GetCollection<EntityBase>("Entities");
+    /// Transtions on MongoDb are only all allowed when retryable writes are allowed.
+    /// see: https://docs.mongodb.com/manual/core/retryable-writes/
     /// </summary>
-
-
     public void BeginTransaction()
     {
       _transactionSession = Client.StartSession();

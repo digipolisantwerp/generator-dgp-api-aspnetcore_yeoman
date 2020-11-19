@@ -354,5 +354,6 @@ namespace StarterKit.UnitTests.DataAccess.Repositories
 
       Assert.Equal(5, _context.Foos.CountDocuments(f => f.Name == "Updated"));
     }
+
   }
 }
