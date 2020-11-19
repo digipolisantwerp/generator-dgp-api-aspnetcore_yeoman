@@ -9,12 +9,12 @@ using Xunit;
 
 namespace StarterKit.UnitTests.DataAccess.Repositories
 {
-  public class TransactionTests
+  public class EfTransactionTests
   {
     private SqlLiteContext _context;
     private IRepository<Foo, int> _fooRepository;
 
-    public TransactionTests()
+    public EfTransactionTests()
     {
       _fooRepository = new GenericEntityRepository<Foo>(null);
 

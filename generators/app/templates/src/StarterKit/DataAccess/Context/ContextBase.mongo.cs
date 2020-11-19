@@ -6,17 +6,17 @@ namespace StarterKit.DataAccess.Context
   public class ContextMongo : IContext
   {
     private IClientSessionHandle _transactionSession;
-    private readonly MongoClient _client;
-    private readonly IMongoDatabase _database;
+    protected readonly MongoClient Client;
+    protected readonly IMongoDatabase Database;
 
     public ContextMongo(DataAccessSettingsMongo options)
     {
-      _client = new MongoClient(options.GetConnectionString());
-      _database = _client.GetDatabase(options.DbName);
+      Client = new MongoClient(options.GetConnectionString());
+      Database = Client.GetDatabase(options.DbName);
     }
 
     /// <summary>
-    /// add IMongoCollections here like so:
+    /// add IMongoCollections in derived class like so:
     ///
     /// public IMongoCollection<EntityBase> Entities => _database.GetCollection<EntityBase>("Entities");
     /// </summary>
@@ -24,7 +24,7 @@ namespace StarterKit.DataAccess.Context
 
     public void BeginTransaction()
     {
-      _transactionSession = _client.StartSession();
+      _transactionSession = Client.StartSession();
       _transactionSession.StartTransaction();
     }
 
