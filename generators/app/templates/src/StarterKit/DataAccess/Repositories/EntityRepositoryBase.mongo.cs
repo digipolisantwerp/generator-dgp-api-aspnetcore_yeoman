@@ -184,42 +184,44 @@ namespace StarterKit.DataAccess.Repositories
       return actionResult.IsAcknowledged && actionResult.ModifiedCount > 0;
     }
 
-    public virtual IEnumerable<TEntity> UpdateBatch(IEnumerable<TEntity> entities)
+    public virtual bool UpdateBatch(IEnumerable<TEntity> entities)
     {
       if (entities == null) throw new ArgumentNullException(nameof(entities));
-      return entities.Select(Update);
+      return entities.Select(Update).All(a => a);
     }
 
-    public virtual void Remove(TEntity entity)
+    public virtual bool Remove(TEntity entity)
     {
-      Context.Set<TEntity>().Attach(entity);
-      Context.Entry(entity).State = EntityState.Deleted;
-      Context.Set<TEntity>().Remove(entity);
+      return Remove(entity.Id);
     }
 
-    public virtual void RemoveBatch(IEnumerable<TEntity> entities)
+    public virtual bool RemoveBatch(IEnumerable<TEntity> entities)
     {
-      if (entities == null) throw new ArgumentNullException(nameof(entities));
-      Context.Set<TEntity>().RemoveRange(entities);
+      return RemoveBatch(entities.Select(i => i.Id));
     }
 
-    public virtual void Remove(TId id)
+    public virtual bool Remove(TId id)
     {
-      Remove(Get(id));
+      var actionResult = EntityCollection.DeleteOne(
+        e => e.Id.Equals(id));
+
+      return actionResult.IsAcknowledged
+             && actionResult.DeletedCount > 0;
     }
 
-    public virtual void RemoveBatch(IEnumerable<TId> ids)
+    public virtual bool RemoveBatch(IEnumerable<TId> ids)
     {
       if (ids == null) throw new ArgumentNullException(nameof(ids));
-      foreach (var id in ids)
-      {
-        Remove(id);
-      }
+      var actionResult = EntityCollection.DeleteMany(
+        e => ids.Contains(e.Id));
+
+      return actionResult.IsAcknowledged
+             && actionResult.DeletedCount > 0;
     }
 
     public virtual bool Any(Expression<Func<TEntity, bool>> filter = null)
     {
-      IQueryable<TEntity> query = Context.Set<TEntity>();
+      IQueryable<TEntity> query = EntityCollection.AsQueryable();
 
       if (filter != null)
       {
@@ -231,7 +233,7 @@ namespace StarterKit.DataAccess.Repositories
 
     public virtual Task<bool> AnyAsync(Expression<Func<TEntity, bool>> filter = null)
     {
-      IQueryable<TEntity> query = Context.Set<TEntity>();
+      IQueryable<TEntity> query = EntityCollection.AsQueryable();
 
       if (filter != null)
       {
@@ -243,7 +245,7 @@ namespace StarterKit.DataAccess.Repositories
 
     public virtual int Count(Expression<Func<TEntity, bool>> filter = null)
     {
-      IQueryable<TEntity> query = Context.Set<TEntity>();
+      IQueryable<TEntity> query = EntityCollection.AsQueryable();
 
       if (filter != null)
       {
@@ -255,7 +257,7 @@ namespace StarterKit.DataAccess.Repositories
 
     public virtual Task<int> CountAsync(Expression<Func<TEntity, bool>> filter = null)
     {
-      IQueryable<TEntity> query = Context.Set<TEntity>();
+      IQueryable<TEntity> query = EntityCollection.AsQueryable();
 
       if (filter != null)
       {

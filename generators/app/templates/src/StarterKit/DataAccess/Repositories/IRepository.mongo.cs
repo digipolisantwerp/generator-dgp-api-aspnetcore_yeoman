@@ -52,10 +52,10 @@ namespace StarterKit.DataAccess.Repositories
 
     void Add(TEntity entity);
 
-    TEntity Update(TEntity entity);
+    bool Update(TEntity entity);
 
-    void Remove(TEntity entity);
-    void Remove(TId id);
+    bool Remove(TEntity entity);
+    bool Remove(TId id);
 
     bool Any(Expression<Func<TEntity, bool>> filter = null);
     Task<bool> AnyAsync(Expression<Func<TEntity, bool>> filter = null);
@@ -63,10 +63,9 @@ namespace StarterKit.DataAccess.Repositories
     int Count(Expression<Func<TEntity, bool>> filter = null);
     Task<int> CountAsync(Expression<Func<TEntity, bool>> filter = null);
 
-    void SetUnchanged(TEntity entity);
     void AddBatch(IEnumerable<TEntity> entities);
-    IEnumerable<TEntity> UpdateBatch(IEnumerable<TEntity> entities);
-    void RemoveBatch(IEnumerable<TEntity> entities);
-    void RemoveBatch(IEnumerable<TId> ids);
+    bool UpdateBatch(IEnumerable<TEntity> entities);
+    bool RemoveBatch(IEnumerable<TEntity> entities);
+    bool RemoveBatch(IEnumerable<TId> ids);
   }
 }

@@ -6,7 +6,7 @@ using StarterKit.DataAccess.Repositories;
 
 namespace StarterKit.Startup
 {
-  public static class ServiceCollectionExtentions
+  public static class ServiceCollectionExtensions
   {
     public static IServiceCollection AddDataAccess<TEntityContext>(this IServiceCollection services)
       where TEntityContext : Context<TEntityContext>
@@ -15,11 +15,25 @@ namespace StarterKit.Startup
       return services;
     }
 
+    public static IServiceCollection AddDataAccessMongo<TEntityContext>(this IServiceCollection services)
+      where TEntityContext : ContextMongo
+    {
+      RegisterDataAccessMongo<TEntityContext>(services);
+      return services;
+    }
+
     private static void RegisterDataAccess<TEntityContext>(IServiceCollection services)
       where TEntityContext : Context<TEntityContext>
     {
       services.TryAddScoped<IContext, TEntityContext>();
       services.TryAddTransient(typeof(IRepository<,>), typeof(GenericEntityRepository<>));
+    }
+
+    private static void RegisterDataAccessMongo<TEntityContext>(IServiceCollection services)
+      where TEntityContext : ContextMongo
+    {
+      services.TryAddScoped<IContext, TEntityContext>();
+      services.TryAddTransient(typeof(IRepository<,>), typeof(GenericEntityRepositoryMongo<>));
     }
 
     private static void ValidateMandatoryField(string field, string fieldName)

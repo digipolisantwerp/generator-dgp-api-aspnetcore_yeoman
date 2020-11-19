@@ -1,6 +1,6 @@
 ﻿namespace StarterKit.DataAccess.Context
 {
-  interface IContext
+  public interface IContext
   {
     void BeginTransaction();
     void Commit();
