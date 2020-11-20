@@ -36,8 +36,4 @@
     <ProjectReference Include="..\..\src\StarterKit\StarterKit.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DataAccess" />
-  </ItemGroup>
-
 </Project>

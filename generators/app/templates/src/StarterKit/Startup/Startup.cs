@@ -20,8 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using StarterKit.DataAccess;
-using StarterKit.DataAccess.Options;
+//--dataaccess-startupImports--
 
 namespace StarterKit.Startup
 {

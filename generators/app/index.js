@@ -117,6 +117,7 @@ module.exports = class extends Generator {
           .replace(/EntityContextMongo/g, 'EntityContext')
           .replace(/ServiceCollectionExtensionsMongo/g, 'ServiceCollectionExtensions')
           .replace(/ControllerTestBaseMongo/g, 'ControllerTestBase')
+          .replace(/ControllerTestBaseNoDb/g, 'ControllerTestBase')
           .replace(
             /DataAccessSettingsConfigKeyMs/g,
             'DataAccessSettingsConfigKey'
@@ -188,12 +189,43 @@ module.exports = class extends Generator {
     var fs = this.fs;
 
     // copy files and rename starterkit to projectName
-
     console.log('Creating project skeleton...');
+	
+	var ignoreFiles = [];
+	//if no database then also remove all files inside dataprovider folders
+	if(dataProvider.input === 'n') {
+		nd.files(source+'/src/StarterKit/DataAccess', function (err, files) {
+			for (var i = 0; i < files.length; i++) {
+				ignoreFiles.push(files[i]);
+			}
+		});
+		
+		nd.files(source+'/src/StarterKit/Entities', function (err, files) {
+			for (var i = 0; i < files.length; i++) {
+				ignoreFiles.push(files[i]);
+			}
+		});
+		
+		nd.files(source+'/test/StarterKit.UnitTests/DataAccess', function (err, files) {
+			for (var i = 0; i < files.length; i++) {
+				ignoreFiles.push(files[i]);
+			}
+		});
+	}
+	
+	if(dataProvider.input === 'n' || dataProvider.input === 'mo') {
+		nd.files(source+'/test/StarterKit.UnitTests/Migrations', function (err, files) {
+			for (var i = 0; i < files.length; i++) {
+				ignoreFiles.push(files[i]);
+			}
+		});
+	}
 
     nd.files(source, function (err, files) {
+		
+		
       for (var i = 0; i < files.length; i++) {
-        var ignoreFiles = [];
+        
         var filename = files[i]
           .replace(/StarterKit/g, projectName)
           .replace(/starterkit/g, lowerProjectName)
@@ -217,6 +249,7 @@ module.exports = class extends Generator {
 		  .replace('EntityContext.mongo.cs', 'EntityContext.cs')
 		  .replace('ServiceCollectionExtensions.mongo.cs', 'ServiceCollectionExtensions.cs')
 		  .replace('ControllerTestBase.mongo.cs', 'ControllerTestBase.cs')
+		  .replace('ControllerTestBase.nodb.cs', 'ControllerTestBase.cs')
           .replace(source, dest);
         switch (dataProvider.input) {
         case 'p':
@@ -236,7 +269,13 @@ module.exports = class extends Generator {
             files[i].indexOf('ContextBase.mongo.cs') > -1 ||            
             files[i].indexOf('EntityContext.mongo.cs') > -1 ||         
             files[i].indexOf('ControllerTestBase.mongo.cs') > -1 ||         
-            files[i].indexOf('ServiceCollectionExtensions.mongo.cs') > -1            
+            files[i].indexOf('ControllerTestBase.nodb.cs') > -1 ||         
+            files[i].indexOf('ServiceCollectionExtensions.mongo.cs') > -1 ||
+			files[i].indexOf('FooMongoRepository.cs') > -1 ||
+			files[i].indexOf('MongoContext.cs') > -1 ||
+			files[i].indexOf('FooMongo.cs') > -1 ||
+			files[i].indexOf('GenericEntityMongoRepositoryTests.cs') > -1 ||
+			files[i].indexOf('AddDataAccessOptionsMongoTests.cs') > -1
           ) {
             ignoreFiles.push(files[i]);
           }
@@ -258,8 +297,14 @@ module.exports = class extends Generator {
             files[i].indexOf('EntityBase.mongo.cs') > -1 ||
             files[i].indexOf('ContextBase.mongo.cs') > -1 ||            
             files[i].indexOf('EntityContext.mongo.cs') > -1 ||      
-			files[i].indexOf('ControllerTestBase.mongo.cs') > -1 ||  			
-            files[i].indexOf('ServiceCollectionExtensions.mongo.cs') > -1       
+			files[i].indexOf('ControllerTestBase.mongo.cs') > -1 || 
+			files[i].indexOf('ControllerTestBase.nodb.cs') > -1 ||    			
+            files[i].indexOf('ServiceCollectionExtensions.mongo.cs') > -1 ||
+			files[i].indexOf('FooMongoRepository.cs') > -1 ||
+			files[i].indexOf('MongoContext.cs') > -1 ||
+			files[i].indexOf('FooMongo.cs') > -1 ||
+			files[i].indexOf('GenericEntityMongoRepositoryTests.cs') > -1 ||
+			files[i].indexOf('AddDataAccessOptionsMongoTests.cs') > -1
           ) {
             ignoreFiles.push(files[i]);
           }
@@ -278,16 +323,17 @@ module.exports = class extends Generator {
 			files[i].indexOf('IRepository.cs') > -1 ||
             files[i].indexOf('IRepositoryInjection.cs') > -1 ||
             files[i].indexOf('RepositoryBase.cs') > -1 ||
-            files[i] === 'EntityBase.cs' ||
+			(files[i].indexOf('EntityBase.cs') > -1 && files[i].indexOf('IEntityBase.cs') < 0) ||
             files[i].indexOf('ContextBase.cs') > -1 ||            
             files[i].indexOf('EntityContext.cs') > -1 ||         
             files[i].indexOf('ServiceCollectionExtensions.cs') > -1 ||
 			files[i].indexOf('ControllerTestBase.cs') > -1 || 
+			files[i].indexOf('ControllerTestBase.nodb.cs') > -1 ||   
             files[i].indexOf('ModelBuilderExtensions.cs') > -1 ||
             files[i].indexOf('Foo.cs') > -1 ||
             files[i].indexOf('FooGuid.cs') > -1 ||
             files[i].indexOf('FooGuidRepository.cs') > -1 ||
-            files[i] === 'FooRepository.cs' ||
+            (files[i].indexOf('FooRepository.cs') > -1 && files[i].indexOf('IFooRepository.cs') < 0) ||
             files[i].indexOf('FooSqlLiteRepository.cs') > -1 ||
             files[i].indexOf('InMemoryContext.cs') > -1 ||
             files[i].indexOf('TestContext.cs') > -1 ||
@@ -295,9 +341,6 @@ module.exports = class extends Generator {
             files[i].indexOf('EfTransactionTests.cs') > -1 ||
             files[i].indexOf('GenericEntityRepositoryTests.cs') > -1 || 
             files[i].indexOf('GenericGuidEntityRepositoryTests.cs') > -1 || 
-            files[i].indexOf('SqlLiteContextModelSnapshot.cs') > -1 || 
-            files[i].indexOf('20201117100448_InitialSqlLite.cs') > -1 || 
-            files[i].indexOf('20201117100448_InitialSqlLite.Designer.cs') > -1 || 
             files[i].indexOf('AddDataAccessOptionsTests.cs') > -1     
           ) {
             ignoreFiles.push(files[i]);
@@ -321,10 +364,15 @@ module.exports = class extends Generator {
             files[i].indexOf('IRepositoryInjection.mongo.cs') > -1 ||
             files[i].indexOf('RepositoryBase.mongo.cs') > -1 ||
             files[i].indexOf('EntityBase.mongo.cs') > -1 ||
+			files[i].indexOf('ServiceCollectionExtensions.mongo.cs') > -1 ||
+            files[i].indexOf('ServiceCollectionExtensions.cs') > -1 ||
+			files[i].indexOf('ControllerTestBase.cs') > -1 || 
+			files[i].indexOf('ControllerTestBase.mongo.cs') > -1 ||   
             files[i].indexOf('ContextBase.mongo.cs') > -1   
           ) {
             ignoreFiles.push(files[i]);
           }
+
         }
 
         if (!ignoreFiles.includes(files[i])) {
@@ -353,7 +401,8 @@ function getDataProvider(input, projectName) {
     '<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.9" />\n';
   var sqlServerPackage =
     '<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.9" />\n';
-  var usings = 'using Microsoft.EntityFrameworkCore;\nusing Microsoft.EntityFrameworkCore.Migrations;\nusing Digipolis.DataAccess;\nusing StarterKit.DataAccess;\nusing StarterKit.DataAccess.Options;\nusing Microsoft.EntityFrameworkCore.Diagnostics;'.replace(/StarterKit/g, projectName);
+  var usings = 'using Microsoft.EntityFrameworkCore;\nusing Microsoft.EntityFrameworkCore.Migrations;\nusing StarterKit.DataAccess;\nusing StarterKit.DataAccess.Options;\nusing Microsoft.EntityFrameworkCore.Diagnostics;'.replace(/StarterKit/g, projectName);
+  var mongoUsings = 'using StarterKit.DataAccess;\nusing StarterKit.DataAccess.Options;'.replace(/StarterKit/g, projectName);
   var programConfig = 'config.AddJsonFile(JsonFilesKey.DataAccessJson);\n';
   var tools =
       '<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.9">\n' +
@@ -416,7 +465,7 @@ function getDataProvider(input, projectName) {
     dataProvider.startupServices =
 		'      services.AddDataAccess<EntityContext>();';
 
-    dataProvider.startupImports = usings;
+    dataProvider.startupImports = mongoUsings;
     dataProvider.programConfig = programConfig;
     dataProvider.registerConfiguration = registerConfiguration;
     dataProvider.variable = variable;
