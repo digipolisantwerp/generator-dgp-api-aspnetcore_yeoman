@@ -189,10 +189,8 @@ namespace StarterKit.DataAccess.Repositories
     public virtual void RemoveBatch(IEnumerable<TId> ids)
     {
       if (ids == null) throw new ArgumentNullException(nameof(ids));
-      foreach (var id in ids)
-      {
-        Remove(id);
-      }
+      var entitiesToRemove = Context.Set<TEntity>().Where(e => ids.Contains(e.Id));
+      RemoveBatch(entitiesToRemove);
     }
 
     public virtual bool Any(Expression<Func<TEntity, bool>> filter = null)
