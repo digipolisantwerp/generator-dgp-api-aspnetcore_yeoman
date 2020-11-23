@@ -17,7 +17,7 @@ namespace StarterKit.Framework.Logging
 {
   public static class LoggingEngineExtensions
   {
-    public static IServiceCollection AddLoggingEngine(this IServiceCollection services)
+    public static void AddLoggingEngine(this IServiceCollection services)
     {
       services.AddSerilogExtensions(options =>
       {
@@ -26,11 +26,9 @@ namespace StarterKit.Framework.Logging
         options.AddCorrelationEnricher();
         options.AddMessagEnricher(msgOptions => msgOptions.MessageVersion = "1");
       });
-
-      return services;
     }
 
-    public static ILoggerFactory AddLoggingEngine(
+    public static void AddLoggingEngine(
       this ILoggerFactory loggerFactory,
       IApplicationBuilder app,
       IHostApplicationLifetime appLifetime,
@@ -52,8 +50,6 @@ namespace StarterKit.Framework.Logging
       loggerFactory.AddSerilog(dispose: true);
 
       appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);
-
-      return loggerFactory;
     }
 
     /// <summary>
@@ -62,7 +58,7 @@ namespace StarterKit.Framework.Logging
     /// <param name="configurationBuilder"></param>
     /// <param name="hostingEnv"></param>
     /// <returns></returns>
-    public static IConfigurationBuilder AddLoggingConfiguration(this IConfigurationBuilder configurationBuilder,
+    public static void AddLoggingConfiguration(this IConfigurationBuilder configurationBuilder,
       IWebHostEnvironment hostingEnv)
     {
       var env = Environment.GetEnvironmentVariables();
@@ -83,7 +79,6 @@ namespace StarterKit.Framework.Logging
       // load in this order so that json-settings will be overridden with environment settings when getting the configuration section
       configurationBuilder.AddJsonFile(JsonFilesKey.LoggingJson);
       configurationBuilder.AddInMemoryCollection(environmentDict);
-      return configurationBuilder;
     }
   }
 }

@@ -15,12 +15,10 @@ namespace StarterKit.Shared.Extensions
 
   public static class ApiExtensionsBuilder
   {
-    public static IServiceCollection AddGlobalErrorHandling<TExceptionMapper>(this IServiceCollection services) where TExceptionMapper : ExceptionMapper
+    public static void AddGlobalErrorHandling<TExceptionMapper>(this IServiceCollection services) where TExceptionMapper : ExceptionMapper
     {
       services.TryAddSingleton<IExceptionMapper, TExceptionMapper>();
       services.TryAddSingleton<IExceptionHandler, ExceptionHandler>();
-
-      return services;
     }
 
     public static void UseApiExtensions(this IApplicationBuilder app)
