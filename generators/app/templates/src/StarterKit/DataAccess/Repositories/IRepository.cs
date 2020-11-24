@@ -64,7 +64,7 @@ namespace StarterKit.DataAccess.Repositories
 
     void SetUnchanged(TEntity entity);
     void AddBatch(IEnumerable<TEntity> entities);
-    IEnumerable<TEntity> UpdateBatch(IEnumerable<TEntity> entities);
+    void UpdateBatch(IEnumerable<TEntity> entities);
     void RemoveBatch(IEnumerable<TEntity> entities);
     void RemoveBatch(IEnumerable<TId> ids);
   }

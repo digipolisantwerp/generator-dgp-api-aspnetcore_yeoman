@@ -162,10 +162,10 @@ namespace StarterKit.DataAccess.Repositories
       return Context.Set<TEntity>().Update(entity).Entity;
     }
 
-    public virtual IEnumerable<TEntity> UpdateBatch(IEnumerable<TEntity> entities)
+    public virtual void UpdateBatch(IEnumerable<TEntity> entities)
     {
       if (entities == null) throw new ArgumentNullException(nameof(entities));
-      return entities.Select(Update);
+      Context.Set<TEntity>().UpdateRange(entities);
     }
 
     public virtual void Remove(TEntity entity)
