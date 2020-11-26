@@ -97,6 +97,7 @@ module.exports = class extends Generator {
     var iisHttpPort = this.props.iisHttpPort;
     var iisHttpsPort = this.props.iisHttpsPort;
     var dataProvider = getDataProvider(this.props.dataProvider, projectName);
+	
 
     var copyOptions = {
       process: function (contents) {
@@ -180,6 +181,47 @@ module.exports = class extends Generator {
           .replace(/\/\/--dataaccess-getService--/g, dataProvider.getService)
           .replace(/\/\/--dataaccess-config--/g, dataProvider.programConfig)
           .replace(/<!-- dataaccess-tools -->/g, dataProvider.tools);
+		  
+		  //now remove db provider specific imports
+		  switch (dataProvider.input) {
+			case 'p':
+				result = result
+					.replace(/<!--StartMongoSpecificPackage(.*)EndMongoSpecificPackage-->/s, '')
+					.replace(/<!--StartMsSpecificPackage(.*)EndMsSpecificPackage-->/s, '')
+					.replace(/<!--StartEfSpecificPackage-->/g, '')
+					.replace(/<!--EndEfSpecificPackage-->/g, '')
+					.replace(/<!--StartPostgreSpecificPackage-->/g, '')
+					.replace(/<!--EndPostgreSpecificPackage-->/g, '');
+				break;
+			case 'ms':
+				result = result
+					.replace(/<!--StartMongoSpecificPackage(.*)EndMongoSpecificPackage-->/s, '')
+					.replace(/<!--StartPostgreSpecificPackage(.*)EndPostgreSpecificPackage-->/s, '')
+					.replace(/<!--StartEfSpecificPackage-->/g, '')
+					.replace(/<!--EndEfSpecificPackage-->/g, '')
+					.replace(/<!--StartMsSpecificPackage-->/g, '')
+					.replace(/<!--EndMsSpecificPackage-->/g, '');
+				break;
+			  break;
+			case 'mo':
+				result = result
+					.replace(/<!--StartEfSpecificPackage(.*)EndEfSpecificPackage-->/s, '')
+					.replace(/<!--StartMsSpecificPackage(.*)EndMsSpecificPackage-->/s, '')
+					.replace(/<!--StartPostgreSpecificPackage(.*)EndPostgreSpecificPackage-->/s, '')
+					.replace(/<!--StartMongoSpecificPackage-->/g, '')
+					.replace(/<!--EndMsSpecificPackage-->/g, '');
+				break;
+			  break;
+			default:
+				result = result
+					.replace(/<!--StartMongoSpecificPackage(.*)EndMongoSpecificPackage-->/s, '')
+					.replace(/<!--StartEfSpecificPackage(.*)EndEfSpecificPackage-->/s, '')
+					.replace(/<!--StartMsSpecificPackage(.*)EndMsSpecificPackage-->/s, '')
+					.replace(/<!--StartPostgreSpecificPackage(.*)EndPostgreSpecificPackage-->/s, '');
+		  }
+		  
+
+		  
         return result;
       }
     };
@@ -401,8 +443,8 @@ function getDataProvider(input, projectName) {
     '<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.9" />\n';
   var sqlServerPackage =
     '<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.9" />\n';
-  var usings = 'using Microsoft.EntityFrameworkCore;\nusing Microsoft.EntityFrameworkCore.Migrations;\nusing StarterKit.DataAccess;\nusing StarterKit.DataAccess.Options;\nusing Microsoft.EntityFrameworkCore.Diagnostics;'.replace(/StarterKit/g, projectName);
-  var mongoUsings = 'using StarterKit.DataAccess;\nusing StarterKit.DataAccess.Options;'.replace(/StarterKit/g, projectName);
+  var usings = 'using Microsoft.EntityFrameworkCore;\nusing Microsoft.EntityFrameworkCore.Migrations;\nusing StarterKit.DataAccess;\nusing StarterKit.DataAccess.Options;\nusing Microsoft.EntityFrameworkCore.Diagnostics;\nusing StarterKit.DataAccess.Context;'.replace(/StarterKit/g, projectName);
+  var mongoUsings = 'using StarterKit.DataAccess;\nusing StarterKit.DataAccess.Options;\nusing StarterKit.DataAccess.Context;'.replace(/StarterKit/g, projectName);
   var programConfig = 'config.AddJsonFile(JsonFilesKey.DataAccessJson);\n';
   var tools =
       '<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.9">\n' +
