@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace StarterKit.DataAccess
+namespace StarterKit.DataAccess.Context
 {
   public class EntityContext : Context.Context<EntityContext>
   {

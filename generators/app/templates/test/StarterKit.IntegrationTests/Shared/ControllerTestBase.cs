@@ -7,6 +7,7 @@ using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using StarterKit.DataAccess;
+using StarterKit.DataAccess.Context;
 using StarterKit.IntegrationTests.Shared.Attributes;
 
 namespace StarterKit.IntegrationTests.Shared
