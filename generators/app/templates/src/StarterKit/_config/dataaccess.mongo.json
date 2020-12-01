@@ -1,0 +1,9 @@
+{
+  "DataAccess": {
+    "Host": "localhost",
+    "Port": "27017",
+    "DbName": "starterkit",
+    "User": "",
+    "Password": ""
+  }
+}

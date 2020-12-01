@@ -1,5 +1,4 @@
 using System;
-using Digipolis.DataAccess;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -8,7 +7,12 @@ using StarterKit.Shared.Constants;
 
 namespace StarterKit.DataAccess.Options
 {
-  public class DataAccessSettingsMs: SettingsBase
+
+  /// <summary>
+  /// These are the dataaccess settings for Entity Framework MSSQL.
+  /// When MSSQL is chosen as the DB provider this file will be used
+  /// </summary>
+  public class DataAccessSettingsMs : SettingsBase
   {
     public string Host { get; set; }
     public string Port { get; set; }
@@ -16,7 +20,8 @@ namespace StarterKit.DataAccess.Options
     public string User { get; set; }
     public string Password { get; set; }
 
-    public static void RegisterConfiguration(IServiceCollection services, IConfigurationSection section, IHostEnvironment environment)
+    public static void RegisterConfiguration(IServiceCollection services, IConfigurationSection section,
+      IHostEnvironment environment)
     {
       services.Configure<DataAccessSettingsMs>(settings =>
       {
@@ -37,7 +42,7 @@ namespace StarterKit.DataAccess.Options
         throw new InvalidOperationException("Database port must be a number from 0 to 65536.", ex.InnerException ?? ex);
       }
 
-      var connectionString = new ConnectionString(Host, port, DbName, User, Password);
+      var connectionString = new ConnectionString(ConnectionType.MSSQL, Host, port, DbName, User, Password);
       return connectionString.ToString();
     }
 

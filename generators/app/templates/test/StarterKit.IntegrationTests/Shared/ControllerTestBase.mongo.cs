@@ -13,13 +13,13 @@ using StarterKit.IntegrationTests.Shared.Attributes;
 namespace StarterKit.IntegrationTests.Shared
 {
   [AutoRollback]
-  public class ControllerTestBase : IDisposable
+  public class ControllerTestBaseMongo : IDisposable
   {
     protected string BasePath { get; set; }
     protected EntityContext DbContext { get; private set; }
     protected TestBaseFixture Fixture { get; private set; }
 
-    public ControllerTestBase(TestBaseFixture fixture)
+    public ControllerTestBaseMongo(TestBaseFixture fixture)
     {
       Fixture = fixture;
       DbContext = fixture.GetService<EntityContext>();
@@ -53,11 +53,6 @@ namespace StarterKit.IntegrationTests.Shared
     protected async Task<T> ParseResultAsync<T>(HttpResponseMessage response)
     {
       return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
-    }
-
-    protected void Save()
-    {
-      DbContext.SaveChanges();
     }
 
     private async Task<HttpResponseMessage> SendAsync<TRequest>(HttpMethod httpMethod, string path, TRequest body, bool checkSuccess)

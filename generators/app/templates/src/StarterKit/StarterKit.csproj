@@ -27,12 +27,10 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.1" />
+    <PackageReference Include="Digipolis.Paging" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="4.1.1" />
-    <!-- dataaccess-package -->
-    <!-- dataaccess-tools -->
-    <PackageReference Include="Digipolis.DataAccess" Version="4.0.0" />
     <PackageReference Include="Digipolis.ApplicationServices" Version="2.0.0" />
     <PackageReference Include="Digipolis.Common" Version="3.0.0" />
     <PackageReference Include="Digipolis.Correlation" Version="5.3.1" />
@@ -45,6 +43,24 @@
     <PackageReference Include="Digipolis.Serilog.Correlation" Version="4.0.0" />
     <PackageReference Include="Digipolis.Serilog.Message" Version="2.0.0" />
     <PackageReference Include="Digipolis.ServiceAgents" Version="7.1.0" />
+    <!--StartEfSpecificPackage-->
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <!--EndEfSpecificPackage-->
+    <!--StartMongoSpecificPackage-->
+    <PackageReference Include="MongoDB.Bson" Version="2.11.4" />
+    <PackageReference Include="MongoDB.Driver" Version="2.11.4" />
+    <!--EndMongoSpecificPackage-->
+    <!--StartMsSpecificPackage-->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.9" />
+    <!--EndMsSpecificPackage-->
+    <!--StartPostgreSpecificPackage-->
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
+    <!--EndPostgreSpecificPackage-->
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="7.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.5.1" />
