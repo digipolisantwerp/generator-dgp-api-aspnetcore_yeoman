@@ -20,8 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Digipolis.ServiceAgents;
 using StarterKit.Framework.Logging;
+//--dataaccess-startupImports--
 
 namespace StarterKit.Startup
 {

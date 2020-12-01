@@ -1,5 +1,8 @@
 namespace StarterKit.Shared.Constants
 {
+  /// <summary>
+  /// PostgreSQL specific environment variables. Use these to override existing settings
+  /// </summary>
   public class DataAccessSettingsConfigKeyNpg
   {
     public const string Host = "DB_POSTGRESQL_CONNECTION_HOST";
