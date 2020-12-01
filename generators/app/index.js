@@ -191,6 +191,8 @@ module.exports = class extends Generator {
 					.replace(/<!--StartEfSpecificPackage-->/g, '')
 					.replace(/<!--EndEfSpecificPackage-->/g, '')
 					.replace(/<!--StartPostgreSpecificPackage-->/g, '')
+					.replace(/<!--StartEfTestSpecificPackage-->/g, '')
+					.replace(/<!--EndEfTestSpecificPackage-->/g, '')
 					.replace(/<!--EndPostgreSpecificPackage-->/g, '');
 				break;
 			case 'ms':
@@ -200,6 +202,8 @@ module.exports = class extends Generator {
 					.replace(/<!--StartEfSpecificPackage-->/g, '')
 					.replace(/<!--EndEfSpecificPackage-->/g, '')
 					.replace(/<!--StartMsSpecificPackage-->/g, '')
+					.replace(/<!--StartEfTestSpecificPackage-->/g, '')
+					.replace(/<!--EndEfTestSpecificPackage-->/g, '')
 					.replace(/<!--EndMsSpecificPackage-->/g, '');
 				break;
 			  break;
@@ -208,6 +212,7 @@ module.exports = class extends Generator {
 					.replace(/<!--StartEfSpecificPackage(.*)EndEfSpecificPackage-->/s, '')
 					.replace(/<!--StartMsSpecificPackage(.*)EndMsSpecificPackage-->/s, '')
 					.replace(/<!--StartPostgreSpecificPackage(.*)EndPostgreSpecificPackage-->/s, '')
+					.replace(/<!--StartEfTestSpecificPackage(.*)EndEfTestSpecificPackage-->/s, '')
 					.replace(/<!--StartMongoSpecificPackage-->/g, '')
 					.replace(/<!--EndMsSpecificPackage-->/g, '');
 				break;
@@ -217,6 +222,7 @@ module.exports = class extends Generator {
 					.replace(/<!--StartMongoSpecificPackage(.*)EndMongoSpecificPackage-->/s, '')
 					.replace(/<!--StartEfSpecificPackage(.*)EndEfSpecificPackage-->/s, '')
 					.replace(/<!--StartMsSpecificPackage(.*)EndMsSpecificPackage-->/s, '')
+					.replace(/<!--StartEfTestSpecificPackage(.*)EndEfTestSpecificPackage-->/s, '')
 					.replace(/<!--StartPostgreSpecificPackage(.*)EndPostgreSpecificPackage-->/s, '');
 		  }
 		  
