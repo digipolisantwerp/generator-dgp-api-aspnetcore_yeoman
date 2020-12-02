@@ -31,7 +31,7 @@ namespace StarterKit.Framework.Logging
 
       var sw = new Stopwatch();
       sw.Start();
-      if (request.Content != null && Log.IsEnabled(LogEventLevel.Debug))
+      if (request.Content != null && _appSettings.RequestLogging.LogPayload)
       {
         string bodyAsText;
         if (request.Content.Headers?.ContentType != null
@@ -66,7 +66,8 @@ namespace StarterKit.Framework.Logging
 
       sw.Stop();
       if (response.Content != null &&
-          (Log.IsEnabled(LogEventLevel.Debug) || response.StatusCode.ToString().StartsWith("4")))
+          (_appSettings.RequestLogging.LogPayload
+           || (response.StatusCode.ToString().StartsWith("4") && _appSettings.RequestLogging.LogPayloadOnError)))
       {
         string bodyAsText;
         if (response.Content.Headers?.ContentType != null
