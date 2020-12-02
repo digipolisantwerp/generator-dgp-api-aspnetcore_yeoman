@@ -61,7 +61,7 @@ namespace StarterKit.Framework.Logging
     private async Task LogRequest(HttpRequest request)
     {
       // if debug is enabled we need to log the payload
-      if (Log.IsEnabled(LogEventLevel.Debug))
+      if (_appSettings.RequestLogging.LogPayload)
       {
         string bodyAsText;
         if (request.ContentType != null
@@ -104,7 +104,8 @@ namespace StarterKit.Framework.Logging
     {
       sw.Stop();
       // if debug is enabled or if status code is 4xx we need to log the payload
-      if (Log.IsEnabled(LogEventLevel.Debug) || response.StatusCode.ToString().StartsWith("4"))
+      if (_appSettings.RequestLogging.LogPayload
+          || (response.StatusCode.ToString().StartsWith("4") && _appSettings.RequestLogging.LogPayloadOnError))
       {
         string bodyAsText;
         if (response.ContentType != null

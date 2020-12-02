@@ -55,6 +55,16 @@ namespace StarterKit.Shared.Options
         RequestLogging.OutgoingEnabled = outgoingRequestLoggingEnabled;
       }
 
+      if(bool.TryParse(Environment.GetEnvironmentVariable($"{APPSETTINGS}_REQUESTLOGGING_LOGPAYLOAD"), out bool outgoingRequestLogPayload))
+      {
+        RequestLogging.LogPayload = outgoingRequestLogPayload;
+      }
+
+      if(bool.TryParse(Environment.GetEnvironmentVariable($"{APPSETTINGS}_REQUESTLOGGING_LOGPAYLOADONERROR"), out bool outgoingRequestLogPayloadOnError))
+      {
+        RequestLogging.LogPayloadOnError = outgoingRequestLogPayloadOnError;
+      }
+
     }
   }
 
@@ -62,5 +72,7 @@ namespace StarterKit.Shared.Options
   {
     public bool IncomingEnabled { get; set; }
     public bool OutgoingEnabled { get; set; }
+    public bool LogPayload { get; set; }
+    public bool LogPayloadOnError { get; set; }
   }
 }

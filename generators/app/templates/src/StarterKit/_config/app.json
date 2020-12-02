@@ -8,7 +8,9 @@
     "DisableGlobalErrorHandling": "false",
     "RequestLogging": {
       "IncomingEnabled": true,
-      "OutgoingEnabled": true
+      "OutgoingEnabled": true,
+      "LogPayload": false,
+      "LogPayloadOnError": true
     }
   }
 }

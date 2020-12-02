@@ -12,7 +12,7 @@
         "Name": "Console",
         "Args": {
           "restrictedToMinimumLevel": "Information",
-          "formatter": "StarterKit.Logging.DigipolisFormatter, StarterKit"
+          "formatter": "StarterKit.Framework.Logging.DigipolisFormatter, StarterKit"
         }
       }
     ],
@@ -30,7 +30,8 @@
       {
         "Name": "Console",
         "Args": {
-          "restrictedToMinimumLevel": "Information"
+          "restrictedToMinimumLevel": "Information",
+          "formatter": "StarterKit.Framework.Logging.DigipolisFormatter, StarterKit"
         }
       }
     ],
