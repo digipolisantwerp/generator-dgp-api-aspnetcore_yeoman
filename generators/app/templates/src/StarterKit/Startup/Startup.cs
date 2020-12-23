@@ -15,11 +15,12 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using StarterKit.Shared.Extensions;
 using StarterKit.Shared.Options;
-using StarterKit.Shared.Swagger;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Digipolis.swagger.Startup;
+
 //--dataaccess-startupImports--
 
 namespace StarterKit.Startup
@@ -28,22 +29,12 @@ namespace StarterKit.Startup
   {
     public Startup(IConfiguration configuration, IHostEnvironment env)
     {
-      ApplicationBasePath = env.ContentRootPath;
       Configuration = configuration;
       Environment = env;
     }
 
     public IConfiguration Configuration { get; }
-    public string ApplicationBasePath { get; }
     public IHostEnvironment Environment { get; }
-    private string XmlCommentsPath
-    {
-      get
-      {
-        var fileName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name + ".xml";
-        return Path.Combine(ApplicationBasePath, fileName);
-      }
-    }
 
     public virtual void ConfigureServices(IServiceCollection services)
     {
@@ -135,7 +126,7 @@ namespace StarterKit.Startup
       #region Swagger
 
       services
-        .AddSwaggerGen(options =>
+        .AddDigipolisSwagger(options =>
         {
           // Define multiple swagger docs if you have multiple api versions
           options.SwaggerDoc("v1",
@@ -151,16 +142,6 @@ namespace StarterKit.Startup
                 Name = "<NAME>"
               }
             });
-
-          options.OperationFilter<AddCorrelationHeaderRequired>();
-          options.OperationFilter<AddAuthorizationHeaderRequired>();
-          options.OperationFilter<RemoveSyncRootParameter>();
-          options.OperationFilter<LowerCaseQueryAndBodyParameterFilter>();
-
-          if (File.Exists(XmlCommentsPath))
-          {
-            options.IncludeXmlComments(XmlCommentsPath);
-          }
         });
 
       #endregion

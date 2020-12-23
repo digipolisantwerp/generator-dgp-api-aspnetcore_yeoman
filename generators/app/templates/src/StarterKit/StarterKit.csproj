@@ -31,12 +31,12 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="4.1.1" />
-    <PackageReference Include="Digipolis.ApplicationServices" Version="2.0.0" />
+    <PackageReference Include="Digipolis.ApplicationServices" Version="3.1.0" />
     <PackageReference Include="Digipolis.Common" Version="3.0.0" />
     <PackageReference Include="Digipolis.Correlation" Version="5.3.1" />
     <PackageReference Include="Digipolis.Errors" Version="7.0.0" />
     <PackageReference Include="Digipolis.Json" Version="3.0.0" />
-    <PackageReference Include="Digipolis.Auth" Version="4.2.0" />
+    <PackageReference Include="Digipolis.Auth" Version="5.0.0" />
     <PackageReference Include="Digipolis.Serilog" Version="4.0.0" />
     <PackageReference Include="Digipolis.Serilog.ApplicationServices" Version="3.0.0" />
     <PackageReference Include="Digipolis.Serilog.AuthService" Version="3.0.0" />
@@ -63,13 +63,14 @@
     <!--EndPostgreSpecificPackage-->
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="7.1.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.5.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.5.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="5.5.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Shared\Exceptions\Mapping\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\swagger_aspnetcore\src\Digipolis.swagger\Digipolis.swagger.csproj" />
   </ItemGroup>
 
 </Project>
