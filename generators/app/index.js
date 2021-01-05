@@ -14,13 +14,6 @@ module.exports = class extends Generator {
 
   constructor(args, opts) {
     super(args, opts);
-	console.log('skip-prompt: ' + this.options['skip-prompt']);
-	console.log('delete-content: ' + this.options['delete-content']);
-	console.log('name: ' + this.options.name);
-	console.log('database: ' + this.options.database);
-	console.log('http-kestrel: ' + this.options['http-kestrel']);
-	console.log('http-iis: ' + this.options['http-iis']);
-	console.log('https-iis: ' + this.options['https-iis']);
   }
 
   initializing() {
