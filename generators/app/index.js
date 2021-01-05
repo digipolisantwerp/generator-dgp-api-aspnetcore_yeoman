@@ -14,6 +14,13 @@ module.exports = class extends Generator {
 
   constructor(args, opts) {
     super(args, opts);
+	console.log('skip-prompt: ' + this.options['skip-prompt']);
+	console.log('delete-content: ' + this.options['delete-content']);
+	console.log('name: ' + this.options.name);
+	console.log('database: ' + this.options.database);
+	console.log('http-kestrel: ' + this.options['http-kestrel']);
+	console.log('http-iis: ' + this.options['http-iis']);
+	console.log('https-iis: ' + this.options['https-iis']);
   }
 
   initializing() {
@@ -21,6 +28,12 @@ module.exports = class extends Generator {
 
   prompting() {
     //var done = this.async();
+	
+	//check if no setup is supplied, if so skip the prompt and use options
+	if (this.options['skip-prompt'] === 'y') {
+		console.log('Skipping prompt because of the no setup parameter')
+		return;
+	}
 
     // greet the user
     this.log(yosay('Welcome to the fantastic Yeoman ' + chalk.green('dgp-api-aspnetcore') + ' ' + chalk.blue('(' + pkg.version + ')') + ' generator!'));
@@ -76,14 +89,18 @@ module.exports = class extends Generator {
 
     // empty target directory
     console.log('Emptying target directory...');
-    if (this.props.deleteContent === 'y') {
+    if ((this.options['skip-prompt'] === 'y' && this.options['delete-content'] === 'y')
+		|| (this.options['skip-prompt'] !== 'y' && this.props.deleteContent === 'y')) {
       del.sync(['**/*', '!.git', '!.git/**/*'], {
         force: true,
         dot: true
       });
     }
 
-    var projectName = this.props.projectName;
+    var projectName = this.options['skip-prompt'] === 'y' ? this.options.name : this.props.projectName;
+	if (!projectName) {
+		projectName = 'Starter app';
+	}
     var lowerProjectName = projectName.toLowerCase();
 
     var solutionItemsGuid = uuidv1(); console.log('solutionItemsGuid: ' + solutionItemsGuid + '\r\n');
@@ -93,11 +110,11 @@ module.exports = class extends Generator {
     var integrationGuid = uuidv1();
     var unitGuid = uuidv1();
 
-    var kestrelHttpPort = this.props.kestrelHttpPort;
-    var iisHttpPort = this.props.iisHttpPort;
-    var iisHttpsPort = this.props.iisHttpsPort;
-    var dataProvider = getDataProvider(this.props.dataProvider, projectName);
-	
+    var kestrelHttpPort = this.options['skip-prompt'] === 'y' ? this.options['http-kestrel'] : this.props.kestrelHttpPort;
+    var iisHttpPort = this.options['skip-prompt'] === 'y' ? this.options['http-iis'] : this.props.iisHttpPort;
+    var iisHttpsPort = this.options['skip-prompt'] === 'y' ? this.options['https-iis'] : this.props.iisHttpsPort;
+	var optionsDatabase = this.options['database'] ? this.options['database'] : 'p';
+    var dataProvider = getDataProvider(this.options['skip-prompt'] === 'y' ? optionsDatabase : this.props.dataProvider, projectName);
 
     var copyOptions = {
       process: function (contents) {
