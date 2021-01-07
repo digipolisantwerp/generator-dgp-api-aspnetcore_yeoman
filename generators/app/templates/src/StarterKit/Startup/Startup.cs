@@ -36,14 +36,6 @@ namespace StarterKit.Startup
     public IConfiguration Configuration { get; }
     public string ApplicationBasePath { get; }
     public IHostEnvironment Environment { get; }
-    private string XmlCommentsPath
-    {
-      get
-      {
-        var fileName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name + ".xml";
-        return Path.Combine(ApplicationBasePath, fileName);
-      }
-    }
 
     public virtual void ConfigureServices(IServiceCollection services)
     {
@@ -156,11 +148,11 @@ namespace StarterKit.Startup
           options.OperationFilter<AddAuthorizationHeaderRequired>();
           options.OperationFilter<RemoveSyncRootParameter>();
           options.OperationFilter<LowerCaseQueryAndBodyParameterFilter>();
+          options.OperationFilter<SetOperationDescription>();
 
-          if (File.Exists(XmlCommentsPath))
-          {
-            options.IncludeXmlComments(XmlCommentsPath);
-          }
+          var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+          var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+          options.IncludeXmlComments(xmlPath);
         });
 
       #endregion
@@ -204,6 +196,7 @@ namespace StarterKit.Startup
 
       app.UseSwagger(options =>
       {
+        options.SerializeAsV2 = true;
         options.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
         {
           swaggerDoc.Servers = new List<OpenApiServer>() { new OpenApiServer() { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}" } };
