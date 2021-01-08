@@ -1,5 +1,8 @@
 # generator-dgp-api-aspnetcore
 
+## 9.0.0
+- Updated project to .net 5.0
+
 ## 8.0.0
 - Updated project to .net core 3.1
 - Many nuget updates (deleted DigiPolis.Web reference => outdated)
