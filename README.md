@@ -10,7 +10,7 @@ Install Yeoman :
 
 ``` bash
 npm install yo -g
-``` 
+```
 
 The _**-g**_ flags install it globally so you can run yeoman from anywhere.
 
@@ -20,7 +20,7 @@ Install the generator :
 npm install generator-dgp-api-aspnetcore -g
 ```
 
-## Generate a new ASP.NET Core 3.1 API project
+## Generate a new ASP.NET Core 5 API project
 
 In a command prompt, navigate to the directory where you want to create the new project and type :
 
@@ -29,6 +29,19 @@ yo dgp-api-aspnetcore
 ```
 
 Answer the questions :-)
+
+If you prefer to skip the prompt and supply the parameters using command line arguments simply add the '--skip-prompt y' argument. 
+See the table below for other argument options.
+
+| Parameter        | Options           | Default     |
+| ---------------- | ----------------- | ----------- |
+| --skip-prompt    | y/n               | n           |
+| --delete-content | y/n               | y           |
+| --name           | project name text | Starter app |
+| --database       | mo/ms/p/n         | p           |
+| --http-kestrel   | port number       |             |
+| --http-iis       | port number       |             |
+| --https-iis      | port number       |             |
 
 ## The ASP.NET Core solution
 
@@ -47,7 +60,7 @@ services.AddTransient<IMyBusinessClass, MyBusinessClass>();
 services.AddScoped<IMyBusinessClass, MyBusinessClass>();
 
 services.AddSingleton<IMyBusinessClass, MyBusinessClass>();
-```  
+```
 **Transient**
 Every time the service is injected, a new one is instantiated.  
 
