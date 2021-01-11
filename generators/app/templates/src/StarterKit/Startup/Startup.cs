@@ -183,22 +183,23 @@ namespace StarterKit.Startup
       app.UseEndpoints(endpoints =>
         endpoints.MapDefaultControllerRoute().RequireAuthorization("IsAuthenticated"));
 
-      app.UseSwagger(options =>
-      {
-        options.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
-        {
-          swaggerDoc.Servers = new List<OpenApiServer>() { new OpenApiServer() { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}" } };
-        });
-      });
-
-      app.UseSwaggerUI(options =>
-      {
-        foreach (var description in versionProvider.ApiVersionDescriptions)
-        {
-          options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
-          options.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
-        }
-      });
+      app.UseDigipolisSwagger();
+      // app.UseSwagger(options =>
+      // {
+      //   options.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
+      //   {
+      //     swaggerDoc.Servers = new List<OpenApiServer>() { new OpenApiServer() { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}" } };
+      //   });
+      // });
+      //
+      // app.UseSwaggerUI(options =>
+      // {
+      //   foreach (var description in versionProvider.ApiVersionDescriptions)
+      //   {
+      //     options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+      //     options.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+      //   }
+      // });
     }
   }
 }
