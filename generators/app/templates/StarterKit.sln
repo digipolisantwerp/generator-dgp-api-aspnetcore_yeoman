@@ -22,10 +22,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarterKit.IntegrationTests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarterKit.UnitTests", "test\StarterKit.UnitTests\StarterKit.UnitTests.csproj", "{0A3016FD-A06C-4AA1-A843-DEA6A2F01696}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "temp", "temp", "{6B9230F1-AD7D-4A18-9592-A3161B6D8DE0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digipolis.Swagger", "..\..\..\..\swagger_aspnetcore\src\Digipolis.Swagger\Digipolis.Swagger.csproj", "{BF3A8C3D-EDB1-4068-A2B1-4E8544A2FC44}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,10 +40,6 @@ Global
 		{0A3016FD-A06C-4AA1-A843-DEA6A2F01696}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A3016FD-A06C-4AA1-A843-DEA6A2F01696}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A3016FD-A06C-4AA1-A843-DEA6A2F01696}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BF3A8C3D-EDB1-4068-A2B1-4E8544A2FC44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BF3A8C3D-EDB1-4068-A2B1-4E8544A2FC44}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BF3A8C3D-EDB1-4068-A2B1-4E8544A2FC44}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BF3A8C3D-EDB1-4068-A2B1-4E8544A2FC44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,7 +48,6 @@ Global
 		{BD79C050-331F-4733-87DE-F650976253B5} = {05A3A5CE-4659-4E00-A4BB-4129AEBEE7D0}
 		{948E75FD-C478-4001-AFBE-4D87181E1BEC} = {079636FA-0D93-4251-921A-013355153BF5}
 		{0A3016FD-A06C-4AA1-A843-DEA6A2F01696} = {079636FA-0D93-4251-921A-013355153BF5}
-		{BF3A8C3D-EDB1-4068-A2B1-4E8544A2FC44} = {6B9230F1-AD7D-4A18-9592-A3161B6D8DE0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E23A615A-567B-4BA6-A708-463DA0A2286E}
