@@ -25,6 +25,8 @@ module.exports = class extends Generator {
 	//check if no setup is supplied, if so skip the prompt and use options
 	if (this.options['skip-prompt'] === 'y') {
 		console.log('Skipping prompt because of the no setup parameter')
+		//set conflicter force true so that files will be overwritten. If not set to true myacpaas will hang on .gitignore for example
+		this.conflicter.force = true;
 		return;
 	}
 
