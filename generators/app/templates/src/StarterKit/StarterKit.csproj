@@ -70,8 +70,4 @@
     <Folder Include="Shared\Exceptions\Mapping\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\swagger_aspnetcore\src\Digipolis.swagger\Digipolis.swagger.csproj" />
-  </ItemGroup>
-
 </Project>
