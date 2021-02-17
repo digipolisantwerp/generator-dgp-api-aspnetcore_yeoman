@@ -1,5 +1,8 @@
 # generator-dgp-api-aspnetcore
 
+## 9.0.2
+- Remove obsolete project reference
+
 ## 9.0.1
 - Remove obsolete nuget package source from nuget.config file to avoid build problems
 
