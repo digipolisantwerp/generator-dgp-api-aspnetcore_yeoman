@@ -25,17 +25,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="8.1.1" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.1" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Digipolis.Paging" Version="1.0.0" />
     <PackageReference Include="Digipolis.swagger" Version="1.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="4.2.0" />
-    <PackageReference Include="Digipolis.ApplicationServices" Version="3.1.0" />
+    <PackageReference Include="Digipolis.ApplicationServices" Version="3.1.1" />
     <PackageReference Include="Digipolis.Common" Version="3.0.0" />
-    <PackageReference Include="Digipolis.Correlation" Version="5.3.1" />
-    <PackageReference Include="Digipolis.Errors" Version="7.0.0" />
+    <PackageReference Include="Digipolis.Correlation" Version="6.0.1" />
+    <PackageReference Include="Digipolis.Errors" Version="7.0.1" />
     <PackageReference Include="Digipolis.Json" Version="3.0.0" />
     <PackageReference Include="Digipolis.Auth" Version="5.0.0" />
     <PackageReference Include="Digipolis.Serilog" Version="4.0.0" />
@@ -45,9 +45,9 @@
     <PackageReference Include="Digipolis.Serilog.Message" Version="2.0.0" />
     <PackageReference Include="Digipolis.ServiceAgents" Version="7.1.0" />
     <!--StartEfSpecificPackage-->
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.1">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -57,7 +57,7 @@
     <PackageReference Include="MongoDB.Driver" Version="2.11.5" />
     <!--EndMongoSpecificPackage-->
     <!--StartMsSpecificPackage-->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.3" />
     <!--EndMsSpecificPackage-->
     <!--StartPostgreSpecificPackage-->
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.1" />
