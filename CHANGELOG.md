@@ -1,6 +1,6 @@
 # generator-dgp-api-aspnetcore
 
-## 9.0.3
+## 9.0.4
 - Update nuget packages
 
 ## 9.0.2
