@@ -1,6 +1,9 @@
 # generator-dgp-api-aspnetcore
 
-## 9.0.5
+## 9.0.7 - 9.0.8
+- Update Digipolis.swagger nuget package for generating swagger v2
+
+## 9.0.5 - 9.0.6
 - Update Digipolis.swagger nuget package due to a bug
 
 ## 9.0.4
