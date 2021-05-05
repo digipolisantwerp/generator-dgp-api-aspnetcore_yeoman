@@ -1,6 +1,6 @@
 {
   "name": "generator-dgp-api-aspnetcore",
-  "version": "9.0.8",
+  "version": "9.0.9",
   "description": "Generator for an ASP.NET Core API project.",
   "homepage": "https://github.com/digipolisantwerp/generator-dgp-api-aspnetcore_yeoman",
   "author": {
