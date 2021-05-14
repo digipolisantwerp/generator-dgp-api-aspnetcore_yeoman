@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Serilog;
 using Serilog.Events;
 using StarterKit.Shared.Options;
@@ -47,7 +48,7 @@ namespace StarterKit.Framework.Logging
 
         await _next(context);
         responseBody.Position = 0;
-        await LogResponse(context.Response, sw);
+        await LogResponse(context.Response, context.Request, sw);
         responseBody.Position = 0;
         await responseBody.CopyToAsync(originalBody);
       }
@@ -80,27 +81,26 @@ namespace StarterKit.Framework.Logging
           request.Body = body;
         }
 
-
-        Log.ForContext("Host", request.Host)
-          .ForContext("Headers", request.Headers)
+        Log.ForContext("Method", request.Method)
+          .ForContext("Host", request.Host)
           .ForContext("Path", request.Path)
+          .ForContext("Headers", JsonConvert.SerializeObject(request.Headers))
           .ForContext("Payload", bodyAsText)
           .ForContext("Protocol", request.Protocol)
-          .ForContext("Method", request.Method)
           .Information("API-call incoming log Request");
       }
       else
       {
-        Log.ForContext("Host", request.Host)
-          .ForContext("Headers", request.Headers)
+        Log.ForContext("Method", request.Method)
+          .ForContext("Host", request.Host)
           .ForContext("Path", request.Path)
+          .ForContext("Headers", JsonConvert.SerializeObject(request.Headers))
           .ForContext("Protocol", request.Protocol)
-          .ForContext("Method", request.Method)
           .Information("API-call incoming log Request");
       }
     }
 
-    private async Task LogResponse(HttpResponse response, Stopwatch sw)
+    private async Task LogResponse(HttpResponse response, HttpRequest request, Stopwatch sw)
     {
       sw.Stop();
       // if debug is enabled or if status code is 4xx we need to log the payload
@@ -120,7 +120,10 @@ namespace StarterKit.Framework.Logging
           response.Body.Seek(0, SeekOrigin.Begin);
         }
 
-        Log.ForContext("Headers", response.Headers)
+        Log.ForContext("Method", request.Method)
+          .ForContext("Host", request.Host)
+          .ForContext("Path", request.Path)
+          .ForContext("Headers", JsonConvert.SerializeObject(response.Headers))
           .ForContext("Payload", bodyAsText)
           .ForContext("Protocol", response.HttpContext.Request.Protocol)
           .ForContext("Status", response.StatusCode)
@@ -129,7 +132,10 @@ namespace StarterKit.Framework.Logging
       }
       else
       {
-        Log.ForContext("Headers", response.Headers)
+        Log.ForContext("Method", request.Method)
+          .ForContext("Host", request.Host)
+          .ForContext("Path", request.Path)
+          .ForContext("Headers", JsonConvert.SerializeObject(response.Headers))
           .ForContext("Protocol", response.HttpContext.Request.Protocol)
           .ForContext("Status", response.StatusCode)
           .ForContext("Duration", sw.ElapsedMilliseconds)

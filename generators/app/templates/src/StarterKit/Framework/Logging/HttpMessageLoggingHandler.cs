@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Serilog;
 using Serilog.Events;
 using StarterKit.Shared.Options;
@@ -44,21 +45,21 @@ namespace StarterKit.Framework.Logging
           bodyAsText = await request.Content.ReadAsStringAsync();
         }
 
-        Log.ForContext("Host", request.RequestUri.Host)
-          .ForContext("Headers", request.Headers)
+        Log.ForContext("Method", request.Method)
+          .ForContext("Host", request.RequestUri.Host)
           .ForContext("Path", request.RequestUri.AbsolutePath)
+          .ForContext("Headers", JsonConvert.SerializeObject(request.Headers))
           .ForContext("Payload", bodyAsText)
           .ForContext("Protocol", request.RequestUri.Scheme)
-          .ForContext("Method", request.Method)
           .Information("API-call outgoing log Request");
       }
       else
       {
-        Log.ForContext("Host", request.RequestUri.Host)
-          .ForContext("Headers", request.Headers)
+        Log.ForContext("Method", request.Method)
+          .ForContext("Host", request.RequestUri.Host)
           .ForContext("Path", request.RequestUri.AbsolutePath)
+          .ForContext("Headers", JsonConvert.SerializeObject(request.Headers))
           .ForContext("Protocol", request.RequestUri.Scheme)
-          .ForContext("Method", request.Method)
           .Information("API-call outgoing log Request");
       }
 
@@ -80,7 +81,10 @@ namespace StarterKit.Framework.Logging
           bodyAsText = await response.Content.ReadAsStringAsync();
         }
 
-        Log.ForContext("Headers", response.Headers)
+        Log.ForContext("Method", response.RequestMessage.Method)
+          .ForContext("Host", response.RequestMessage.RequestUri.Host)
+          .ForContext("Path", response.RequestMessage.RequestUri.AbsolutePath)
+          .ForContext("Headers", JsonConvert.SerializeObject(response.Headers))
           .ForContext("Payload", bodyAsText)
           .ForContext("Protocol", response.RequestMessage.RequestUri.Scheme)
           .ForContext("Status", response.StatusCode)
@@ -89,13 +93,15 @@ namespace StarterKit.Framework.Logging
       }
       else
       {
-        Log.ForContext("Headers", response.Headers)
+        Log.ForContext("Method", response.RequestMessage.Method)
+          .ForContext("Host", response.RequestMessage.RequestUri.Host)
+          .ForContext("Path", response.RequestMessage.RequestUri.AbsolutePath)
+          .ForContext("Headers", JsonConvert.SerializeObject(response.Headers))
           .ForContext("Protocol", response.RequestMessage.RequestUri.Scheme)
           .ForContext("Status", response.StatusCode)
           .ForContext("Duration", sw.ElapsedMilliseconds)
           .Information("API-call outgoing log Response");
       }
-
 
       return response;
     }
