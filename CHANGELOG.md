@@ -1,5 +1,10 @@
 # generator-dgp-api-aspnetcore
 
+## 9.0.10
+- change Docker-image of runtime build
+- update npm packages for vulnerability warnings
+- fix path of XML-documentation file
+
 ## 9.0.9
 - Update Digipolis.Swagger nuget package to v1.0.5
 
