@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using Serilog;
 using Serilog.Events;
 using StarterKit.Shared.Options;
@@ -84,7 +83,7 @@ namespace StarterKit.Framework.Logging
         Log.ForContext("Method", request.Method)
           .ForContext("Host", request.Host)
           .ForContext("Path", request.Path)
-          .ForContext("Headers", JsonConvert.SerializeObject(request.Headers))
+          .ForContext("Headers", request.Headers)
           .ForContext("Payload", bodyAsText)
           .ForContext("Protocol", request.Protocol)
           .Information("API-call incoming log Request");
@@ -94,7 +93,7 @@ namespace StarterKit.Framework.Logging
         Log.ForContext("Method", request.Method)
           .ForContext("Host", request.Host)
           .ForContext("Path", request.Path)
-          .ForContext("Headers", JsonConvert.SerializeObject(request.Headers))
+          .ForContext("Headers", request.Headers)
           .ForContext("Protocol", request.Protocol)
           .Information("API-call incoming log Request");
       }
@@ -123,7 +122,7 @@ namespace StarterKit.Framework.Logging
         Log.ForContext("Method", request.Method)
           .ForContext("Host", request.Host)
           .ForContext("Path", request.Path)
-          .ForContext("Headers", JsonConvert.SerializeObject(response.Headers))
+          .ForContext("Headers", response.Headers)
           .ForContext("Payload", bodyAsText)
           .ForContext("Protocol", response.HttpContext.Request.Protocol)
           .ForContext("Status", response.StatusCode)
@@ -135,7 +134,7 @@ namespace StarterKit.Framework.Logging
         Log.ForContext("Method", request.Method)
           .ForContext("Host", request.Host)
           .ForContext("Path", request.Path)
-          .ForContext("Headers", JsonConvert.SerializeObject(response.Headers))
+          .ForContext("Headers", response.Headers)
           .ForContext("Protocol", response.HttpContext.Request.Protocol)
           .ForContext("Status", response.StatusCode)
           .ForContext("Duration", sw.ElapsedMilliseconds)
