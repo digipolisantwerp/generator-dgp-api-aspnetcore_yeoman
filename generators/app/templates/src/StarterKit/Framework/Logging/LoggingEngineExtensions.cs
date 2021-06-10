@@ -21,10 +21,8 @@ namespace StarterKit.Framework.Logging
     {
       services.AddSerilogExtensions(options =>
       {
-        options.AddApplicationServicesEnricher();
         options.AddAuthServiceEnricher();
         options.AddCorrelationEnricher();
-        options.AddMessagEnricher(msgOptions => msgOptions.MessageVersion = "1");
       });
     }
 
@@ -82,45 +80,3 @@ namespace StarterKit.Framework.Logging
     }
   }
 }
-
-// example of application configuration for environment variables:
-//"log": {
-//	"level": {
-//		"default": "Debug",
-//		"system": "Information",
-//		"microsoft": "Information"
-//	},
-//	"console": {
-//		"level": {
-//			"default": "Debug",
-//			"system": "Information",
-//			"microsoft": "Information"
-//		}
-//	},
-//	"elastic": {
-//		"system": {
-//			"minimumlevel": {
-//				"override": {
-//					"system": "Information",
-//					"microsoft": "Information"
-//				},
-//				"default": "Debug"
-//			},
-//			"url": "https://logging-app1-o.antwerpen.be",
-//			"globalheaders": "Authorization=Basic YXBwbGljYXRpb24tYXV0aHphcGk6cWEyT096blU=",
-//			"bufferpath": "elk-system-authz"
-//		},
-//		"application": {
-//			"minimumlevel": {
-//				"override": {
-//					"system": "Information",
-//					"microsoft": "Information"
-//				},
-//				"default": "Debug"
-//			},
-//			"url": "https://logging-app1-o.antwerpen.be",
-//			"globalheaders": "Authorization=Basic YXBwbGljYXRpb24tYXV0aHphcGk6cWEyT096blU=",
-//			"bufferpath": "elk-application-authz"
-//		}
-//	}
-//}

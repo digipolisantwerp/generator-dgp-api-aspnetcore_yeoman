@@ -83,7 +83,7 @@ namespace StarterKit.Startup
       #region Logging
 
       services.AddLoggingEngine();
-      services.AddTransient<HttpMessageLoggingHandler>();
+      services.AddTransient<OutgoingRequestLogger>();
 
       #endregion
 
@@ -184,7 +184,7 @@ namespace StarterKit.Startup
       Serilog.Debugging.SelfLog.Enable(Console.Out);
 
       app.UseApiExtensions();
-      app.UseMiddleware<RequestResponseLoggingMiddleware>();
+      app.UseMiddleware<IncomingRequestLogger>();
 
       // CORS
       app.UseCors((policy) =>

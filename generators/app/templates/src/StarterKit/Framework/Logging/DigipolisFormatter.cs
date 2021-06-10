@@ -1,40 +1,43 @@
-﻿using System;
+using Serilog.Events;
+using Serilog.Formatting;
+using Serilog.Formatting.Json;
+using Serilog.Parsing;
+using StarterKit.Framework.Extensions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using Serilog.Events;
-using Serilog.Formatting;
-using Serilog.Formatting.Json;
-using Serilog.Parsing;
-using StarterKit.Framework.Extensions;
 
 namespace StarterKit.Framework.Logging
 {
   public class DigipolisFormatter : ITextFormatter
   {
-    const string ExtensionPointObsoletionMessage = "Extension of JsonFormatter by subclassing is obsolete and will " +
-                                                   "be removed in a future Serilog version. Write a custom formatter " +
-                                                   "based on JsonValueFormatter instead. See https://github.com/serilog/serilog/pull/819.";
+    const string ExtensionPointObsoletionMessage =
+        "Extension of JsonFormatter by subclassing is obsolete and will " +
+        "be removed in a future Serilog version. Write a custom formatter " +
+        "based on JsonValueFormatter instead. See https://github.com/serilog/serilog/pull/819.";
 
     private static readonly string[] AllowedProperties =
     {
-      "CorrelationId",
-      "ApplicationId",
-      "Host",
-      "Headers",
-      "Path",
-      "Payload",
-      "Protocol",
-      "Method",
-      "Status",
-      "Duration",
-      "Type",
-      "MessageUser",
-      "MessageUserIsAuthenticated",
-    };
+            "CorrelationId",
+            "ApplicationId",
+            "Request",
+            "Response",
+            "Host",
+            "Headers",
+            "Path",
+            "Payload",
+            "Protocol",
+            "Method",
+            "Status",
+            "Duration",
+            "Type",
+            "MessageUser",
+            "MessageUserIsAuthenticated",
+        };
 
     // Ignore obsoletion errors
 #pragma warning disable 618
@@ -54,10 +57,10 @@ namespace StarterKit.Framework.Logging
     /// property named RenderedMessage.</param>
     /// <param name="formatProvider">Supplies culture-specific formatting information, or null.</param>
     public DigipolisFormatter(
-      string closingDelimiter = null,
-      bool renderMessage = true,
-      IFormatProvider formatProvider = null)
-      : this(false, closingDelimiter, renderMessage, formatProvider)
+        string closingDelimiter = null,
+        bool renderMessage = true,
+        IFormatProvider formatProvider = null)
+        : this(false, closingDelimiter, renderMessage, formatProvider)
     {
     }
 
@@ -75,10 +78,10 @@ namespace StarterKit.Framework.Logging
     /// <param name="formatProvider">Supplies culture-specific formatting information, or null.</param>
     [Obsolete("The omitEnclosingObject parameter is obsolete and will be removed in a future Serilog version.")]
     public DigipolisFormatter(
-      bool omitEnclosingObject,
-      string closingDelimiter = null,
-      bool renderMessage = true,
-      IFormatProvider formatProvider = null)
+        bool omitEnclosingObject,
+        string closingDelimiter = null,
+        bool renderMessage = true,
+        IFormatProvider formatProvider = null)
     {
       _omitEnclosingObject = omitEnclosingObject;
       _closingDelimiter = closingDelimiter ?? Environment.NewLine;
@@ -86,31 +89,31 @@ namespace StarterKit.Framework.Logging
       _formatProvider = formatProvider;
 
       _literalWriters = new Dictionary<Type, Action<object, bool, TextWriter>>
-      {
-        {typeof(bool), (v, q, w) => WriteBoolean((bool) v, w)},
-        {typeof(char), (v, q, w) => WriteString(((char) v).ToString(), w)},
-        {typeof(byte), WriteToString},
-        {typeof(sbyte), WriteToString},
-        {typeof(short), WriteToString},
-        {typeof(ushort), WriteToString},
-        {typeof(int), WriteToString},
-        {typeof(uint), WriteToString},
-        {typeof(long), WriteToString},
-        {typeof(ulong), WriteToString},
-        {typeof(float), (v, q, w) => WriteSingle((float) v, w)},
-        {typeof(double), (v, q, w) => WriteDouble((double) v, w)},
-        {typeof(decimal), WriteToString},
-        {typeof(string), (v, q, w) => WriteString((string) v, w)},
-        {typeof(DateTime), (v, q, w) => WriteDateTime((DateTime) v, w)},
-        {typeof(DateTimeOffset), (v, q, w) => WriteOffset((DateTimeOffset) v, w)},
-        {typeof(ScalarValue), (v, q, w) => WriteLiteral(((ScalarValue) v).Value, w, q)},
-        {typeof(SequenceValue), (v, q, w) => WriteSequence(((SequenceValue) v).Elements, w)},
-        {typeof(DictionaryValue), (v, q, w) => WriteDictionary(((DictionaryValue) v).Elements, w)},
-        {
-          typeof(StructureValue),
-          (v, q, w) => WriteStructure(((StructureValue) v).TypeTag, ((StructureValue) v).Properties, w)
-        },
-      };
+            {
+                {typeof(bool), (v, q, w) => WriteBoolean((bool) v, w)},
+                {typeof(char), (v, q, w) => WriteString(((char) v).ToString(), w)},
+                {typeof(byte), WriteToString},
+                {typeof(sbyte), WriteToString},
+                {typeof(short), WriteToString},
+                {typeof(ushort), WriteToString},
+                {typeof(int), WriteToString},
+                {typeof(uint), WriteToString},
+                {typeof(long), WriteToString},
+                {typeof(ulong), WriteToString},
+                {typeof(float), (v, q, w) => WriteSingle((float) v, w)},
+                {typeof(double), (v, q, w) => WriteDouble((double) v, w)},
+                {typeof(decimal), WriteToString},
+                {typeof(string), (v, q, w) => WriteString((string) v, w)},
+                {typeof(DateTime), (v, q, w) => WriteDateTime((DateTime) v, w)},
+                {typeof(DateTimeOffset), (v, q, w) => WriteOffset((DateTimeOffset) v, w)},
+                {typeof(ScalarValue), (v, q, w) => WriteLiteral(((ScalarValue) v).Value, w, q)},
+                {typeof(SequenceValue), (v, q, w) => WriteSequence(((SequenceValue) v).Elements, w)},
+                {typeof(DictionaryValue), (v, q, w) => WriteDictionary(((DictionaryValue) v).Elements, w)},
+                {
+                    typeof(StructureValue),
+                    (v, q, w) => WriteStructure(((StructureValue) v).TypeTag, ((StructureValue) v).Properties, w)
+                },
+            };
     }
 
     /// <summary>
@@ -121,27 +124,27 @@ namespace StarterKit.Framework.Logging
     /// <param name="template"></param>
     /// <returns></returns>
     private IReadOnlyDictionary<string, LogEventPropertyValue> GetFilteredProperties(
-      IReadOnlyDictionary<string, LogEventPropertyValue> properties)
+        IReadOnlyDictionary<string, LogEventPropertyValue> properties)
     {
       return properties
-        .Where(p => AllowedProperties.Contains(p.Key))
-        .ToDictionary(
-          k => k.Key,
-          v => v.Value);
+          .Where(p => AllowedProperties.Contains(p.Key))
+          .ToDictionary(
+              k => k.Key,
+              v => v.Value);
     }
 
     private IReadOnlyDictionary<string, LogEventPropertyValue> GetMessageProperties(
-      IReadOnlyDictionary<string, LogEventPropertyValue> properties, IEnumerable<MessageTemplateToken> tokens)
+        IReadOnlyDictionary<string, LogEventPropertyValue> properties, IEnumerable<MessageTemplateToken> tokens)
     {
       var propertiesAllowed =
-        tokens.OfType<PropertyToken>()
-          .Select(t => t.PropertyName);
+          tokens.OfType<PropertyToken>()
+              .Select(t => t.PropertyName);
 
       return properties
-        .Where(p => propertiesAllowed.Contains(p.Key))
-        .ToDictionary(
-          k => k.Key,
-          v => v.Value);
+          .Where(p => propertiesAllowed.Contains(p.Key))
+          .ToDictionary(
+              k => k.Key,
+              v => v.Value);
     }
 
     /// <summary>
@@ -216,7 +219,7 @@ namespace StarterKit.Framework.Logging
     /// </summary>
     [Obsolete(ExtensionPointObsoletionMessage)]
     protected virtual void WriteRenderings(IGrouping<string, PropertyToken>[] tokensWithFormat,
-      IReadOnlyDictionary<string, LogEventPropertyValue> properties, TextWriter output)
+        IReadOnlyDictionary<string, LogEventPropertyValue> properties, TextWriter output)
     {
       output.Write(",\"{0}\":{{", FormatProperty("Renderings"));
       WriteRenderingsValues(tokensWithFormat, properties, output);
@@ -228,7 +231,7 @@ namespace StarterKit.Framework.Logging
     /// </summary>
     [Obsolete(ExtensionPointObsoletionMessage)]
     protected virtual void WriteRenderingsValues(IGrouping<string, PropertyToken>[] tokensWithFormat,
-      IReadOnlyDictionary<string, LogEventPropertyValue> properties, TextWriter output)
+        IReadOnlyDictionary<string, LogEventPropertyValue> properties, TextWriter output)
     {
       var rdelim = "";
       foreach (var ptoken in tokensWithFormat)
@@ -265,10 +268,10 @@ namespace StarterKit.Framework.Logging
     /// Writes all message template specific properties to a separate object
     /// </summary>
     protected virtual void WriteMessageProperties(
-      IReadOnlyDictionary<string, LogEventPropertyValue> properties,
-      TextWriter output)
+        IReadOnlyDictionary<string, LogEventPropertyValue> properties,
+        TextWriter output)
     {
-      output.Write(",\"{0}\":{{", (object) "messageProperties");
+      output.Write(",\"{0}\":{{", (object)"messageProperties");
       WritePropertiesValues(properties, output);
       output.Write("}");
     }
@@ -278,7 +281,7 @@ namespace StarterKit.Framework.Logging
     /// </summary>
     [Obsolete(ExtensionPointObsoletionMessage)]
     protected virtual void WriteProperties(IReadOnlyDictionary<string, LogEventPropertyValue> properties,
-      TextWriter output)
+        TextWriter output)
     {
       output.Write(",");
       WritePropertiesValues(properties, output);
@@ -290,7 +293,7 @@ namespace StarterKit.Framework.Logging
     /// </summary>
     [Obsolete(ExtensionPointObsoletionMessage)]
     protected virtual void WritePropertiesValues(IReadOnlyDictionary<string, LogEventPropertyValue> properties,
-      TextWriter output)
+        TextWriter output)
     {
       var precedingDelimiter = "";
       foreach (var property in properties)
@@ -327,12 +330,30 @@ namespace StarterKit.Framework.Logging
     }
 
     /// <summary>
+    /// Translate log level according to Digipolis logging guidelines
+    /// </summary>
+    /// <param name="level"></param>
+    /// <returns></returns>
+    protected virtual string TranslateLevel(LogEventLevel level)
+    {
+      switch (level)
+      {
+        case LogEventLevel.Information:
+          return "INFO";
+        case LogEventLevel.Warning:
+          return "WARN";
+        default:
+          return level.ToString().ToUpper();
+      }
+    }
+
+    /// <summary>
     /// Writes out the log level
     /// </summary>
     [Obsolete(ExtensionPointObsoletionMessage)]
     protected virtual void WriteLevel(LogEventLevel level, ref string delim, TextWriter output)
     {
-      WriteJsonProperty("Level", level, ref delim, output);
+      WriteJsonProperty("Level", TranslateLevel(level), ref delim, output);
     }
 
     /// <summary>
@@ -348,7 +369,8 @@ namespace StarterKit.Framework.Logging
     /// Writes out a structure property
     /// </summary>
     [Obsolete(ExtensionPointObsoletionMessage)]
-    protected virtual void WriteStructure(string typeTag, IEnumerable<LogEventProperty> properties, TextWriter output)
+    protected virtual void WriteStructure(string typeTag, IEnumerable<LogEventProperty> properties,
+        TextWriter output)
     {
       output.Write("{");
 
@@ -385,7 +407,7 @@ namespace StarterKit.Framework.Logging
     /// </summary>
     [Obsolete(ExtensionPointObsoletionMessage)]
     protected virtual void WriteDictionary(IReadOnlyDictionary<ScalarValue, LogEventPropertyValue> elements,
-      TextWriter output)
+        TextWriter output)
     {
       output.Write("{");
       var delim = "";
@@ -406,7 +428,7 @@ namespace StarterKit.Framework.Logging
     /// </summary>
     [Obsolete(ExtensionPointObsoletionMessage)]
     protected virtual void WriteJsonProperty(string name, object value, ref string precedingDelimiter,
-      TextWriter output)
+        TextWriter output)
     {
       output.Write(precedingDelimiter);
       output.Write("\"");
@@ -500,7 +522,8 @@ namespace StarterKit.Framework.Logging
     /// </summary>
     /// <param name="s">A raw string.</param>
     /// <returns>A JSON-escaped version of <paramref name="s"/>.</returns>
-    [Obsolete("Use JsonValueFormatter.WriteQuotedJsonString() instead."), EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use JsonValueFormatter.WriteQuotedJsonString() instead."),
+     EditorBrowsable(EditorBrowsableState.Never)]
     public static string Escape(string s)
     {
       if (s == null) return null;

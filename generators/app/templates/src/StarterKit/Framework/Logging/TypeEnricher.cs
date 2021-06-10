@@ -1,5 +1,6 @@
-﻿using Serilog.Core;
+using Serilog.Core;
 using Serilog.Events;
+using System.Collections.Generic;
 
 namespace StarterKit.Framework.Logging
 {
@@ -7,20 +8,20 @@ namespace StarterKit.Framework.Logging
   {
     public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
     {
-      var type = string.Empty;
+      var types = new List<string>();
 
       switch (logEvent.Exception)
       {
         case null:
-          type = "application";
+          types.Add("application");
           break;
         default:
-          type = "technical";
+          types.Add("technical");
           break;
       }
 
       logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty(
-        "Type", type));
+          "Type", types));
     }
   }
 }

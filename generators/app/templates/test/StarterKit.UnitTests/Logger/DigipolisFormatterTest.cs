@@ -1,13 +1,9 @@
-using System;
-using System.IO;
-using AutoMapper;
-using Microsoft.Extensions.Logging;
-using Moq;
 using Newtonsoft.Json;
 using Serilog.Events;
 using Serilog.Parsing;
-using StarterKit.Api.Controllers;
 using StarterKit.Framework.Logging;
+using System;
+using System.IO;
 using Xunit;
 
 namespace StarterKit.UnitTests.Logger
@@ -44,8 +40,7 @@ namespace StarterKit.UnitTests.Logger
 
       Assert.Null(result.Exception);
       Assert.Equal("Test", result.Message);
-      Assert.Equal(LogEventLevel.Information, result.Level);
-
+      Assert.Equal("INFO", result.Level);
     }
 
     [Fact]
@@ -187,7 +182,7 @@ namespace StarterKit.UnitTests.Logger
 public class LogResult
 {
   public DateTime Timestamp { get; set; }
-  public LogEventLevel Level { get; set; }
+  public string Level { get; set; }
   public string Message { get; set; }
   public string Exception { get; set; }
   public string Additional { get; set; }

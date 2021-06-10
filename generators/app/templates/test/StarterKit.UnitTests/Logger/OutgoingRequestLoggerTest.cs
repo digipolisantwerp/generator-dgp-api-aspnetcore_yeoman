@@ -1,27 +1,16 @@
-using System;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
-using AutoMapper;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Moq;
-using Newtonsoft.Json;
 using Serilog;
-using Serilog.Events;
-using Serilog.Parsing;
 using Serilog.Sinks.TestCorrelator;
-using StarterKit.Api.Controllers;
 using StarterKit.Framework.Logging;
 using StarterKit.Shared.Options;
+using System.Net.Http;
+using System.Threading;
 using Xunit;
 
 namespace StarterKit.UnitTests.Logger
 {
-  public class HttpMessageLoggingHandlerTest
+  public class OutgoingRequestLoggerTest
   {
-
     [Fact]
     public void ShouldLogOutgoingRequest()
     {
@@ -40,7 +29,7 @@ namespace StarterKit.UnitTests.Logger
         }
       });
 
-      var handler = new HttpMessageLoggingHandler(settings);
+      var handler = new OutgoingRequestLogger(settings);
       handler.InnerHandler = new HttpClientHandler();
       var httpRequestMessage = new HttpRequestMessage(
         HttpMethod.Get, "https://jsonplaceholder.typicode.com/todos/1");
@@ -54,12 +43,9 @@ namespace StarterKit.UnitTests.Logger
 
         var logs = TestCorrelator.GetLogEventsFromCurrentContext();
 
-        Assert.Equal(2, logs.Count());
-        Assert.Contains(logs, l => l.MessageTemplate.Text == "API-call outgoing log Request");
-        Assert.Contains(logs, l => l.MessageTemplate.Text == "API-call outgoing log Response");
-
+        Assert.Single(logs);
+        Assert.Contains(logs, l => l.MessageTemplate.Text == "Outgoing API call response");
       }
-
     }
   }
 }
