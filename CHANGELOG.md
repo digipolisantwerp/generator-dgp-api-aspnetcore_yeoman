@@ -1,5 +1,31 @@
 # generator-dgp-api-aspnetcore
 
+## 9.0.10
+- change Docker-image of runtime build
+- update npm packages for vulnerability warnings
+- fix path of XML-documentation file
+
+## 9.0.9
+- Update Digipolis.Swagger nuget package to v1.0.5
+
+## 9.0.7 - 9.0.8
+- Update Digipolis.Swagger nuget package for generating swagger v2
+
+## 9.0.5 - 9.0.6
+- Update Digipolis.Swagger nuget package due to a bug
+
+## 9.0.4
+- Update nuget packages
+
+## 9.0.2
+- Remove obsolete project reference
+
+## 9.0.1
+- Remove obsolete nuget package source from nuget.config file to avoid build problems
+
+## 9.0.0
+- Updated project to .net 5.0
+
 ## 8.0.0
 - Updated project to .net core 3.1
 - Many nuget updates (deleted DigiPolis.Web reference => outdated)

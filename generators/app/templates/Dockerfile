@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1.301-focal AS build-env
+FROM mcr.microsoft.com/dotnet/sdk:5.0.203 AS build-env
 WORKDIR /app
  
 # Copy csproj and restore as distinct layers
@@ -27,7 +27,7 @@ WORKDIR /app/src/StarterKit
 RUN dotnet publish -c Release -o out
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1.5-focal AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:5.0.6-buster-slim AS runtime
 WORKDIR /app
 COPY --from=build-env /app/src/StarterKit/out .
 
