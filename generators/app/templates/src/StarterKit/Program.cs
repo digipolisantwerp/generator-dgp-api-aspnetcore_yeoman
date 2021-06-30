@@ -66,12 +66,13 @@ namespace StarterKit
 
             var env = hostingContext.HostingEnvironment;
             config.SetBasePath(configPath);
-            config.AddLoggingConfiguration(env);
             config.AddJsonFile(JsonFilesKey.AppJson);
+            config.AddLoggingConfiguration(env);
             //--dataaccess-config--
             config.AddEnvironmentVariables();
           })
           .CaptureStartupErrors(true)
+          .UseSerilog()
           .UseConfiguration(hostingConfig)
           .UseUrls(serverUrls);
     }

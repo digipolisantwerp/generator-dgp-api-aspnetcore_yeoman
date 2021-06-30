@@ -158,7 +158,7 @@ namespace StarterKit.Framework.Logging
       sw.Stop();
 
       Log
-        .ForContext("Type", new string[] { "technical" })
+        .ForContext("Type", new string[] { "application" })
         .ForContext("Request", await GetRequestLog(response.HttpContext.Request))
         .ForContext("Response", await GetResponseLog(response, sw.ElapsedMilliseconds))
         .Information("Incoming API call response");
