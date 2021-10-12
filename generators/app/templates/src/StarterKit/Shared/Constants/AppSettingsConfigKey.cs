@@ -9,6 +9,7 @@ namespace StarterKit.Shared.Constants
     public const string DataDirectory = "APPSETTINGS_DATADIRECTORY";
     public const string TempDirectory = "APPSETTINGS_TEMPDIRECTORY";
     public const string LogExceptions = "APPSETTINGS_LOGEXCEPTIONS";
+    public const string ErrorReferenceUri = "APPSETTINGS_ERRORREFERENCEURI";
     public const string DisableGlobalErrorHandling = "APPSETTINGS_DISABLEGLOBALERRORHANDLING";
   }
 }

@@ -11,7 +11,10 @@ namespace StarterKit.Shared.Options
     public string ApplicationId { get; set; }
     public string DataDirectory { get; set; }
     public string TempDirectory { get; set; }
+
     public bool LogExceptions { get; set; }
+    // uri to overview of possible error types returned by this API: see errors.md at solution level
+    public string ErrorReferenceUri { get; set; }
     public bool DisableGlobalErrorHandling { get; set; }
 
     public static void RegisterConfiguration(IServiceCollection services, IConfigurationSection section, IHostEnvironment environment)
@@ -35,7 +38,13 @@ namespace StarterKit.Shared.Options
       DataDirectory = GetValue(DataDirectory, AppSettingsConfigKey.DataDirectory, environment);
       TempDirectory = GetValue(TempDirectory, AppSettingsConfigKey.TempDirectory, environment);
       LogExceptions = GetValue(LogExceptions, AppSettingsConfigKey.LogExceptions, environment);
+      ErrorReferenceUri = GetValue(ErrorReferenceUri, AppSettingsConfigKey.ErrorReferenceUri, environment);
       DisableGlobalErrorHandling = GetValue(DisableGlobalErrorHandling, AppSettingsConfigKey.DisableGlobalErrorHandling, environment);
+
+      if (!string.IsNullOrWhiteSpace(ErrorReferenceUri))
+      {
+        if (!IsValidUri(ErrorReferenceUri, true)) throw new System.Exception($"Invalid configuration value {ErrorReferenceUri} for appsetting ErrorReferenceUri.");
+      }
     }
   }
 }
