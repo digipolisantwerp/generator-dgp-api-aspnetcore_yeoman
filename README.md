@@ -4,7 +4,7 @@
 
 ## Installation
 
-Make sure you have installed a recent version of node.js. You can download it here : https://nodejs.org/en/. 
+Make sure you have installed a recent version of node.js. You can download it here : https://nodejs.org/en/download/current/. 
 
 Install Yeoman :
 
