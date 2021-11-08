@@ -1,4 +1,17 @@
 {
+  "LogSettings": {
+    "LogExceptions": "true",
+    "RequestLogging": {
+      "IncomingEnabled": true,
+      "OutgoingEnabled": true,
+      "LogPayload": false,
+      "LogPayloadOnError": true
+      //"AllowedIncomingRequestHeaders": [ "accept", "content-type" ],  // omit parameter or set to null to use default header list
+      //"AllowedIncomingResponseHeaders": null,                         // omit parameter or set to null to use default header list
+      //"AllowedOutgoingRequestHeaders": null                           // omit parameter or set to null to use default header list
+      //"AllowedOutgoingResponseHeaders": null                          // omit parameter or set to null to use default header list
+    }
+  },
   "Serilog": {
     "MinimumLevel": {
       "Default": "Debug",

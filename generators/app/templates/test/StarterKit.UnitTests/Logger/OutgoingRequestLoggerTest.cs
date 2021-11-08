@@ -2,7 +2,7 @@ using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Sinks.TestCorrelator;
 using StarterKit.Framework.Logging;
-using StarterKit.Shared.Options;
+using StarterKit.Shared.Options.Logging;
 using System.Net.Http;
 using System.Threading;
 using Xunit;
@@ -19,20 +19,19 @@ namespace StarterKit.UnitTests.Logger
         .TestCorrelator()
         .CreateLogger();
 
-      IOptions<AppSettings> settings =
-        Options.Create(new AppSettings
-      {
-        RequestLogging = new RequestLogging
+      IOptions<LogSettings> settings =
+        Options.Create(new LogSettings
         {
-          IncomingEnabled = true,
-          OutgoingEnabled = true
-        }
-      });
+          RequestLogging = new RequestLogging
+          {
+            IncomingEnabled = true,
+            OutgoingEnabled = true
+          }
+        });
 
-      var handler = new OutgoingRequestLogger(settings);
+      var handler = new OutgoingRequestLogger<DummyServiceAgent>(settings);
       handler.InnerHandler = new HttpClientHandler();
-      var httpRequestMessage = new HttpRequestMessage(
-        HttpMethod.Get, "https://jsonplaceholder.typicode.com/todos/1");
+      var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, "https://jsonplaceholder.typicode.com/todos/1");
       var invoker = new HttpMessageInvoker(handler);
 
       using (TestCorrelator.CreateContext())
@@ -47,5 +46,10 @@ namespace StarterKit.UnitTests.Logger
         Assert.Contains(logs, l => l.MessageTemplate.Text == "Outgoing API call response");
       }
     }
+  }
+
+  public class DummyServiceAgent
+  {
+    public DummyServiceAgent() { }
   }
 }

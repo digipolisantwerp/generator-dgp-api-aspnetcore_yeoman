@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Digipolis.Serilog;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -12,13 +8,26 @@ using Serilog;
 using Serilog.Core;
 using StarterKit.Shared.Constants;
 using StarterKit.Shared.Options;
+using StarterKit.Shared.Options.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace StarterKit.Framework.Logging
 {
-  public static class LoggingEngineExtensions
+  public static class LoggingExtensions
   {
-    public static void AddLoggingEngine(this IServiceCollection services)
+    /// <summary>
+    /// configure logging services in Startup
+    /// </summary>
+    public static void AddLogging(this IServiceCollection services,
+                                  IConfiguration config,
+                                  IHostEnvironment Environment)
     {
+      // initialize Logsettings options object and overwrite from environment variables
+      LogSettings.RegisterConfiguration(services, config.GetSection(Shared.Constants.ConfigurationSectionKey.LogSettings), Environment);
+
+      // add serilog enrichers
       services.AddSerilogExtensions(options =>
       {
         options.AddAuthServiceEnricher();
@@ -26,13 +35,16 @@ namespace StarterKit.Framework.Logging
       });
     }
 
-    public static void AddLoggingEngine(
-      this ILoggerFactory loggerFactory,
-      IApplicationBuilder app,
-      IHostApplicationLifetime appLifetime,
-      IConfiguration config,
-      IHostEnvironment hostingEnv)
+    /// <summary>
+    /// configure logging in Startup: initialize serilog
+    /// </summary>
+    public static void UseLogging(this ILoggerFactory loggerFactory,
+                                  IApplicationBuilder app,
+                                  IHostApplicationLifetime appLifetime,
+                                  IConfiguration config,
+                                  IHostEnvironment hostingEnv)
     {
+      // SERILOG - initialize
       var enrich = app.ApplicationServices.GetServices<ILogEventEnricher>().ToArray();
 
       var logSection = hostingEnv.EnvironmentName == Environments.Development
@@ -51,27 +63,24 @@ namespace StarterKit.Framework.Logging
     }
 
     /// <summary>
-    /// overwrite logging configuration settings with the settings in the environment variables
+    /// load logging configuration from json and overwrite serilog log levels from environment variables
     /// </summary>
     /// <param name="configurationBuilder"></param>
     /// <param name="hostingEnv"></param>
     /// <returns></returns>
     public static void AddLoggingConfiguration(this IConfigurationBuilder configurationBuilder,
-      IWebHostEnvironment hostingEnv)
+                                               IHostEnvironment hostingEnv)
     {
       var env = Environment.GetEnvironmentVariables();
 
       var environmentDict = new Dictionary<string, string>();
 
-      // if this is deployed, overwrite some settings from the environment variables
+      // overwrite serilog log levels from the environment variables
       if (hostingEnv.EnvironmentName != Environments.Development)
       {
-        ConfigUtil.FillFromEnvironment($"LOG_SYSTEM_MINIMUMLEVEL_DEFAULT", "Serilog:MinimumLevel:Default",
-          environmentDict);
-        ConfigUtil.FillFromEnvironment($"LOG_SYSTEM_MINIMUMLEVEL_OVERRIDE_SYSTEM",
-          "Serilog:MinimumLevel:Override:System", environmentDict);
-        ConfigUtil.FillFromEnvironment($"LOG_SYSTEM_MINIMUMLEVEL_OVERRIDE_MICROSOFT",
-          "Serilog:MinimumLevel:Override:Microsoft", environmentDict);
+        ConfigUtil.FillFromEnvironment(LogSettingsEnvVariableKey.SeriLog_MinimumLevel_Default, "Serilog:MinimumLevel:Default", environmentDict);
+        ConfigUtil.FillFromEnvironment(LogSettingsEnvVariableKey.SeriLog_MinimumLevel_Override_System, "Serilog:MinimumLevel:Override:System", environmentDict);
+        ConfigUtil.FillFromEnvironment(LogSettingsEnvVariableKey.SeriLog_MinimumLevel_Override_Microsoft, "Serilog:MinimumLevel:Override:Microsoft", environmentDict);
       }
 
       // load in this order so that json-settings will be overridden with environment settings when getting the configuration section

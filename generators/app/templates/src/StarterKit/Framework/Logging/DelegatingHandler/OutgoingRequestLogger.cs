@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using Serilog;
-using StarterKit.Shared.Options;
+using StarterKit.Shared.Options.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,29 +13,48 @@ using System.Threading.Tasks;
 
 namespace StarterKit.Framework.Logging
 {
-  public class OutgoingRequestLogger : DelegatingHandler
+  public class OutgoingRequestLogger<T> : DelegatingHandler
   {
-    private readonly AppSettings _appSettings;
+    private readonly LogSettings _logSettings;
 
-    public OutgoingRequestLogger(IOptions<AppSettings> appSettings)
+    public OutgoingRequestLogger(IOptions<LogSettings> logSettings)
     {
-      _appSettings = appSettings.Value ?? throw new ArgumentNullException($"{nameof(OutgoingRequestLogger)}.Ctr parameter {nameof(appSettings)} cannot be null.");
+      _logSettings = logSettings.Value ?? throw new ArgumentNullException($"{nameof(OutgoingRequestLogger<T>)}.Ctr parameter {nameof(logSettings)} cannot be null.");
     }
 
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
-      if (!_appSettings.RequestLogging.OutgoingEnabled)
+      if (!_logSettings.RequestLogging.OutgoingEnabled)
       {
         return await base.SendAsync(request, cancellationToken);
       }
 
+      HttpResponseMessage response = null;
       var sw = new Stopwatch();
-      sw.Start();
 
-      HttpResponseMessage response = await base.SendAsync(request, cancellationToken);
-      await LogRequest(response, sw);
+      try
+      {
+        sw.Start();
+
+        response = await base.SendAsync(request, cancellationToken);
+      }
+      finally {
+
+        sw.Stop();
+        await LogRequest(request, response, sw);
+      }
 
       return response;
+    }
+
+    private async Task LogRequest(HttpRequestMessage request, HttpResponseMessage response, Stopwatch sw)
+    {
+      // create Ilogger and enricht with extra properties
+      Log
+        .ForContext("Type", new string[] { "application" })
+        .ForContext("Request", await GetRequestLog(request))
+        .ForContext("Response", await GetResponseLog(response, sw.ElapsedMilliseconds))
+        .Information($"{nameof(T)} outgoing API call response");
     }
 
     private bool ShouldLogHeader(string name, IEnumerable<string> allowedHeaders)
@@ -70,7 +89,7 @@ namespace StarterKit.Framework.Logging
 
     private bool ShouldLogRequestPayload()
     {
-      return _appSettings.RequestLogging.LogPayload;
+      return _logSettings.RequestLogging.LogPayload;
     }
 
     private async Task<string> GetRequestBody(HttpRequestMessage request)
@@ -95,7 +114,7 @@ namespace StarterKit.Framework.Logging
         { "host", request.RequestUri.Host.ToString() },
         { "path", request.RequestUri.PathAndQuery.ToString() },
         { "protocol", request.RequestUri.Scheme.ToString() },
-        { "headers", GetHeaders(request.Headers, _appSettings.RequestLogging.AllowedOutgoingRequestHeaders) }
+        { "headers", GetHeaders(request.Headers, _logSettings.RequestLogging.AllowedOutgoingRequestHeaders) }
       };
 
       if (ShouldLogRequestPayload())
@@ -108,8 +127,8 @@ namespace StarterKit.Framework.Logging
 
     private bool ShouldLogResponsePayload(HttpResponseMessage response)
     {
-      return _appSettings.RequestLogging.LogPayload
-        || (_appSettings.RequestLogging.LogPayloadOnError && (int)response.StatusCode >= 400 && (int)response.StatusCode < 500);
+      return _logSettings.RequestLogging.LogPayload
+        || (_logSettings.RequestLogging.LogPayloadOnError && (int)response.StatusCode >= 400 && (int)response.StatusCode < 500);
     }
 
     private async Task<string> GetResponseBody(HttpResponseMessage response)
@@ -129,29 +148,22 @@ namespace StarterKit.Framework.Logging
 
     private async Task<Dictionary<string, Object>> GetResponseLog(HttpResponseMessage response, long durationInMs)
     {
-      var responseLog = new Dictionary<string, Object>() {
-        { "headers", GetHeaders(response.Headers, _appSettings.RequestLogging.AllowedOutgoingResponseHeaders) },
-        { "status", (int)response.StatusCode },
-        { "duration", durationInMs }
-      };
+      var responseLog = new Dictionary<string, Object>();
 
-      if (ShouldLogResponsePayload(response))
+      responseLog.Add("duration", durationInMs);
+
+      if (response != null)
       {
-        responseLog.Add("payload", await GetResponseBody(response));
-      }
+        responseLog.Add("headers", GetHeaders(response.Headers, _logSettings.RequestLogging.AllowedOutgoingResponseHeaders));
+        responseLog.Add("status", (int)response.StatusCode);
+
+        if (ShouldLogResponsePayload(response))
+        {
+          responseLog.Add("payload", await GetResponseBody(response));
+        }
+      }     
 
       return responseLog;
-    }
-
-    private async Task LogRequest(HttpResponseMessage response, Stopwatch sw)
-    {
-      sw.Stop();
-
-      Log
-        .ForContext("Type", new string[] { "application" })
-        .ForContext("Request", await GetRequestLog(response.RequestMessage))
-        .ForContext("Response", await GetResponseLog(response, sw.ElapsedMilliseconds))
-        .Information("Outgoing API call response");
     }
   }
 }

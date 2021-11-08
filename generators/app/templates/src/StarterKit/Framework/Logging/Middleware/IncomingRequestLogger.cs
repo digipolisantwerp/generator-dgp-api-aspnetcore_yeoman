@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Serilog;
-using StarterKit.Shared.Options;
+using StarterKit.Shared.Options.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,20 +12,23 @@ using System.Threading.Tasks;
 
 namespace StarterKit.Framework.Logging
 {
+  /// <summary>
+  /// log incoming request via middleware
+  /// </summary>
   public class IncomingRequestLogger
   {
     private readonly RequestDelegate _next;
-    private readonly AppSettings _appSettings;
+    private readonly LogSettings _logSettings;
 
-    public IncomingRequestLogger(RequestDelegate next, IOptions<AppSettings> appSettings)
+    public IncomingRequestLogger(RequestDelegate next, IOptions<LogSettings> logSettings)
     {
       _next = next ?? throw new ArgumentNullException($"{nameof(IncomingRequestLogger)}.Ctr parameter {nameof(next)} cannot be null.");
-      _appSettings = appSettings.Value ?? throw new ArgumentNullException($"{nameof(IncomingRequestLogger)}.Ctr parameter {nameof(appSettings)} cannot be null.");
+      _logSettings = logSettings.Value ?? throw new ArgumentNullException($"{nameof(IncomingRequestLogger)}.Ctr parameter {nameof(logSettings)} cannot be null.");
     }
 
     public async Task Invoke(HttpContext context)
     {
-      if (!_appSettings.RequestLogging.IncomingEnabled)
+      if (!_logSettings.RequestLogging.IncomingEnabled)
       {
         await _next(context);
         return;
@@ -55,6 +58,17 @@ namespace StarterKit.Framework.Logging
       }
     }
 
+    private async Task LogRequest(HttpResponse response, Stopwatch sw)
+    {
+      sw.Stop();
+
+      Log
+        .ForContext("Type", new string[] { "application" })
+        .ForContext("Request", await GetRequestLog(response.HttpContext.Request))
+        .ForContext("Response", await GetResponseLog(response, sw.ElapsedMilliseconds))
+        .Information("Incoming API call response");
+    }
+
     private bool ShouldLogHeader(string name, IEnumerable<string> allowedHeaders)
     {
       return allowedHeaders.ToList().Any(x => x.Equals(name, StringComparison.OrdinalIgnoreCase));
@@ -79,7 +93,7 @@ namespace StarterKit.Framework.Logging
 
     private bool ShouldLogRequestPayload()
     {
-      return _appSettings.RequestLogging.LogPayload;
+      return _logSettings.RequestLogging.LogPayload;
     }
 
     private async Task<string> GetRequestBody(HttpRequest request)
@@ -106,7 +120,7 @@ namespace StarterKit.Framework.Logging
         { "host", request.Host.ToString() },
         { "path", $"{request.Path}{request.QueryString}" },
         { "protocol", request.Scheme.ToString() },
-        { "headers", GetHeaders(request.Headers, _appSettings.RequestLogging.AllowedIncomingRequestHeaders) }
+        { "headers", GetHeaders(request.Headers, _logSettings.RequestLogging.AllowedIncomingRequestHeaders) }
       };
 
       if (ShouldLogRequestPayload())
@@ -119,8 +133,8 @@ namespace StarterKit.Framework.Logging
 
     private bool ShouldLogResponsePayload(HttpResponse response)
     {
-      return _appSettings.RequestLogging.LogPayload
-          || (_appSettings.RequestLogging.LogPayloadOnError && response.StatusCode >= 400 && response.StatusCode < 500);
+      return _logSettings.RequestLogging.LogPayload
+          || (_logSettings.RequestLogging.LogPayloadOnError && response.StatusCode >= 400 && response.StatusCode < 500);
     }
 
     private async Task<string> GetResponseBody(HttpResponse response)
@@ -140,7 +154,7 @@ namespace StarterKit.Framework.Logging
     private async Task<Dictionary<string, Object>> GetResponseLog(HttpResponse response, long durationInMs)
     {
       var responseLog = new Dictionary<string, Object>() {
-        { "headers", GetHeaders(response.Headers, _appSettings.RequestLogging.AllowedIncomingResponseHeaders) },
+        { "headers", GetHeaders(response.Headers, _logSettings.RequestLogging.AllowedIncomingResponseHeaders) },
         { "status", response.StatusCode },
         { "duration", durationInMs }
       };
@@ -151,17 +165,6 @@ namespace StarterKit.Framework.Logging
       }
 
       return responseLog;
-    }
-
-    private async Task LogRequest(HttpResponse response, Stopwatch sw)
-    {
-      sw.Stop();
-
-      Log
-        .ForContext("Type", new string[] { "application" })
-        .ForContext("Request", await GetRequestLog(response.HttpContext.Request))
-        .ForContext("Response", await GetResponseLog(response, sw.ElapsedMilliseconds))
-        .Information("Incoming API call response");
     }
   }
 }

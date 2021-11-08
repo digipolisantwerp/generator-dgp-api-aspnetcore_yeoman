@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using StarterKit.Shared.Options;
+using StarterKit.Shared.Options.Logging;
 
 namespace StarterKit.Shared.Exceptions.Handler
 {
@@ -19,14 +20,17 @@ namespace StarterKit.Shared.Exceptions.Handler
     private readonly IExceptionMapper _mapper;
     private readonly ILogger<ExceptionHandler> _logger;
     private readonly IOptions<MvcNewtonsoftJsonOptions> _options;
-    private readonly AppSettings _appSettings;
+    private readonly LogSettings _logSettings;
 
-    public ExceptionHandler(IExceptionMapper mapper, ILogger<ExceptionHandler> logger, IOptions<MvcNewtonsoftJsonOptions> options, IOptions<Options.AppSettings> appSettings)
+    public ExceptionHandler(IExceptionMapper mapper,
+                            ILogger<ExceptionHandler> logger,
+                            IOptions<MvcNewtonsoftJsonOptions> options,
+                            IOptions<LogSettings> logSettings)
     {
       _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
       _logger = logger ?? throw new ArgumentNullException(nameof(logger));
       _options = options ?? throw new ArgumentNullException(nameof(options));
-      _appSettings = appSettings.Value ?? throw new ArgumentNullException(nameof(appSettings));
+      _logSettings = logSettings.Value ?? throw new ArgumentNullException(nameof(logSettings));
     }
 
     public async Task HandleAsync(HttpContext context, Exception ex)
@@ -78,7 +82,7 @@ namespace StarterKit.Shared.Exceptions.Handler
         ExceptionInfo = exception.ToString()
       };
 
-      if (_appSettings.LogExceptions)
+      if (_logSettings.LogExceptions)
       {
         logMessage.Exception = exception;
       }

@@ -13,9 +13,20 @@
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "LOG_LEVEL_DEFAULT": "Debug",
-        "LOG_LEVEL_SYSTEM": "Information",
-        "LOG_LEVEL_MICROSOFT": "Information"
+
+        // logging
+        "LOGSETTINGS_LOGEXCEPTIONS": "true",
+        "LOGSETTINGS_SERILOG_MINIMUMLEVEL_DEFAULT": "Debug",
+        "LOGSETTINGS_SERILOG_MINIMUMLEVEL_OVERRIDE_SYSTEM": "Information",
+        "LOGSETTINGS_SERILOG_MINIMUMLEVEL_OVERRIDE_MICROSOFT": "Information",
+        "LOGSETTINGS_REQUESTLOGGING_LOGPAYLOAD": "true",
+        "LOGSETTINGS_REQUESTLOGGING_LOGPAYLOADONERROR": "true",
+        "LOGSETTINGS_REQUESTLOGGING_INCOMING_ENABLED": "true",
+        //"LOGSETTINGS_REQUESTLOGGING_INCOMING_ALLOWEDREQUESTHEADERS": "Accept,Content-Type,From,Host,Origin",
+        //"LOGSETTINGS_REQUESTLOGGING_INCOMING_ALLOWEDRESPONSEHEADERS": "Content-Type,Date,Location,Server",
+        "LOGSETTINGS_REQUESTLOGGING_OUTGOING_ENABLED": "true"
+        //"LOGSETTINGS_REQUESTLOGGING_OUTGOING_ALLOWEDREQUESTHEADERS": "Accept,Content-Type,From,Host,Origin",
+        //"LOGSETTINGS_REQUESTLOGGING_OUTGOING_ALLOWEDRESPONSEHEADERS": "Content-Type,Date,Location,Server"
       }
     },
     "StarterKit": {
@@ -24,9 +35,20 @@
       "launchUrl": "http://localhost:51002",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "LOG_LEVEL_DEFAULT": "Debug",
-        "LOG_LEVEL_SYSTEM": "Information",
-        "LOG_LEVEL_MICROSOFT": "Information"
+
+        // logging
+        "LOGSETTINGS_LOGEXCEPTIONS": "true",
+        "LOGSETTINGS_SERILOG_MINIMUMLEVEL_DEFAULT": "Debug",
+        "LOGSETTINGS_SERILOG_MINIMUMLEVEL_OVERRIDE_SYSTEM": "Information",
+        "LOGSETTINGS_SERILOG_MINIMUMLEVEL_OVERRIDE_MICROSOFT": "Information",
+        "LOGSETTINGS_REQUESTLOGGING_LOGPAYLOAD": "true",
+        "LOGSETTINGS_REQUESTLOGGING_LOGPAYLOADONERROR": "true",
+        "LOGSETTINGS_REQUESTLOGGING_INCOMING_ENABLED": "true",
+        //"LOGSETTINGS_REQUESTLOGGING_INCOMING_ALLOWEDREQUESTHEADERS": "Accept,Content-Type,From,Host,Origin",
+        //"LOGSETTINGS_REQUESTLOGGING_INCOMING_ALLOWEDRESPONSEHEADERS": "Content-Type,Date,Location,Server",
+        "LOGSETTINGS_REQUESTLOGGING_OUTGOING_ENABLED": "true"
+        //"LOGSETTINGS_REQUESTLOGGING_OUTGOING_ALLOWEDREQUESTHEADERS": "Accept,Content-Type,From,Host,Origin",
+        //"LOGSETTINGS_REQUESTLOGGING_OUTGOING_ALLOWEDRESPONSEHEADERS": "Content-Type,Date,Location,Server"
       }
     }
   }
