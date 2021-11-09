@@ -31,14 +31,18 @@ namespace StarterKit.Shared.Constants
 
 
 /*
-"logSettings": {
-  "logExceptions": "true",
-  "seriLog": {
-    "minimumlevel_default": "information",
-    "minimumlevel_override_system": "error",
-    "minimumlevel_override_microsoft": "error"
+"logsettings": {
+  "logexceptions": "true",
+  "serilog": {
+    "minimumlevel": {
+      "default": "Information",
+      "override": {
+        "system": "Error",
+        "microsoft": "Error"
+      }
+    }
   },
-  "requestLogging": {
+  "requestlogging": {
     "incoming": {
       "enabled": "true",
       "allowedRequestHeaders": "",    // omit to use defaults
