@@ -43,7 +43,7 @@
       {
         "Name": "Console",
         "Args": {
-          "restrictedToMinimumLevel": "Information",
+          "restrictedToMinimumLevel": "Debug",
           "formatter": "StarterKit.Framework.Logging.DigipolisFormatter, StarterKit"
         }
       }
