@@ -1,6 +1,7 @@
 using AutoMapper;
 using Digipolis.ApplicationServices;
 using Digipolis.Correlation;
+using Digipolis.Swagger.Startup;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Rewrite;
@@ -13,6 +14,7 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using StarterKit.Framework.Logging;
 using StarterKit.Shared.Extensions;
 using StarterKit.Shared.Options;
 using System;
@@ -20,8 +22,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using StarterKit.Framework.Logging;
-using Digipolis.Swagger.Startup;
+
 //--dataaccess-startupImports--
 
 namespace StarterKit.Startup
