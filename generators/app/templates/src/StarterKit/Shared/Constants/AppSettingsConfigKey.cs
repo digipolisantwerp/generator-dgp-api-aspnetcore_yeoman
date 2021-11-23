@@ -10,5 +10,6 @@ namespace StarterKit.Shared.Constants
     public const string TempDirectory = "APPSETTINGS_TEMPDIRECTORY";
     public const string ErrorReferenceUri = "APPSETTINGS_ERRORREFERENCEURI";
     public const string DisableGlobalErrorHandling = "APPSETTINGS_DISABLEGLOBALERRORHANDLING";
+    public const string CacheExpiration = "APPSETTINGS_CACHEEXPIRATION";
   }
 }

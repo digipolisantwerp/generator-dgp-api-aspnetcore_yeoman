@@ -85,9 +85,9 @@ A link to the automatically generated json swagger definition based on the imple
 
 ### Logging
 
-Almost everything is preset for logging to Kibana. Enter the name of your logging index in _config\logging.json -> "indexFormat": "logstash-{tenant}-{your logging index goes here}-{0:yyyy.MM.dd}" .
-The maximum length of tenant (application- or system-) and logging index name is 30 characters !
+Everything is preset for logging to console via Serilog (from generator v10.0.0) to comply to the Digipolis logging requirements. 
 
+To apply these changes in existing projects, follow the instructions listed [here](https://github.com/digipolisantwerp/generator-dgp-api-aspnetcore_yeoman/blob/master/loggingchanges.md).
 
 ### Known issues after generation
 

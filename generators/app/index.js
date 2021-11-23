@@ -459,16 +459,16 @@ function getDataProvider(input, projectName) {
 	
 	// packages
 	var efCorePackage =
-		'<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.11" />\n';
+		'<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.12" />\n';
 	var tools =
-		'<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.11">\n' +
+		'<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.12">\n' +
 		'<PrivateAssets>all</PrivateAssets>\n' +
 		'<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>\n' +
 		'</PackageReference>\n';
 	var npgSqlPackage =
 		'<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />\n';
 	var sqlServerPackage =
-		'<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.11" />\n';
+		'<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.12" />\n';
 	var mongoPackages =
 		'<PackageReference Include="MongoDB.Bson" Version="2.13.2" />\n' +
 		'<PackageReference Include="MongoDB.Driver" Version="2.13.2" />\n';

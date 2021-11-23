@@ -16,6 +16,11 @@ namespace StarterKit.Shared.Options
     public string ErrorReferenceUri { get; set; }
     public bool DisableGlobalErrorHandling { get; set; }
 
+    /// <summary>
+    /// duration an local object is cached before it expires
+    /// </summary>
+    public int CacheExpiration { get; set; }
+
 
     public static void RegisterConfiguration(IServiceCollection services, IConfigurationSection section, IHostEnvironment environment)
     {
@@ -46,6 +51,7 @@ namespace StarterKit.Shared.Options
       TempDirectory = GetValue(TempDirectory, AppSettingsConfigKey.TempDirectory, environment);
       ErrorReferenceUri = GetValue(ErrorReferenceUri, AppSettingsConfigKey.ErrorReferenceUri, environment);
       DisableGlobalErrorHandling = GetValue(DisableGlobalErrorHandling, AppSettingsConfigKey.DisableGlobalErrorHandling, environment);
+      CacheExpiration = GetValue(CacheExpiration, AppSettingsConfigKey.CacheExpiration, environment);
 
       if (!string.IsNullOrWhiteSpace(ErrorReferenceUri))
       {
