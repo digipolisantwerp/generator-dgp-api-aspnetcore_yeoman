@@ -1,5 +1,9 @@
 # generator-dgp-api-aspnetcore
 
+## 9.0.11
+- fix for generation problem where no files are committed to filesystem after template-generation
+- update exception mapping logic
+
 ## 9.0.10
 - change Docker-image of runtime build
 - update npm packages for vulnerability warnings

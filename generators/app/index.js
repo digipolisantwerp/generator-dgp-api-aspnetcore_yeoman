@@ -4,7 +4,7 @@ var chalk = require('chalk');
 var yosay = require('yosay');
 var del = require('del');
 var nd = require('node-dir');
-var uuidv1 = require('uuid/v1');
+var uuid = require('uuid');
 var updateNotifier = require('update-notifier');
 var pkg = require('./../../package.json');
 // eslint-disable-next-line no-unused-vars
@@ -20,8 +20,7 @@ module.exports = class extends Generator {
   }
 
   prompting() {
-    //var done = this.async();
-	
+    
 	//check if no setup is supplied, if so skip the prompt and use options
 	if (this.options['skip-prompt'] === 'y') {
 		console.log('Skipping prompt because of the no setup parameter')
@@ -76,12 +75,13 @@ module.exports = class extends Generator {
 
     return this.prompt(prompts).then(answers => {
       this.props = answers; // To access answers later use this.props.someOption;
-      //done();
     });
   }
 
   writing() {
-
+	  
+	var done = this.async();	// yeoman async callback
+	
     // empty target directory
     console.log('Emptying target directory...');
     if ((this.options['skip-prompt'] === 'y' && this.options['delete-content'] === 'y')
@@ -98,12 +98,12 @@ module.exports = class extends Generator {
 	}
     var lowerProjectName = projectName.toLowerCase();
 
-    var solutionItemsGuid = uuidv1(); console.log('solutionItemsGuid: ' + solutionItemsGuid + '\r\n');
-    var srcGuid = uuidv1();
-    var testGuid = uuidv1();
-    var starterKitGuid = uuidv1();
-    var integrationGuid = uuidv1();
-    var unitGuid = uuidv1();
+    var solutionItemsGuid = uuid.v1(); console.log('solutionItemsGuid: ' + solutionItemsGuid + '\r\n');
+    var srcGuid = uuid.v1();
+    var testGuid = uuid.v1();
+    var starterKitGuid = uuid.v1();
+    var integrationGuid = uuid.v1();
+    var unitGuid = uuid.v1();
 
     var kestrelHttpPort = this.options['skip-prompt'] === 'y' ? this.options['http-kestrel'] : this.props.kestrelHttpPort;
     var iisHttpPort = this.options['skip-prompt'] === 'y' ? this.options['http-iis'] : this.props.iisHttpPort;
@@ -249,7 +249,7 @@ module.exports = class extends Generator {
     var fs = this.fs;
 
     // copy files and rename starterkit to projectName
-    console.log('Creating project skeleton...');
+    console.log('Creating project skeleton. All files are generated in memory before any of them is committed to the destination directory. This can take a while...');
 	
 	var ignoreFiles = [];
 	//if no database then also remove all files inside dataprovider folders
@@ -257,18 +257,21 @@ module.exports = class extends Generator {
 		nd.files(source+'/src/StarterKit/DataAccess', function (err, files) {
 			for (var i = 0; i < files.length; i++) {
 				ignoreFiles.push(files[i]);
+				console.log('ignor file ' + files[i] );
 			}
 		});
 		
 		nd.files(source+'/src/StarterKit/Entities', function (err, files) {
 			for (var i = 0; i < files.length; i++) {
 				ignoreFiles.push(files[i]);
+				console.log('ignor file ' + files[i] );
 			}
 		});
 		
 		nd.files(source+'/test/StarterKit.UnitTests/DataAccess', function (err, files) {
 			for (var i = 0; i < files.length; i++) {
 				ignoreFiles.push(files[i]);
+				console.log('ignor file ' + files[i] );
 			}
 		});
 	}
@@ -277,6 +280,7 @@ module.exports = class extends Generator {
 		nd.files(source+'/test/StarterKit.UnitTests/Migrations', function (err, files) {
 			for (var i = 0; i < files.length; i++) {
 				ignoreFiles.push(files[i]);
+				console.log('ignor file ' + files[i] );
 			}
 		});
 	}
@@ -439,6 +443,8 @@ module.exports = class extends Generator {
           fs.copy(files[i], filename, copyOptions);
         }
       }
+	  
+	  done();
     });
 
   }
@@ -450,33 +456,35 @@ module.exports = class extends Generator {
 };
 
 function getDataProvider(input, projectName) {
-  var efCorePackage =
-      '<PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.9" />\n';
-  var efDesignPackage =
-      '<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.9">\n' +
-      '<PrivateAssets>all</PrivateAssets>\n' +
-      '<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>\n' +
-      '</PackageReference>\n';
-  var npgSqlPackage =
-    '<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.9" />\n';
-  var sqlServerPackage =
-    '<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.9" />\n';
-  var usings = 'using Microsoft.EntityFrameworkCore;\nusing Microsoft.EntityFrameworkCore.Migrations;\nusing StarterKit.DataAccess;\nusing StarterKit.DataAccess.Options;\nusing Microsoft.EntityFrameworkCore.Diagnostics;\nusing StarterKit.DataAccess.Context;'.replace(/StarterKit/g, projectName);
-  var mongoUsings = 'using StarterKit.DataAccess;\nusing StarterKit.DataAccess.Options;\nusing StarterKit.DataAccess.Context;'.replace(/StarterKit/g, projectName);
-  var programConfig = 'config.AddJsonFile(JsonFilesKey.DataAccessJson);\n';
-  var tools =
-      '<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.9">\n' +
-      '<PrivateAssets>all</PrivateAssets>\n' +
-      '<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>\n' +
-      '</PackageReference>\n';
-  var registerConfiguration =
-    'DataAccessSettings.RegisterConfiguration(services, Configuration.GetSection(Shared.Constants.ConfigurationSectionKey.DataAccess), Environment);';
-  var variable = 'DataAccessSettings dataAccessSettings;';
-  var getService =
-    'dataAccessSettings = provider.GetService<IOptions<DataAccessSettings>>().Value;';
-  var mongoPackages =
-      '<PackageReference Include="MongoDB.Bson" Version="2.11.4" />\n' +
-      '<PackageReference Include="MongoDB.Driver" Version="2.11.4" />\n';
+	
+	// packages
+	var efCorePackage =
+		'<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.11" />\n';
+	var tools =
+		'<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.11">\n' +
+		'<PrivateAssets>all</PrivateAssets>\n' +
+		'<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>\n' +
+		'</PackageReference>\n';
+	var npgSqlPackage =
+		'<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />\n';
+	var sqlServerPackage =
+		'<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.11" />\n';
+	var mongoPackages =
+		'<PackageReference Include="MongoDB.Bson" Version="2.13.2" />\n' +
+		'<PackageReference Include="MongoDB.Driver" Version="2.13.2" />\n';
+	
+	// code - usings
+	var usings = 'using Microsoft.EntityFrameworkCore;\nusing Microsoft.EntityFrameworkCore.Migrations;\nusing StarterKit.DataAccess;\nusing StarterKit.DataAccess.Options;\nusing Microsoft.EntityFrameworkCore.Diagnostics;\nusing StarterKit.DataAccess.Context;'.replace(/StarterKit/g, projectName);
+	var mongoUsings = 'using StarterKit.DataAccess;\nusing StarterKit.DataAccess.Options;\nusing StarterKit.DataAccess.Context;'.replace(/StarterKit/g, projectName);
+  
+	// code - various
+	var programConfig = 'config.AddJsonFile(JsonFilesKey.DataAccessJson);\n';
+	var registerConfiguration =
+		'DataAccessSettings.RegisterConfiguration(services, Configuration.GetSection(Shared.Constants.ConfigurationSectionKey.DataAccess), Environment);';
+	var variable = 'DataAccessSettings dataAccessSettings;';
+	var getService =
+		'dataAccessSettings = provider.GetService<IOptions<DataAccessSettings>>().Value;';
+  
 
   var dataProvider = {
     input: input,
@@ -492,7 +500,7 @@ function getDataProvider(input, projectName) {
   };
 
   if (input.toLowerCase() === 'p') {
-    dataProvider.package = efCorePackage + efDesignPackage + npgSqlPackage;
+    dataProvider.package = efCorePackage + npgSqlPackage;
     dataProvider.startupServices =
 			'      services.AddDataAccess<EntityContext>()\n' +
 			'      .AddDbContext<EntityContext>(options => {\n' +
@@ -507,7 +515,7 @@ function getDataProvider(input, projectName) {
     dataProvider.variable = variable;
     dataProvider.getService = getService;
   } else if (input.toLowerCase() === 'ms') {
-    dataProvider.package = efCorePackage + efDesignPackage + sqlServerPackage;
+    dataProvider.package = efCorePackage + sqlServerPackage;
     dataProvider.startupServices =
 		'      services.AddDataAccess<EntityContext>()\n' +
 		'      .AddDbContext<EntityContext>(options => {\n' +
