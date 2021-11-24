@@ -59,15 +59,15 @@ namespace StarterKit.Startup
 
       #region Add Correlation and application services
 
-      services.AddCorrelation(options =>
-      {
-        options.CorrelationHeaderRequired = !Environment.IsDevelopment();
-      });
-
       services.AddApplicationServices(opt =>
       {
         opt.ApplicationId = appSettings.ApplicationId;
         opt.ApplicationName = appSettings.AppName;
+      });
+
+      services.AddCorrelation(options =>
+      {
+        options.CorrelationHeaderRequired = !Environment.IsDevelopment();
       });
 
       #endregion

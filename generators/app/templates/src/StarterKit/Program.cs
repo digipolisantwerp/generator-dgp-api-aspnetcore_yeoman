@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
+using StarterKit.Framework.Logging;
 using StarterKit.Shared.Constants;
-using StarterKit.Startup;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -68,16 +67,8 @@ namespace StarterKit
             //--dataaccess-config--
             config.AddEnvironmentVariables();
           })
-          .ConfigureLogging((hostingContext, logging) =>
-          {
-            logging.ClearProviders();
-            logging.SetMinimumLevel(LogLevel.Debug);
-
-            logging.AddConfiguration(hostingContext.Configuration.GetSection(ConfigurationSectionKey.Logging));
-            logging.AddConsole();
-            logging.AddDebug();
-          })
           .CaptureStartupErrors(true)
+          .UseSerilog()
           .UseConfiguration(hostingConfig)
           .UseUrls(serverUrls);
     }

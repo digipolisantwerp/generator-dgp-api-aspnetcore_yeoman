@@ -4,9 +4,9 @@
     "AppName": "StarterKit",
     "DataDirectory": "/data/",
     "TempDirectory": "/temp/",
-    "LogExceptions": "true",
-    "ErrorReferenceUri": "", // add valid reference for error type overview ex. link to errors.md in bitbucket-repo location or link to a dedicated wiki-page
+
     "DisableGlobalErrorHandling": "false",
+    "ErrorReferenceUri": "", // add valid reference for error type overview ex. link to errors.md in bitbucket-repo location or link to a dedicated wiki-page
     "CacheExpiration": 30 //minutes
   }
 }
