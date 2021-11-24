@@ -1,5 +1,9 @@
 # generator-dgp-api-aspnetcore
 
+## 10.0.0
+- implement logging requirements: structured json logging to console via SeriLog
+- remove deprecated Digipolis.ServiceAgents-toolbox + add basic implementation of ServiceAgent and delegating handlers
+
 ## 9.0.11
 - fix for generation problem where no files are committed to filesystem after template-generation
 - update exception mapping logic
