@@ -1,8 +1,9 @@
 # code changes to comply with logging requirements
 
+Code can be found [here](https://github.com/digipolisantwerp/generator-dgp-api-aspnetcore_yeoman/tree/master/generators/app/templates/src/StarterKit):
+
 ## copy Logging logic to your own application:
 
-	Code can be found [here](https://github.com/digipolisantwerp/generator-dgp-api-aspnetcore_yeoman/tree/master/generators/app/templates/src/StarterKit):
 	* StarterKit\Framework\Logging
 	* StarterKit\Shared\Options\Logging
 	* StarterKit\Shared\Constants\LogSettingsEnvVariableKey.cs
