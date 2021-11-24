@@ -25,6 +25,9 @@ Code can be found [here](https://github.com/digipolisantwerp/generator-dgp-api-a
 
 	An example json-object for appConfig can be found at the bottom of class
 	generator-dgp-api-aspnetcore_yeoman\generators\app\templates\src\StarterKit\Shared\Constants\LogSettingsEnvVariableKey.cs
+	
+	Remove "LogExceptions"-setting from AppSettings and app.json if it exists there. This option has been moved to logSettings
+	so that all log-settings are comprised in one file.
 
 ## add/upgrade nuget packages. These packages target framework net5.0. Upgrade your project first if it uses an older framework version!
 
