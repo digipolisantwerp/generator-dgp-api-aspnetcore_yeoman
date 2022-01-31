@@ -53,7 +53,7 @@ namespace StarterKit.ServiceAgents._base.Handlers
                 // If there is a response
                 if (responseBody.Length > 0)
                 {
-                    // Try to get Error object from JSON
+                    // Try to get Error object in default format from JSON
                     errorResponse = JsonConvert.DeserializeObject<Error>(responseBody, _jsonSerializerSettings);
 
                     if (errorResponse == null || string.IsNullOrWhiteSpace(errorResponse.Title) && errorResponse.Status == 0)
@@ -67,7 +67,7 @@ namespace StarterKit.ServiceAgents._base.Handlers
             {
                 errorResponse = new Error
                 {
-                    Title = $"Json parse error exception. {responseBody}",
+                    Title = $"Service agent exception (parsing to Digipolis Error format failed) - {responseBody}",
                     Status = (int)response.StatusCode,
                     ExtraInfo = new Dictionary<string, IEnumerable<string>> { { "ResponseBody", new List<string> { responseBody } } }
                 };
@@ -77,6 +77,7 @@ namespace StarterKit.ServiceAgents._base.Handlers
             var errorTitle = errorResponse?.Title;
             var errorCode = errorResponse?.Code;
             var extraParameters = errorResponse?.ExtraInfo ?? new Dictionary<string, IEnumerable<string>>();
+
             switch (response.StatusCode)
             {
                 case HttpStatusCode.NotFound:
@@ -102,6 +103,12 @@ namespace StarterKit.ServiceAgents._base.Handlers
                         errorTitle ?? "Forbidden",
                         errorCode ?? "FORBID001",
                         messages: extraParameters);
+
+                case HttpStatusCode.TooManyRequests:
+                  throw new TooManyRequestsException(
+                      errorTitle ?? "Too many requests",
+                      errorCode ?? "TMREQU001",
+                      messages: extraParameters);
 
                 default:
                     throw new ServiceAgentException(

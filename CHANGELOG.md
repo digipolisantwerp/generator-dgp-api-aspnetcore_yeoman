@@ -1,5 +1,8 @@
 # generator-dgp-api-aspnetcore
 
+## 10.0.1
+- increase Digipolis.Errors toolbox and exception mapping logic for "Too many requests (429)" exception
+
 ## 10.0.0
 - implement logging requirements: structured json logging to console via SeriLog
 - remove deprecated Digipolis.ServiceAgents-toolbox + add basic implementation of ServiceAgent and delegating handlers

@@ -27,6 +27,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="Digipolis.Errors" Version="7.0.4" />
     
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
@@ -34,7 +35,6 @@
     <PackageReference Include="Digipolis.ApplicationServices" Version="3.1.1" />
     <PackageReference Include="Digipolis.Common" Version="3.0.0" />
     <PackageReference Include="Digipolis.Correlation" Version="6.0.1" />
-    <PackageReference Include="Digipolis.Errors" Version="7.0.2" />
     <PackageReference Include="Digipolis.Json" Version="3.0.0" />
     <PackageReference Include="Digipolis.Auth" Version="7.1.1" />
     <PackageReference Include="Digipolis.Paging" Version="1.0.0" />

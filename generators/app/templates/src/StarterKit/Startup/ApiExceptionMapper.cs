@@ -93,6 +93,16 @@ namespace StarterKit.Startup
       _logger.LogWarning($"Forbidden: {exception.Message}", exception);
     }
 
+    protected override void CreateTooManyRequestsMap(Error error, TooManyRequestsException exception)
+    {
+      base.CreateTooManyRequestsMap(error, exception);
+
+      error.Identifier = GetIdentifier();
+      SetErrorTypeReferenceUri(error);
+
+      _logger.LogWarning($"Too many requests: {exception.Message}", exception);
+    }
+
     protected override void CreateDefaultMap(Error error, Exception exception)
     {
       error.Code = "SRVRER001";
