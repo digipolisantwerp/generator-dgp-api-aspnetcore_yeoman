@@ -1,6 +1,7 @@
+
 # generator-dgp-api-aspnetcore
 
-> Yeoman generator for an ASP.NET 5.0 API project with csproj and MSBuild.
+> Yeoman generator for an ASP.NET 6.0 API project with csproj and MSBuild.
 
 ## Installation
 
@@ -20,7 +21,7 @@ Install the generator :
 npm install generator-dgp-api-aspnetcore -g
 ```
 
-## Generate a new ASP.NET Core 5 API project
+## Generate a new ASP.NET Core 6 API project
 
 In a command prompt, navigate to the directory where you want to create the new project and type :
 
@@ -71,6 +72,48 @@ The lifetime of the service is tied to the request scope. Only 1 instance is ins
 Only one instance is instantiated for the whole application.  
 
 More info about the dependency injection in ASP.NET Core can be found at : https://docs.asp.net/en/latest/fundamentals/dependency-injection.html. 
+
+**Serviceagent injection**
+Serviceagents can be injected dynamically based on their configuration.
+Practical example:
+
+ 1. Add agent configuration to serviceagents.json
+
+``` json
+{
+  "ServiceAgents": {
+    "TestAgent": {
+      "FriendlyName": "ACPaaS-TestEngine",
+      "AuthScheme": "none",
+      "Headers": {
+        "apikey": "0991fe70-ef89-5a87e-9354-14be7cef7c35",
+        "accept": "application/hal+json"
+      },
+      "Host": "api-gw-o.antwerpen.be",
+      "Path": "acpaas/testengine/v3",
+      "Scheme": "https"
+    }
+  }
+}
+```
+
+ 1. Add class with corresponding name inheriting from AgentBase<>
+``` csharp
+    public class TestAgent: AgentBase<TestAgent>, ITestAgent
+    {
+        public TestAgent(ILogger<TestAgent> logger, HttpClient httpClient, IServiceProvider serviceProvider) : base(logger, httpClient, serviceProvider)
+        {
+        }
+    }
+```
+ 3. The serviceagent will be automatically configured with all the options provided in the config file and is ready to be injected.
+ ``` csharp
+   public ExamplesController(ITestAgent agent)
+   {
+   }
+```
+
+**Remark:** Currently only OAuth2 scheme is implemented. If you are planning to use serviceagents with Bearer or Basic authentication please fill in a feature request. (RequestHeaderHelper.cs).
 
 ### AutoMapperRegistration
 
