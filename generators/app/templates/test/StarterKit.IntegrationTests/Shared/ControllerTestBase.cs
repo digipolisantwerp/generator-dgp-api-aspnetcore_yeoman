@@ -1,19 +1,17 @@
-using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using StarterKit.DataAccess;
 using StarterKit.DataAccess.Context;
 using StarterKit.IntegrationTests.Shared.Attributes;
+using Xunit;
 
 namespace StarterKit.IntegrationTests.Shared
 {
   [AutoRollback]
-  public class ControllerTestBase : IDisposable
+  public class ControllerTestBase : IClassFixture<TestBaseFixture>
   {
     protected string BasePath { get; set; }
     protected EntityContext DbContext { get; private set; }
@@ -90,14 +88,6 @@ namespace StarterKit.IntegrationTests.Shared
       }
 
       return response;
-    }
-
-    public void Dispose()
-    {
-      foreach (var mock in Fixture.Mocks)
-      {
-        mock.Reset();
-      }
     }
   }
 }

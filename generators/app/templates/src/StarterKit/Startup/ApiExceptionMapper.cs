@@ -2,7 +2,6 @@ using AutoMapper;
 using Digipolis.Correlation;
 using Digipolis.Errors;
 using Digipolis.Errors.Exceptions;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -121,7 +120,7 @@ namespace StarterKit.Startup
         error.Title = "We are experiencing some technical difficulties.";
       }
 
-      _logger.LogError("Internal server error: {exceptionMessage}", exception.Message, exception);
+      _logger.LogError("Internal server error: {exceptionMessage}: {exception}", exception.Message, exception);
     }
 
     protected override void CreateValidationMap(Error error, ValidationException exception)

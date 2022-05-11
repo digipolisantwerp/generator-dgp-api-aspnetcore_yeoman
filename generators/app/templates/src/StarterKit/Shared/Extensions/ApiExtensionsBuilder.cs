@@ -10,9 +10,6 @@ using StarterKit.Shared.Options;
 
 namespace StarterKit.Shared.Extensions
 {
-  // Pulled out of Digipolis.Web package untill updated to .net core 3.1
-  // https://github.com/digipolisantwerp/web_aspnetcore/blob/master/src/Digipolis.Web/Startup/ApiExtensionsBuilder.cs
-
   public static class ApiExtensionsBuilder
   {
     public static void AddGlobalErrorHandling<TExceptionMapper>(this IServiceCollection services) where TExceptionMapper : ExceptionMapper
@@ -25,14 +22,9 @@ namespace StarterKit.Shared.Extensions
     {
       var settings = app.ApplicationServices.GetService<IOptions<AppSettings>>();
 
-      var httpContextAccessor = app.ApplicationServices.GetService<IActionContextAccessor>();
-
       if (settings?.Value?.DisableGlobalErrorHandling == false)
       {
-        app.UseExceptionHandler(new ExceptionHandlerOptions
-        {
-          ExceptionHandler = new ExceptionResponseHandler().Invoke
-        });
+        app.UseMiddleware<ExceptionResponseMiddleWare>();
       };
 
       //PageOptionsExtensions.Configure(httpContextAccessor);

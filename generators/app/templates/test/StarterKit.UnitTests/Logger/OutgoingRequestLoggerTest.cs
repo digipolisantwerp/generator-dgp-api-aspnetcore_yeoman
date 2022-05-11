@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Sinks.TestCorrelator;
@@ -5,6 +6,7 @@ using StarterKit.Framework.Logging;
 using StarterKit.Shared.Options.Logging;
 using System.Net.Http;
 using System.Threading;
+using StarterKit.Framework.Logging.DelegatingHandler;
 using Xunit;
 
 namespace StarterKit.UnitTests.Logger
@@ -43,7 +45,7 @@ namespace StarterKit.UnitTests.Logger
         var logs = TestCorrelator.GetLogEventsFromCurrentContext();
 
         Assert.Single(logs);
-        Assert.Contains(logs, l => l.MessageTemplate.Text == "Outgoing API call response");
+        Assert.Contains(logs, l => l.MessageTemplate.Text.Equals(typeof(DummyServiceAgent).FullName + " outgoing API call response", StringComparison.CurrentCultureIgnoreCase));
       }
     }
   }

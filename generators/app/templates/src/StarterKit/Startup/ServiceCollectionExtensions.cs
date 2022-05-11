@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using StarterKit.DataAccess.Context;
@@ -19,7 +19,7 @@ namespace StarterKit.Startup
       where TEntityContext : Context<TEntityContext>
     {
       services.TryAddScoped<IContext, TEntityContext>();
-      services.TryAddTransient(typeof(IRepository<,>), typeof(GenericEntityRepository<>));
+      services.TryAddTransient(typeof(IRepository<,>), typeof(GenericEntityRepository<,>));
     }
 
     private static void ValidateMandatoryField(string field, string fieldName)

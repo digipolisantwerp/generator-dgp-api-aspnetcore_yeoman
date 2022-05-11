@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using StarterKit.DataAccess.Context;
 
 namespace StarterKit.UnitTests.DataAccess._TestObjects
@@ -18,7 +18,7 @@ namespace StarterKit.UnitTests.DataAccess._TestObjects
     public DbSet<Foo> Foos { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
-      => options.UseSqlite("Data Source=TestDatabase.db");
+      => options.UseSqlite("Data Source=TestDatabase.db;Pooling=False;");
 
   }
 }

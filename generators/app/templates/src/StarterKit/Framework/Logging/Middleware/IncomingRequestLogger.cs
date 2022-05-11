@@ -1,16 +1,16 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
-using Serilog;
-using StarterKit.Shared.Options.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
+using Serilog;
+using StarterKit.Shared.Constants;
+using StarterKit.Shared.Options.Logging;
 
-namespace StarterKit.Framework.Logging
+namespace StarterKit.Framework.Logging.Middleware
 {
   /// <summary>
   /// log incoming request via middleware
@@ -45,17 +45,17 @@ namespace StarterKit.Framework.Logging
       //Copy a pointer to the original response body stream
       var originalResponseBody = context.Response.Body;
 
-      using (var responseBody = new MemoryStream())
-      {
-        context.Response.Body = responseBody;
+      await using var responseBody = new MemoryStream();
+      context.Response.Body = responseBody;
 
-        await _next(context);
-        await LogRequest(context.Response, sw);
-        responseBody.Seek(0, SeekOrigin.Begin);
+      await _next(context);
 
-        //Copy the contents of the new memory stream (which contains the response) to the original stream, which is then returned to the client
-        await responseBody.CopyToAsync(originalResponseBody);
-      }
+      responseBody.Seek(0, SeekOrigin.Begin);
+
+      await LogRequest(context.Response, sw);
+
+      //Copy the contents of the new memory stream (which contains the response) to the original stream, which is then returned to the client
+      await responseBody.CopyToAsync(originalResponseBody);
     }
 
     private async Task LogRequest(HttpResponse response, Stopwatch sw)
@@ -78,13 +78,14 @@ namespace StarterKit.Framework.Logging
     {
       var result = new Dictionary<string, string>();
 
-      if (allowedHeaders == null || allowedHeaders.Count() == 0)
+      var allowedHeadersList = allowedHeaders?.ToList();
+      if (allowedHeadersList == null || !allowedHeadersList.Any())
       {
         return result;
       }
 
       headers
-        .Where(x => ShouldLogHeader(x.Key, allowedHeaders))
+        .Where(x => ShouldLogHeader(x.Key, allowedHeadersList))
         .ToList()
         .ForEach(x => result.Add(x.Key, x.Value));
 
@@ -98,19 +99,20 @@ namespace StarterKit.Framework.Logging
 
     private async Task<string> GetRequestBody(HttpRequest request)
     {
-      if (request.ContentType != null
-        && request.ContentType.ToLower().Contains("multipart/form-data"))
+      var contentType = request.ContentType ?? string.Empty;
+
+      if (contentType.ToLower().Contains(MediaType.MultipartFormData))
       {
         return "Logging of multipart content body disabled";
       }
 
-      request.Body.Seek(0, SeekOrigin.Begin);
-      var buffer = new byte[Convert.ToInt32(request.ContentLength)];
-      await request.Body.ReadAsync(buffer, 0, buffer.Length);
-      var requestBodyAsText = Encoding.UTF8.GetString(buffer);
+      request.EnableBuffering();
       request.Body.Seek(0, SeekOrigin.Begin);
 
-      return requestBodyAsText;
+      var text = await new StreamReader(request.Body).ReadToEndAsync();
+
+      request.Body.Seek(0, SeekOrigin.Begin);
+      return text;
     }
 
     private async Task<Dictionary<string, Object>> GetRequestLog(HttpRequest request)
@@ -139,16 +141,11 @@ namespace StarterKit.Framework.Logging
 
     private async Task<string> GetResponseBody(HttpResponse response)
     {
-      if (response.ContentType != null
-        && response.ContentType.ToLower().Contains("multipart/form-data"))
-      {
-        return "Logging of multipart content body disabled";
-      }
+      var text = await new StreamReader(response.Body).ReadToEndAsync();
 
       response.Body.Seek(0, SeekOrigin.Begin);
-      var result = await new StreamReader(response.Body).ReadToEndAsync();
 
-      return result;
+      return $"{response.StatusCode}: {text}";
     }
 
     private async Task<Dictionary<string, Object>> GetResponseLog(HttpResponse response, long durationInMs)
@@ -161,6 +158,7 @@ namespace StarterKit.Framework.Logging
 
       if (ShouldLogResponsePayload(response))
       {
+        response.Body.Seek(0, SeekOrigin.Begin);
         responseLog.Add("payload", await GetResponseBody(response));
       }
 

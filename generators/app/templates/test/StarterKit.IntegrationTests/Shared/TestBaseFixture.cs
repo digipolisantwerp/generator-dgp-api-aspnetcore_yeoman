@@ -9,42 +9,48 @@ using Xunit;
 namespace StarterKit.IntegrationTests.Shared
 {
   // This class defines the shared context between all the tests
-  public class TestBaseFixture
+  public class TestBaseFixture: IDisposable
   {
     public readonly IList<Mock> Mocks = new List<Mock>();
     
     public readonly HttpClient Client;
 
-    private readonly TestWebApplicationFactory<StarterKit.Startup.Startup> factory;
-    private readonly IServiceProvider serviceProvider;
+    private readonly TestWebApplicationFactory<StarterKit.Startup.Startup> _factory;
+    private readonly IServiceProvider _serviceProvider;
 
     // Define your mocks here so you can access them in your test classes
     // fe: public readonly Mock<IMocked> MockedMock;
 
     public TestBaseFixture()
     {
-      this.factory = new TestWebApplicationFactory<StarterKit.Startup.Startup>();
+      _factory = new TestWebApplicationFactory<StarterKit.Startup.Startup>();
+      Client = _factory.CreateClient();
 
-      // Transaction scope is running into issues in .net core 3.1
-      // https://github.com/dotnet/aspnetcore/issues/18001 
-      factory.Server.PreserveExecutionContext = true;
-
-      this.Client = factory.CreateClient();
-
-      using var scope = factory.Server.Host.Services.CreateScope();
-      this.serviceProvider = factory.Server.Host.Services;
+      using var scope = _factory.Server.Host.Services.CreateScope();
+      _serviceProvider = _factory.Server.Host.Services;
 
       // Initialize your mock in scope. Helper method AddMock will get the required mock from the service. 
       // this.MockedMock = AddMock<IMocked>(scope);
     }
 
-    public T GetService<T>() => (T)serviceProvider.GetService(typeof(T));
+    public T GetService<T>() => (T)_serviceProvider.GetService(typeof(T));
 
     private Mock<T> AddMock<T>(IServiceScope scope) where T : class
     {
       var mock = scope.ServiceProvider.GetRequiredService<Mock<T>>();
       Mocks.Add(mock);
       return mock;
+    }
+
+    public void Dispose()
+    {
+      Client?.Dispose();
+      _factory?.Dispose();
+
+      foreach (var mock in Mocks)
+      {
+          mock.Reset();
+      }
     }
   }
 

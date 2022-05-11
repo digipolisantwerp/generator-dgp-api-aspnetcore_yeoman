@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,8 +11,8 @@ namespace StarterKit.UnitTests.DataAccess.Repositories
 {
   public class EfTransactionTests
   {
-    private SqlLiteContext _context;
-    private IRepository<Foo, int> _fooRepository;
+    private readonly SqlLiteContext _context;
+    private readonly IRepository<Foo, int> _fooRepository;
 
     public EfTransactionTests()
     {
@@ -23,19 +23,23 @@ namespace StarterKit.UnitTests.DataAccess.Repositories
       //delete the old database
       if (File.Exists("TestDatabase.db"))
       {
+        _context.Database.CloseConnection();
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
         File.Delete("TestDatabase.db");
       }
+
       //migrate the database
       _context.Database.Migrate();
 
       _fooRepository.SetContext(_context);
     }
 
-    private IEnumerable<Foo> GetEntities(int start = 1, int count = 10)
+    private static IEnumerable<Foo> GetEntities(int start = 1, int count = 10)
     {
       var result = new List<Foo>();
       // Add entities to context
-      for (var i = start; i < start+count; i++)
+      for (var i = start; i < start + count; i++)
       {
         var foo = new Foo()
         {

@@ -1,7 +1,3 @@
-using Microsoft.Extensions.Options;
-using Microsoft.Net.Http.Headers;
-using Serilog;
-using StarterKit.Shared.Options.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,10 +6,14 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using Microsoft.Net.Http.Headers;
+using Serilog;
+using StarterKit.Shared.Options.Logging;
 
-namespace StarterKit.Framework.Logging
+namespace StarterKit.Framework.Logging.DelegatingHandler
 {
-  public class OutgoingRequestLogger<T> : DelegatingHandler
+  public class OutgoingRequestLogger<T> : System.Net.Http.DelegatingHandler
   {
     private readonly LogSettings _logSettings;
 
@@ -54,10 +54,10 @@ namespace StarterKit.Framework.Logging
         .ForContext("Type", new string[] { "application" })
         .ForContext("Request", await GetRequestLog(request))
         .ForContext("Response", await GetResponseLog(response, sw.ElapsedMilliseconds))
-        .Information($"{nameof(T)} outgoing API call response");
+        .Information($"{typeof(T)?.FullName} outgoing API call response");
     }
 
-    private bool ShouldLogHeader(string name, IEnumerable<string> allowedHeaders)
+    private static bool ShouldLogHeader(string name, IEnumerable<string> allowedHeaders)
     {
       return allowedHeaders.ToList().Any(x => x.Equals(name, StringComparison.OrdinalIgnoreCase));
     }
@@ -66,23 +66,23 @@ namespace StarterKit.Framework.Logging
     {
       var result = new Dictionary<string, string>();
 
-      if (allowedHeaders == null || allowedHeaders.Count() == 0)
+      var allowedHeadersList = allowedHeaders?.ToList();
+      if (allowedHeadersList == null || !allowedHeadersList.Any())
       {
         return result;
       }
 
       headers
-        .Where(x => ShouldLogHeader(x.Key, allowedHeaders))
+        .Where(x => ShouldLogHeader(x.Key, allowedHeadersList))
         .ToList()
         .ForEach(x => result.Add(x.Key, string.Join(",", x.Value)));
 
       return result;
     }
 
-    private string GetContentType(HttpHeaders headers)
+    private static string GetContentType(HttpHeaders headers)
     {
-      IEnumerable<string> contentTypeHeader;
-      headers.TryGetValues(HeaderNames.ContentType, out contentTypeHeader);
+      headers.TryGetValues(HeaderNames.ContentType, out var contentTypeHeader);
 
       return contentTypeHeader?.FirstOrDefault();
     }
@@ -92,7 +92,7 @@ namespace StarterKit.Framework.Logging
       return _logSettings.RequestLogging.LogPayload;
     }
 
-    private async Task<string> GetRequestBody(HttpRequestMessage request)
+    private static async Task<string> GetRequestBody(HttpRequestMessage request)
     {
       if (GetContentType(request.Headers)?.Contains("multipart/form-data") == true)
       {
@@ -107,13 +107,13 @@ namespace StarterKit.Framework.Logging
       return await request.Content.ReadAsStringAsync();
     }
 
-    private async Task<Dictionary<string, Object>> GetRequestLog(HttpRequestMessage request)
+    private async Task<Dictionary<string, object>> GetRequestLog(HttpRequestMessage request)
     {
-      var requestLog = new Dictionary<string, Object>() {
+      var requestLog = new Dictionary<string, object>() {
         { "method", request.Method },
-        { "host", request.RequestUri.Host.ToString() },
-        { "path", request.RequestUri.PathAndQuery.ToString() },
-        { "protocol", request.RequestUri.Scheme.ToString() },
+        { "host", request.RequestUri?.Host },
+        { "path", request.RequestUri?.PathAndQuery },
+        { "protocol", request.RequestUri?.Scheme },
         { "headers", GetHeaders(request.Headers, _logSettings.RequestLogging.AllowedOutgoingRequestHeaders) }
       };
 
@@ -131,26 +131,19 @@ namespace StarterKit.Framework.Logging
         || (_logSettings.RequestLogging.LogPayloadOnError && (int)response.StatusCode >= 400 && (int)response.StatusCode < 500);
     }
 
-    private async Task<string> GetResponseBody(HttpResponseMessage response)
+    private static async Task<string> GetResponseBody(HttpResponseMessage response)
     {
       if (GetContentType(response.Headers)?.Contains("multipart/form-data") == true)
       {
         return "Logging of multipart content body disabled";
       }
 
-      if (response.Content == null)
-      {
-        return null;
-      }
-
-      return await response.Content.ReadAsStringAsync();
+      return await response.Content?.ReadAsStringAsync();
     }
 
-    private async Task<Dictionary<string, Object>> GetResponseLog(HttpResponseMessage response, long durationInMs)
+    private async Task<Dictionary<string, object>> GetResponseLog(HttpResponseMessage response, long durationInMs)
     {
-      var responseLog = new Dictionary<string, Object>();
-
-      responseLog.Add("duration", durationInMs);
+      var responseLog = new Dictionary<string, object> { { "duration", durationInMs } };
 
       if (response != null)
       {
