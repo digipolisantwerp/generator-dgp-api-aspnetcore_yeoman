@@ -27,17 +27,20 @@ namespace StarterKit
         .Enrich.FromLogContext()
         .CreateLogger();
 
-      try {
+      try
+      {
         Log.Information("Application started.");
         Log.Information("Starting web host...");
 
         await CreateWebHostBuilder(args).Build().RunAsync();
       }
-      catch (Exception e) {
+      catch (Exception e)
+      {
         Log.Fatal(e, "Host terminated unexpectedly.");
         throw;
       }
-      finally {
+      finally
+      {
         Log.CloseAndFlush();
       }
     }
@@ -64,7 +67,9 @@ namespace StarterKit
             config.SetBasePath(configPath);
             config.AddLoggingConfiguration(env);
             config.AddJsonFile(JsonFilesKey.AppJson);
+            config.AddJsonFile(JsonFilesKey.ServiceAgentsJson);
             //--dataaccess-config--
+            //--authorization-config--
             config.AddEnvironmentVariables();
           })
           .CaptureStartupErrors(true)

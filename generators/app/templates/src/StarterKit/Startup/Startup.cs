@@ -23,6 +23,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
+//--authorization-startupImports--
+using StarterKit.Framework.Logging.Middleware;
+using StarterKit.Shared.Constants;
+
 //--dataaccess-startupImports--
 
 namespace StarterKit.Startup
@@ -82,6 +86,8 @@ namespace StarterKit.Startup
 
       #region Add routing and versioning
 
+      //--authorization-startupServices--
+
       services
         .AddRouting(options =>
         {
@@ -118,6 +124,9 @@ namespace StarterKit.Startup
       #region DI and Automapper
 
       services.AddBusinessServices();
+
+      services.AddServiceAgents(Configuration.GetSection(Shared.Constants.ConfigurationSectionKey.ServiceAgents),
+        Assembly.Load(Assembly.GetExecutingAssembly().GetName().Name ?? "StarterKit"), null, Environment);
       services.AddServiceAgentServices();
       services.AddDataAccessServices();
 
@@ -164,11 +173,11 @@ namespace StarterKit.Startup
       // Enable Serilog selflogging to console.
       Serilog.Debugging.SelfLog.Enable(Console.Out);
 
-      app.UseApiExtensions();
       app.UseMiddleware<IncomingRequestLogger>();
+      app.UseApiExtensions();
 
       // CORS
-      app.UseCors((policy) =>
+      app.UseCors(policy =>
       {
         policy.AllowAnyHeader();
         policy.AllowAnyMethod();
