@@ -70,6 +70,13 @@ module.exports = class extends Generator {
       message: 'Which data provider will you be using? MongoDB, MSSQL, PostgreSQL or Not ? (mo/ms/p/n):',
       default:
 				'p'
+    },
+	{
+      type: 'input',
+      name: 'authConfig',
+      message: 'Configure your project with Digipolis Auth Config ? (y/n):',
+      default:
+				'y'
     }
     ];
 
@@ -110,6 +117,7 @@ module.exports = class extends Generator {
     var iisHttpsPort = this.options['skip-prompt'] === 'y' ? this.options['https-iis'] : this.props.iisHttpsPort;
 	var optionsDatabase = this.options['database'] ? this.options['database'] : 'p';
     var dataProvider = getDataProvider(this.options['skip-prompt'] === 'y' ? optionsDatabase : this.props.dataProvider, projectName);
+	var oauthConfig = getOAuthConfiguration(this.props.authConfig === 'y', projectName);
 
     var copyOptions = {
       process: function (contents) {
@@ -181,9 +189,17 @@ module.exports = class extends Generator {
             /\/\/--dataaccess-startupImports--/g,
             dataProvider.startupImports
           )
+		  .replace(
+            /\/\/--authorization-startupImports--/g,
+            oauthConfig.startupImports
+          )
           .replace(
             /\/\/--dataaccess-startupServices--/g,
             dataProvider.startupServices
+          )
+		  .replace(
+            /\/\/--authorization-startupServices--/g,
+            oauthConfig.startupServices
           )
           .replace(
             /\/\/--dataaccess-registerConfiguration--/g,
@@ -192,6 +208,7 @@ module.exports = class extends Generator {
           .replace(/\/\/--dataaccess-variable--/g, dataProvider.variable)
           .replace(/\/\/--dataaccess-getService--/g, dataProvider.getService)
           .replace(/\/\/--dataaccess-config--/g, dataProvider.programConfig)
+		  .replace(/\/\/--authorization-config--/g, oauthConfig.programConfig)
           .replace(/<!-- dataaccess-tools -->/g, dataProvider.tools);
 		  
 		  //now remove db provider specific imports
@@ -478,7 +495,7 @@ function getDataProvider(input, projectName) {
 	var mongoUsings = 'using StarterKit.DataAccess;\nusing StarterKit.DataAccess.Options;\nusing StarterKit.DataAccess.Context;'.replace(/StarterKit/g, projectName);
   
 	// code - various
-	var programConfig = 'config.AddJsonFile(JsonFilesKey.DataAccessJson);\n';
+	var programConfig = 'config.AddJsonFile(JsonFilesKey.DataAccessJson);';
 	var registerConfiguration =
 		'DataAccessSettings.RegisterConfiguration(services, Configuration.GetSection(Shared.Constants.ConfigurationSectionKey.DataAccess), Environment);';
 	var variable = 'DataAccessSettings dataAccessSettings;';
@@ -541,4 +558,43 @@ function getDataProvider(input, projectName) {
   }
 
   return dataProvider;
+}
+
+
+function getOAuthConfiguration(useAuthConfig, projectName) {
+	var oauthConfig = {
+		package: '',
+		startupServices: addConfig,
+		startupImports: usings,
+		programConfig: programConfig
+	};
+	if(useAuthConfig) {
+		// code - usings
+		var usings = 'using Digipolis.Auth;';
+	  
+		// code - various
+		var programConfig = 'config.AddJsonFile(JsonFilesKey.AuthJson);';
+		var variable = 'DataAccessSettings dataAccessSettings;';
+		var addConfig =
+			'services.AddAuthorization(services.BuildJwtAuthPolicies());\n' +
+			'services.AddAuthFromOptions(options => \n' +
+			'{ \n'+
+			'  var configSection = Configuration.GetSection(Shared.Constants.ConfigurationSectionKey.Auth);\n' +
+			'  configSection.Bind(options);\n' +
+			'  AuthSettingsConfig.SetConfig(options, Environment);\n' +
+			'},\n' +
+			'devOptions => \n' +
+			'{\n' +
+			'  var configSection = Configuration.GetSection(Shared.Constants.ConfigurationSectionKey.DevPermissions);\n' + 
+			'  configSection.Bind(devOptions);\n' +
+			'});\n';
+	  
+
+     	  oauthConfig.startupServices = addConfig;
+		  oauthConfig.startupImports = usings;
+		  oauthConfig.programConfig = programConfig;		  
+	}
+  
+
+  return oauthConfig;
 }
