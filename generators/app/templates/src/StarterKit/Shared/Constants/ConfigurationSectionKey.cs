@@ -11,5 +11,6 @@ namespace StarterKit.Shared.Constants
     public const string LogSettings = "LogSettings";
     public const string Serilog = "Serilog";
     public const string SerilogDev = "SerilogDev";
+    public const string ServiceAgents = "ServiceAgents";
   }
 }

@@ -8,5 +8,6 @@ namespace StarterKit.Shared.Constants
         public const string HostingJson = "hosting.json";
         public const string LoggingJson = "logging.json";
         public const string ServiceAgentsJson = "serviceagents.json";
-    }
+        public const string AuthJson = "auth.json";
+  }
 }
