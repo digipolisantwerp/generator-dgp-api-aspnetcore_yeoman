@@ -34,9 +34,9 @@ namespace StarterKit.Shared.Extensions
         if ((serviceAgent.Value.Headers?.Count ?? 0) > 0)
         {
           if ((serviceAgent.Value.Headers.TryGetValue("apikey", out var tempIdString)) && (!string.IsNullOrEmpty(tempIdString)) && (!Guid.TryParseExact(tempIdString, "D", out _)))
-            throw new ArgumentException($"Invalid apikey with value '{serviceAgent.Value.OAuthClientId}' for service agent '{serviceAgent.Key}'");
+            throw new ArgumentException($"Invalid apikey with value '{tempIdString}' for service agent '{serviceAgent.Key}'");
           if ((serviceAgent.Value.Headers.TryGetValue("X-internal-apikey", out tempIdString)) && (!string.IsNullOrEmpty(tempIdString)) && (!Guid.TryParseExact(tempIdString, "D", out _)))
-            throw new ArgumentException($"Invalid X-internal-apikey with value '{serviceAgent.Value.OAuthClientId}' for service agent '{serviceAgent.Key}'");
+            throw new ArgumentException($"Invalid X-internal-apikey with value '{tempIdString}' for service agent '{serviceAgent.Key}'");
         }
         if ((!string.IsNullOrEmpty(serviceAgent.Value.OAuthClientId)) && (!Guid.TryParseExact(serviceAgent.Value.OAuthClientId, "D", out _)))
           throw new ArgumentException($"Invalid {nameof(AgentSettingsBase.OAuthClientId)} with value '{serviceAgent.Value.OAuthClientId}' for service agent '{serviceAgent.Key}'");
