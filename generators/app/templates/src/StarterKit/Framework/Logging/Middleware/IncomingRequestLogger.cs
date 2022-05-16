@@ -86,7 +86,7 @@ namespace StarterKit.Framework.Logging.Middleware
 			return allowedHeaders.ToList().Any(x => x.Equals(name, StringComparison.OrdinalIgnoreCase));
 		}
 
-		private Dictionary<string, string> GetHeaders(IHeaderDictionary headers, IEnumerable<string> allowedHeaders)
+		private static Dictionary<string, string> GetHeaders(IHeaderDictionary headers, IEnumerable<string> allowedHeaders)
 		{
 			var result = new Dictionary<string, string>();
 

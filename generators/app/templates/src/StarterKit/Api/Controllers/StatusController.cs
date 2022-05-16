@@ -109,7 +109,7 @@ namespace StarterKit.Api.Controllers
 		/// Datetime timezone (for testing purposes)
 		/// </summary>
 		/// <returns></returns>
-		[HttpGet("v{version:apiVersion}/[controller]/dateTimes/timezone")]
+		[HttpGet("dateTimes/timezone")]
 		[Produces("application/json")]
 		[ProducesResponseType(typeof(StatusResponse), 200)]
 		[ProducesResponseType(typeof(Error), 500)]

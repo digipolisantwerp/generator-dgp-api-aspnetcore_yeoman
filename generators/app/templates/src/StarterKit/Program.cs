@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -26,6 +27,7 @@ namespace StarterKit
 				.MinimumLevel.Override("Microsoft", LogEventLevel.Information)
 				.ReadFrom.Configuration(loggingConfig, ConfigurationSectionKey.Serilog)
 				.Enrich.FromLogContext()
+				.Filter.ByExcluding(l => l.Properties.Any(p => p.Value.ToString().Contains("/status/")))
 				.CreateLogger();
 
 			try
