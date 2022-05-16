@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Options;
 using Serilog;
 using StarterKit.Shared.Constants;
@@ -32,34 +33,41 @@ namespace StarterKit.Framework.Logging.Middleware
 
 		public async Task Invoke(HttpContext context)
 		{
-			if (!_logSettings.RequestLogging.IncomingEnabled)
+			if (NeedsToLog(context.Request.GetEncodedUrl()))
+			{
+				if (!_logSettings.RequestLogging.IncomingEnabled)
+				{
+					await _next(context);
+					return;
+				}
+
+				var sw = new Stopwatch();
+				sw.Start();
+
+				if (ShouldLogRequestPayload())
+				{
+					context.Request.EnableBuffering();
+				}
+
+				//Copy a pointer to the original response body stream
+				var originalResponseBody = context.Response.Body;
+
+				await using var responseBody = new MemoryStream();
+				context.Response.Body = responseBody;
+
+				await _next(context);
+
+				responseBody.Seek(0, SeekOrigin.Begin);
+
+				await LogRequest(context.Response, sw);
+
+				//Copy the contents of the new memory stream (which contains the response) to the original stream, which is then returned to the client
+				await responseBody.CopyToAsync(originalResponseBody);
+			}
+			else
 			{
 				await _next(context);
-				return;
 			}
-
-			var sw = new Stopwatch();
-			sw.Start();
-
-			if (ShouldLogRequestPayload())
-			{
-				context.Request.EnableBuffering();
-			}
-
-			//Copy a pointer to the original response body stream
-			var originalResponseBody = context.Response.Body;
-
-			await using var responseBody = new MemoryStream();
-			context.Response.Body = responseBody;
-
-			await _next(context);
-
-			responseBody.Seek(0, SeekOrigin.Begin);
-
-			await LogRequest(context.Response, sw);
-
-			//Copy the contents of the new memory stream (which contains the response) to the original stream, which is then returned to the client
-			await responseBody.CopyToAsync(originalResponseBody);
 		}
 
 		private async Task LogRequest(HttpResponse response, Stopwatch sw)
@@ -73,7 +81,7 @@ namespace StarterKit.Framework.Logging.Middleware
 				.Information("Incoming API call response");
 		}
 
-		private bool ShouldLogHeader(string name, IEnumerable<string> allowedHeaders)
+		private static bool ShouldLogHeader(string name, IEnumerable<string> allowedHeaders)
 		{
 			return allowedHeaders.ToList().Any(x => x.Equals(name, StringComparison.OrdinalIgnoreCase));
 		}
@@ -101,7 +109,7 @@ namespace StarterKit.Framework.Logging.Middleware
 			return _logSettings.RequestLogging.LogPayload;
 		}
 
-		private async Task<string> GetRequestBody(HttpRequest request)
+		private static async Task<string> GetRequestBody(HttpRequest request)
 		{
 			var contentType = request.ContentType ?? string.Empty;
 
@@ -119,9 +127,9 @@ namespace StarterKit.Framework.Logging.Middleware
 			return text;
 		}
 
-		private async Task<Dictionary<string, Object>> GetRequestLog(HttpRequest request)
+		private async Task<Dictionary<string, object>> GetRequestLog(HttpRequest request)
 		{
-			var requestLog = new Dictionary<string, Object>
+			var requestLog = new Dictionary<string, object>
 			{
 				{ "method", request.Method },
 				{ "host", request.Host.ToString() },
@@ -145,7 +153,7 @@ namespace StarterKit.Framework.Logging.Middleware
 			           response.StatusCode < 500);
 		}
 
-		private async Task<string> GetResponseBody(HttpResponse response)
+		private static async Task<string> GetResponseBody(HttpResponse response)
 		{
 			var text = await new StreamReader(response.Body).ReadToEndAsync();
 
@@ -154,9 +162,9 @@ namespace StarterKit.Framework.Logging.Middleware
 			return $"{response.StatusCode}: {text}";
 		}
 
-		private async Task<Dictionary<string, Object>> GetResponseLog(HttpResponse response, long durationInMs)
+		private async Task<Dictionary<string, object>> GetResponseLog(HttpResponse response, long durationInMs)
 		{
-			var responseLog = new Dictionary<string, Object>
+			var responseLog = new Dictionary<string, object>
 			{
 				{ "headers", GetHeaders(response.Headers, _logSettings.RequestLogging.AllowedIncomingResponseHeaders) },
 				{ "status", response.StatusCode },
@@ -170,6 +178,12 @@ namespace StarterKit.Framework.Logging.Middleware
 			}
 
 			return responseLog;
+		}
+
+		private static bool NeedsToLog(string url)
+		{
+			return !url.Contains("/status/") &&
+			       !url.Contains("/swagger/");
 		}
 	}
 }

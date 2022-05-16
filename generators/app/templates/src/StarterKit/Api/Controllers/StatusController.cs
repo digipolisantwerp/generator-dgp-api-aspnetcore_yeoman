@@ -104,5 +104,22 @@ namespace StarterKit.Api.Controllers
 
 			return Ok(runtimeInformation);
 		}
+
+		/// <summary>
+		/// Datetime timezone (for testing purposes)
+		/// </summary>
+		/// <returns></returns>
+		[HttpGet("v{version:apiVersion}/[controller]/dateTimes/timezone")]
+		[Produces("application/json")]
+		[ProducesResponseType(typeof(StatusResponse), 200)]
+		[ProducesResponseType(typeof(Error), 500)]
+		[ApiVersion(Versions.V1)]
+		[ApiExplorerSettings(IgnoreApi = true)]
+		[AllowAnonymous]
+		public IActionResult GetLocalTimezone()
+		{
+			_logger.LogInformation($"Container timezone: {TimeZoneInfo.Local.DisplayName}");
+			return Ok(TimeZoneInfo.Local.DisplayName);
+		}
 	}
 }

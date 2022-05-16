@@ -25,7 +25,6 @@ namespace StarterKit.ServiceAgents._base
 		private readonly JsonSerializerSettings _jsonSerializerSettings;
 
 		private readonly ILogger<TAgent> _logger;
-		private readonly IRequestHeaderHelper _requestHeaderHelper;
 		protected readonly AgentSettingsBase Settings;
 
 		protected AgentBase(ILogger<TAgent> logger, HttpClient httpClient, IServiceProvider serviceProvider)
@@ -38,7 +37,6 @@ namespace StarterKit.ServiceAgents._base
 			Client = httpClient;
 			Settings = settings.Value.GetServiceSettings(typeof(TAgent)?.Name);
 			_logger = logger;
-			_requestHeaderHelper = serviceProvider.GetRequiredService<IRequestHeaderHelper>();
 			_jsonSerializerSettings = serviceProvider.GetRequiredService<IOptions<MvcNewtonsoftJsonOptions>>()?.Value
 				?.SerializerSettings;
 		}
@@ -111,8 +109,6 @@ namespace StarterKit.ServiceAgents._base
 
 		protected async Task<T> GetAsync<T>(string requestUri)
 		{
-			await _requestHeaderHelper.ValidateAuthHeaders(Client, Settings);
-
 			using var response = await Client.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead);
 			return await ParseResult<T>(response);
 		}
@@ -126,8 +122,6 @@ namespace StarterKit.ServiceAgents._base
 
 		protected async Task<HttpResponseMessage> GetResponseAsync(string requestUri)
 		{
-			await _requestHeaderHelper.ValidateAuthHeaders(Client, Settings);
-
 			var response = await Client.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead);
 			if (!response.IsSuccessStatusCode)
 				await ParseJsonError(response); // only return responses with status code success
@@ -136,39 +130,30 @@ namespace StarterKit.ServiceAgents._base
 
 		protected async Task<T> PostAsync<T>(string requestUri, T item)
 		{
-			await _requestHeaderHelper.ValidateAuthHeaders(Client, Settings);
 			var response = await Client.PostAsync(requestUri, CreateContentFromObject(item));
 			return await ParseResult<T>(response);
 		}
 
 		protected async Task<TResponse> PostAsync<TRequest, TResponse>(string requestUri, TRequest item)
 		{
-			await _requestHeaderHelper.ValidateAuthHeaders(Client, Settings);
-
 			var response = await Client.PostAsync(requestUri, CreateContentFromObject(item));
 			return await ParseResult<TResponse>(response);
 		}
 
 		protected async Task<T> PutAsync<T>(string requestUri, T item)
 		{
-			await _requestHeaderHelper.ValidateAuthHeaders(Client, Settings);
-
 			var response = await Client.PutAsync(requestUri, CreateContentFromObject(item));
 			return await ParseResult<T>(response);
 		}
 
 		protected async Task<TResponse> PutAsync<TRequest, TResponse>(string requestUri, TRequest item)
 		{
-			await _requestHeaderHelper.ValidateAuthHeaders(Client, Settings);
-
 			var response = await Client.PutAsync(requestUri, CreateContentFromObject(item));
 			return await ParseResult<TResponse>(response);
 		}
 
 		protected async Task PutWithEmptyResultAsync<T>(string requestUri, T item)
 		{
-			await _requestHeaderHelper.ValidateAuthHeaders(Client, Settings);
-
 			var response = await Client.PutAsync(requestUri, CreateContentFromObject(item));
 			if (!response.IsSuccessStatusCode)
 				await ParseJsonError(response);
@@ -176,8 +161,6 @@ namespace StarterKit.ServiceAgents._base
 
 		protected async Task DeleteAsync(string requestUri)
 		{
-			await _requestHeaderHelper.ValidateAuthHeaders(Client, Settings);
-
 			var response = await Client.DeleteAsync(requestUri);
 			if (!response.IsSuccessStatusCode)
 				await ParseJsonError(response);
@@ -185,8 +168,6 @@ namespace StarterKit.ServiceAgents._base
 
 		protected async Task<T> PatchAsync<T>(string requestUri, T item)
 		{
-			await _requestHeaderHelper.ValidateAuthHeaders(Client, Settings);
-
 			var method = new HttpMethod("PATCH");
 			var request = new HttpRequestMessage(method, requestUri)
 			{
@@ -198,8 +179,6 @@ namespace StarterKit.ServiceAgents._base
 
 		protected async Task<TResponse> PatchAsync<TRequest, TResponse>(string requestUri, TRequest item)
 		{
-			await _requestHeaderHelper.ValidateAuthHeaders(Client, Settings);
-
 			var method = new HttpMethod("PATCH");
 			var request = new HttpRequestMessage(method, requestUri)
 			{

@@ -57,7 +57,7 @@ namespace StarterKit.Shared.Extensions
 						$"Invalid {nameof(AgentSettingsBase.OAuthClientSecret)} with value '{serviceAgent.Value.OAuthClientSecret}' for service agent '{serviceAgent.Key}'");
 
 				var serviceAgentType = assemblyTypes.FirstOrDefault(t =>
-					IsAssignableToGenericType(t.GetTypeInfo().BaseType, typeof(AgentBase<>)) &&
+					IsAssignableToGenericType(t.GetTypeInfo().BaseType, typeof(ConfigInjectedAgentBase<>)) &&
 					t.Name.StartsWith(serviceAgent.Key, StringComparison.OrdinalIgnoreCase));
 
 				if (serviceAgentType == null)
@@ -75,7 +75,7 @@ namespace StarterKit.Shared.Extensions
 					// NOTE: The service agents toolkit will use the name of this type as a registration key so it needs to be unique and we can't just use the line below
 					//serviceAgentType = typeof(ServiceAgents.SharedAgent<>).MakeGenericType(sharedServiceAgentType);
 					serviceAgentType = assemblyTypes.FirstOrDefault(t =>
-						IsAssignableToGenericType(t.GetTypeInfo().BaseType, typeof(AgentBase<>)) &&
+						IsAssignableToGenericType(t.GetTypeInfo().BaseType, typeof(ConfigInjectedAgentBase<>)) &&
 						t.Name.StartsWith($"Shared{serviceAgent.Key}", StringComparison.OrdinalIgnoreCase));
 				}
 
@@ -100,7 +100,7 @@ namespace StarterKit.Shared.Extensions
 							cfgClient.BaseAddress = new Uri(serviceAgent.Value.Url);
 
 							var requestHeaderHelper = serviceProvider.GetService<IRequestHeaderHelper>();
-							requestHeaderHelper.InitializeHeaders(cfgClient, serviceAgent.Value).Wait();
+							requestHeaderHelper?.InitializeHeaders(cfgClient, serviceAgent.Value).Wait();
 						}).AddHttpMessageHandler(provider =>
 						{
 							var logSettings = provider.GetService<IOptions<LogSettings>>();

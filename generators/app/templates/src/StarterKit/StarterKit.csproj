@@ -15,6 +15,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Shared\Exceptions\Mapping\**" />
+    <Content Remove="Shared\Exceptions\Mapping\**" />
+    <EmbeddedResource Remove="Shared\Exceptions\Mapping\**" />
+    <None Remove="Shared\Exceptions\Mapping\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Startup\AutoMapperRegistration.cs" />
   </ItemGroup>
 
@@ -63,10 +70,6 @@
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
     <PackageReference Include="Utf8Json" Version="1.3.7" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Shared\Exceptions\Mapping\" />
   </ItemGroup>
 
 </Project>

@@ -56,6 +56,7 @@ namespace StarterKit.Framework.Logging
 				.Enrich.With(enrich)
 				.Enrich.With(new TypeEnricher())
 				.ReadFrom.Configuration(config, logSection)
+				.Filter.ByExcluding(l => l.Properties.Any(p => p.Value.ToString().Contains("/status/")))
 				.CreateLogger();
 
 			loggerFactory.AddSerilog(dispose: true);
@@ -72,8 +73,6 @@ namespace StarterKit.Framework.Logging
 		public static void AddLoggingConfiguration(this IConfigurationBuilder configurationBuilder,
 			IHostEnvironment hostingEnv)
 		{
-			var env = Environment.GetEnvironmentVariables();
-
 			var environmentDict = new Dictionary<string, string>();
 
 			// overwrite serilog log levels from the environment variables
