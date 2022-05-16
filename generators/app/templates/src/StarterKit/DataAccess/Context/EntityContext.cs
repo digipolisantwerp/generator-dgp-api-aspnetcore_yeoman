@@ -2,19 +2,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace StarterKit.DataAccess.Context
 {
-  public class EntityContext : Context.Context<EntityContext>
-  {
-    public EntityContext(DbContextOptions<EntityContext> options) : base(options)
-    {
-    }
+	public class EntityContext : Context<EntityContext>
+	{
+		public EntityContext(DbContextOptions<EntityContext> options) : base(options)
+		{
+		}
 
-    // Add your DbSets here
+		// Add your DbSets here
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-      modelBuilder.HasDefaultSchema(DataAccessDefaults.SchemaName); // Remove this if you are not using schema's
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder.HasDefaultSchema(DataAccessDefaults.SchemaName); // Remove this if you are not using schema's
 
-      // Your modelBuilder code here
-    }
-  }
+			// Your modelBuilder code here
+		}
+	}
 }
