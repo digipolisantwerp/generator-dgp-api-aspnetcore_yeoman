@@ -1,12 +1,11 @@
 using System;
+using System.Net.Http;
+using System.Threading;
 using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Sinks.TestCorrelator;
-using StarterKit.Framework.Logging;
-using StarterKit.Shared.Options.Logging;
-using System.Net.Http;
-using System.Threading;
 using StarterKit.Framework.Logging.DelegatingHandler;
+using StarterKit.Shared.Options.Logging;
 using Xunit;
 
 namespace StarterKit.UnitTests.Logger
@@ -21,7 +20,7 @@ namespace StarterKit.UnitTests.Logger
         .TestCorrelator()
         .CreateLogger();
 
-      IOptions<LogSettings> settings =
+      var settings =
         Options.Create(new LogSettings
         {
           RequestLogging = new RequestLogging
@@ -31,9 +30,10 @@ namespace StarterKit.UnitTests.Logger
           }
         });
 
-      var handler = new OutgoingRequestLogger<DummyServiceAgent>(settings);
+      var handler = new OutgoingRequestLogger(settings, nameof(DummyServiceAgent));
       handler.InnerHandler = new HttpClientHandler();
-      var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, "https://jsonplaceholder.typicode.com/todos/1");
+      var httpRequestMessage =
+        new HttpRequestMessage(HttpMethod.Get, "https://jsonplaceholder.typicode.com/todos/1");
       var invoker = new HttpMessageInvoker(handler);
 
       using (TestCorrelator.CreateContext())
@@ -45,13 +45,15 @@ namespace StarterKit.UnitTests.Logger
         var logs = TestCorrelator.GetLogEventsFromCurrentContext();
 
         Assert.Single(logs);
-        Assert.Contains(logs, l => l.MessageTemplate.Text.Equals(typeof(DummyServiceAgent).FullName + " outgoing API call response", StringComparison.CurrentCultureIgnoreCase));
+        Assert.Contains(logs,
+          l => l.MessageTemplate.Text.Equals(
+            nameof(DummyServiceAgent) + " outgoing API call response",
+            StringComparison.CurrentCultureIgnoreCase));
       }
     }
   }
 
   public class DummyServiceAgent
   {
-    public DummyServiceAgent() { }
   }
 }

@@ -69,10 +69,4 @@
     <Folder Include="Shared\Exceptions\Mapping\" />
   </ItemGroup>
 
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties _3config_4app_1json__JsonSchema="" />
-    </VisualStudio>
-  </ProjectExtensions>
-
 </Project>
