@@ -18,6 +18,9 @@ namespace StarterKit.DataAccess.Options
 		public string DbName { get; set; }
 		public string User { get; set; }
 		public string Password { get; set; }
+		public bool RunScripts { get; set; }
+		public bool MarkAllAsExecuted { get; set; }
+		public bool DryRun { get; set; }
 
 		public static void RegisterConfiguration(IServiceCollection services, IConfigurationSection section,
 			IHostEnvironment environment)
@@ -58,6 +61,11 @@ namespace StarterKit.DataAccess.Options
 			DbName = GetValue(DbName, DataAccessSettingsConfigKeyNpg.DbName, environment);
 			User = GetValue(User, DataAccessSettingsConfigKeyNpg.User, environment);
 			Password = GetValue(Password, DataAccessSettingsConfigKeyNpg.PassWord, environment);
+
+			DryRun = GetValue(DryRun, DataAccessSettingsConfigKeyNpg.DryRun, environment);
+			MarkAllAsExecuted = GetValue(MarkAllAsExecuted, DataAccessSettingsConfigKeyNpg.MarkAllAsExecuted, environment);
+			RunScripts = GetValue(RunScripts, DataAccessSettingsConfigKeyNpg.RunScripts, environment);
 		}
 	}
+	
 }

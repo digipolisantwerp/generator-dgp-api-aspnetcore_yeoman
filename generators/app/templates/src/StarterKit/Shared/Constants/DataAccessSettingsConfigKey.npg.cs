@@ -10,5 +10,8 @@ namespace StarterKit.Shared.Constants
 		public const string DbName = "DB_POSTGRESQL_CONNECTION_NAME";
 		public const string User = "DB_POSTGRESQL_AUTH_USER";
 		public const string PassWord = "DB_POSTGRESQL_AUTH_PASSWORD";
+		public const string DryRun = "DB_POSTGRESQL_MIGRATIONS_DRYRUN";
+		public const string MarkAllAsExecuted = "DB_POSTGRESQL_MIGRATIONS_MARKALLASEXECUTED";
+		public const string RunScripts = "DB_POSTGRESQL_MIGRATIONS_RUNSCRIPTS";
 	}
 }

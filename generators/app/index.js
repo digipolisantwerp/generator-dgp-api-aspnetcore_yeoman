@@ -126,6 +126,7 @@ module.exports = class extends Generator {
           .replace(/StarterKit/g, projectName)
           .replace(/starterkit/g, lowerProjectName)
           .replace(/DataAccessSettingsNpg/g, 'DataAccessSettings')
+		  .replace(/\/\/\/\//g, '')
           .replace(/DataAccessSettingsMs/g, 'DataAccessSettings')
           .replace(/DataAccessSettingsMongo/g, 'DataAccessSettings')
           .replace(/EntityRepositoryBaseMongo/g, 'EntityRepositoryBase')
@@ -384,6 +385,7 @@ module.exports = class extends Generator {
 			files[i].indexOf('FooMongoRepository.cs') > -1 ||
 			files[i].indexOf('MongoContext.cs') > -1 ||
 			files[i].indexOf('FooMongo.cs') > -1 ||
+			files[i].indexOf('DbScriptRunner.cs') > -1 ||
 			files[i].indexOf('GenericEntityMongoRepositoryTests.cs') > -1 ||
 			files[i].indexOf('AddDataAccessOptionsMongoTests.cs') > -1
           ) {
@@ -420,6 +422,7 @@ module.exports = class extends Generator {
             files[i].indexOf('TestContext.cs') > -1 ||
             files[i].indexOf('SqlLiteContext.cs') > -1 ||
             files[i].indexOf('EfTransactionTests.cs') > -1 ||
+			files[i].indexOf('DbScriptRunner.cs') > -1 ||
             files[i].indexOf('GenericEntityRepositoryTests.cs') > -1 || 
             files[i].indexOf('GenericGuidEntityRepositoryTests.cs') > -1 || 
             files[i].indexOf('AddDataAccessOptionsTests.cs') > -1     
@@ -483,7 +486,9 @@ function getDataProvider(input, projectName) {
 		'<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>\n' +
 		'</PackageReference>\n';
 	var npgSqlPackage =
-		'<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />\n';
+		'<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />\n' + 
+		'<PackageReference Include="dbup-core" Version="4.6.3" />\n' + 
+		'<PackageReference Include="dbup-postgresql" Version="4.6.3" />\n';
 	var sqlServerPackage =
 		'<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.12" />\n';
 	var mongoPackages =
@@ -523,7 +528,9 @@ function getDataProvider(input, projectName) {
 			'      .AddDbContext<EntityContext>(options => {\n' +
 			'      		options.UseNpgsql(dataAccessSettings.GetConnectionString(),\n' +
 			'      		opt => opt.MigrationsHistoryTable(HistoryRepository.DefaultTableName, DataAccessDefaults.SchemaName));\n' +
-			'      });';
+			'      });\n' + 
+			'      \n' +
+			'      DbScriptRunner.UpdateDatabase(dataAccessSettings);';
 
     dataProvider.startupImports = usings;
     dataProvider.programConfig = programConfig;
