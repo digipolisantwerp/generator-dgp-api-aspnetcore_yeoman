@@ -581,7 +581,7 @@ function getOAuthConfiguration(useAuthConfig, projectName) {
 	  
 		// code - various
 		var programConfig = 'config.AddJsonFile(JsonFilesKey.AuthJson);';
-		var variable = 'DataAccessSettings dataAccessSettings;';
+		
 		var addConfig =
 			'services.AddAuthorization(services.BuildJwtAuthPolicies());\n' +
 			'services.AddAuthFromOptions(options => \n' +
