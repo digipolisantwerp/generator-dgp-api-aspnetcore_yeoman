@@ -188,8 +188,4 @@ Pull requests are always welcome, however keep the following things in mind:
 - Fork this repo and issue your fix or new feature via a pull request.
 - Please make sure to update tests as appropriate. Also check possible linting errors and update the CHANGELOG if applicable.
 
-## Support
 
-Erik Seynaeve (<erik.seynaeve@digipolis.be>)
-Kris Horemans (<kris.horemans@digipolis.be>)
-Jonah Jordan (<jonah.jordan@digipolis.be>)
