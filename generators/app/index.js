@@ -70,6 +70,13 @@ module.exports = class extends Generator {
       message: 'Which data provider will you be using? MongoDB, MSSQL, PostgreSQL or Not ? (mo/ms/p/n):',
       default:
 				'p'
+    },
+	{
+      type: 'input',
+      name: 'authConfig',
+      message: 'Configure your project with Digipolis Auth Config ? (y/n):',
+      default:
+				'y'
     }
     ];
 
@@ -110,6 +117,7 @@ module.exports = class extends Generator {
     var iisHttpsPort = this.options['skip-prompt'] === 'y' ? this.options['https-iis'] : this.props.iisHttpsPort;
 	var optionsDatabase = this.options['database'] ? this.options['database'] : 'p';
     var dataProvider = getDataProvider(this.options['skip-prompt'] === 'y' ? optionsDatabase : this.props.dataProvider, projectName);
+	var oauthConfig = getOAuthConfiguration(this.props.authConfig === 'y', projectName);
 
     var copyOptions = {
       process: function (contents) {
@@ -118,6 +126,7 @@ module.exports = class extends Generator {
           .replace(/StarterKit/g, projectName)
           .replace(/starterkit/g, lowerProjectName)
           .replace(/DataAccessSettingsNpg/g, 'DataAccessSettings')
+		  .replace(/\/\/\/\//g, '')
           .replace(/DataAccessSettingsMs/g, 'DataAccessSettings')
           .replace(/DataAccessSettingsMongo/g, 'DataAccessSettings')
           .replace(/EntityRepositoryBaseMongo/g, 'EntityRepositoryBase')
@@ -181,9 +190,17 @@ module.exports = class extends Generator {
             /\/\/--dataaccess-startupImports--/g,
             dataProvider.startupImports
           )
+		  .replace(
+            /\/\/--authorization-startupImports--/g,
+            oauthConfig.startupImports
+          )
           .replace(
             /\/\/--dataaccess-startupServices--/g,
             dataProvider.startupServices
+          )
+		  .replace(
+            /\/\/--authorization-startupServices--/g,
+            oauthConfig.startupServices
           )
           .replace(
             /\/\/--dataaccess-registerConfiguration--/g,
@@ -192,6 +209,7 @@ module.exports = class extends Generator {
           .replace(/\/\/--dataaccess-variable--/g, dataProvider.variable)
           .replace(/\/\/--dataaccess-getService--/g, dataProvider.getService)
           .replace(/\/\/--dataaccess-config--/g, dataProvider.programConfig)
+		  .replace(/\/\/--authorization-config--/g, oauthConfig.programConfig)
           .replace(/<!-- dataaccess-tools -->/g, dataProvider.tools);
 		  
 		  //now remove db provider specific imports
@@ -367,6 +385,7 @@ module.exports = class extends Generator {
 			files[i].indexOf('FooMongoRepository.cs') > -1 ||
 			files[i].indexOf('MongoContext.cs') > -1 ||
 			files[i].indexOf('FooMongo.cs') > -1 ||
+			files[i].indexOf('DbScriptRunner.cs') > -1 ||
 			files[i].indexOf('GenericEntityMongoRepositoryTests.cs') > -1 ||
 			files[i].indexOf('AddDataAccessOptionsMongoTests.cs') > -1
           ) {
@@ -403,6 +422,7 @@ module.exports = class extends Generator {
             files[i].indexOf('TestContext.cs') > -1 ||
             files[i].indexOf('SqlLiteContext.cs') > -1 ||
             files[i].indexOf('EfTransactionTests.cs') > -1 ||
+			files[i].indexOf('DbScriptRunner.cs') > -1 ||
             files[i].indexOf('GenericEntityRepositoryTests.cs') > -1 || 
             files[i].indexOf('GenericGuidEntityRepositoryTests.cs') > -1 || 
             files[i].indexOf('AddDataAccessOptionsTests.cs') > -1     
@@ -466,7 +486,9 @@ function getDataProvider(input, projectName) {
 		'<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>\n' +
 		'</PackageReference>\n';
 	var npgSqlPackage =
-		'<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />\n';
+		'<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />\n' + 
+		'<PackageReference Include="dbup-core" Version="4.6.3" />\n' + 
+		'<PackageReference Include="dbup-postgresql" Version="4.6.3" />\n';
 	var sqlServerPackage =
 		'<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.12" />\n';
 	var mongoPackages =
@@ -478,7 +500,7 @@ function getDataProvider(input, projectName) {
 	var mongoUsings = 'using StarterKit.DataAccess;\nusing StarterKit.DataAccess.Options;\nusing StarterKit.DataAccess.Context;'.replace(/StarterKit/g, projectName);
   
 	// code - various
-	var programConfig = 'config.AddJsonFile(JsonFilesKey.DataAccessJson);\n';
+	var programConfig = 'config.AddJsonFile(JsonFilesKey.DataAccessJson);';
 	var registerConfiguration =
 		'DataAccessSettings.RegisterConfiguration(services, Configuration.GetSection(Shared.Constants.ConfigurationSectionKey.DataAccess), Environment);';
 	var variable = 'DataAccessSettings dataAccessSettings;';
@@ -506,7 +528,9 @@ function getDataProvider(input, projectName) {
 			'      .AddDbContext<EntityContext>(options => {\n' +
 			'      		options.UseNpgsql(dataAccessSettings.GetConnectionString(),\n' +
 			'      		opt => opt.MigrationsHistoryTable(HistoryRepository.DefaultTableName, DataAccessDefaults.SchemaName));\n' +
-			'      });';
+			'      });\n' + 
+			'      \n' +
+			'      DbScriptRunner.UpdateDatabase(dataAccessSettings);';
 
     dataProvider.startupImports = usings;
     dataProvider.programConfig = programConfig;
@@ -541,4 +565,43 @@ function getDataProvider(input, projectName) {
   }
 
   return dataProvider;
+}
+
+
+function getOAuthConfiguration(useAuthConfig, projectName) {
+	var oauthConfig = {
+		package: '',
+		startupServices: addConfig,
+		startupImports: usings,
+		programConfig: programConfig
+	};
+	if(useAuthConfig) {
+		// code - usings
+		var usings = 'using Digipolis.Auth;';
+	  
+		// code - various
+		var programConfig = 'config.AddJsonFile(JsonFilesKey.AuthJson);';
+		
+		var addConfig =
+			'services.AddAuthorization(services.BuildJwtAuthPolicies());\n' +
+			'services.AddAuthFromOptions(options => \n' +
+			'{ \n'+
+			'  var configSection = Configuration.GetSection(Shared.Constants.ConfigurationSectionKey.Auth);\n' +
+			'  configSection.Bind(options);\n' +
+			'  AuthSettingsConfig.SetConfig(options, Environment);\n' +
+			'},\n' +
+			'devOptions => \n' +
+			'{\n' +
+			'  var configSection = Configuration.GetSection(Shared.Constants.ConfigurationSectionKey.DevPermissions);\n' + 
+			'  configSection.Bind(devOptions);\n' +
+			'});\n';
+	  
+
+     	  oauthConfig.startupServices = addConfig;
+		  oauthConfig.startupImports = usings;
+		  oauthConfig.programConfig = programConfig;		  
+	}
+  
+
+  return oauthConfig;
 }

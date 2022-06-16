@@ -1,164 +1,172 @@
+using System;
+using System.Net;
 using AutoMapper;
 using Digipolis.Correlation;
 using Digipolis.Errors;
 using Digipolis.Errors.Exceptions;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using StarterKit.Framework.Extensions;
-using System;
-using System.Net;
 
 namespace StarterKit.Startup
 {
-  public class ApiExceptionMapper : ExceptionMapper
-  {
-    public ApiExceptionMapper(ILogger<ApiExceptionMapper> logger,
-                              IHostEnvironment environment,
-                              IOptions<Shared.Options.AppSettings> appSettings,
-                              ICorrelationService correlationService) : base()
-    {
-      _logger = logger ?? throw new ArgumentException($"{GetType().Name}.Ctr parameter {nameof(logger)} cannot be null.");
-      _environment = environment ?? throw new ArgumentException($"{GetType().Name}.Ctr parameter {nameof(environment)} cannot be null.");
-      _appSettings = appSettings?.Value ?? throw new ArgumentException($"{this.GetType().Name}.Ctr parameter {nameof(appSettings)} cannot be null.");
-      _correlationService = correlationService ?? throw new ArgumentException($"{GetType().Name}.Ctr parameter {nameof(environment)} cannot be null.");
-    }
+	public class ApiExceptionMapper : ExceptionMapper
+	{
+		private readonly Shared.Options.AppSettings _appSettings;
+		private readonly ICorrelationService _correlationService;
+		private readonly IHostEnvironment _environment;
 
-    private readonly ILogger<ApiExceptionMapper> _logger;
-    private readonly IHostEnvironment _environment;
-    private readonly Shared.Options.AppSettings _appSettings;
-    private readonly ICorrelationService _correlationService;
+		private readonly ILogger<ApiExceptionMapper> _logger;
 
-    protected override void Configure()
-    {
-      // map UnauthorizedAccessException to Digipolis.Errors.Exceptions.UnauthorizedException
-      CreateMap<UnauthorizedAccessException>((error, exception) =>
-      {
-        CreateUnauthorizedMap(error, new UnauthorizedException(exception: exception));
-      });
+		public ApiExceptionMapper(ILogger<ApiExceptionMapper> logger,
+			IHostEnvironment environment,
+			IOptions<Shared.Options.AppSettings> appSettings,
+			ICorrelationService correlationService)
+		{
+			_logger = logger ??
+			          throw new ArgumentException($"{GetType().Name}.Ctr parameter {nameof(logger)} cannot be null.");
+			_environment = environment ??
+			               throw new ArgumentException(
+				               $"{GetType().Name}.Ctr parameter {nameof(environment)} cannot be null.");
+			_appSettings = appSettings?.Value ??
+			               throw new ArgumentException(
+				               $"{GetType().Name}.Ctr parameter {nameof(appSettings)} cannot be null.");
+			_correlationService = correlationService ??
+			                      throw new ArgumentException(
+				                      $"{GetType().Name}.Ctr parameter {nameof(environment)} cannot be null.");
+		}
 
-      // map System.ComponentModel.DataAnnotations.ValidationException to Digipolis.Errors.Exceptions.ValidationException
-      CreateMap<System.ComponentModel.DataAnnotations.ValidationException>((error, exception) =>
-      {
-        CreateValidationMap(error, new ValidationException(exception: exception));
-      });
+		protected override void Configure()
+		{
+			// map UnauthorizedAccessException to Digipolis.Errors.Exceptions.UnauthorizedException
+			CreateMap<UnauthorizedAccessException>((error, exception) =>
+			{
+				CreateUnauthorizedMap(error, new UnauthorizedException(exception: exception));
+			});
 
-      CreateMap<AutoMapperMappingException>((error, exception) =>
-      {
-        if (exception.InnerException?.Message == null)
-          CreateDefaultMap(error, exception);
-        else
-        {
-          if (exception.InnerException is System.ComponentModel.DataAnnotations.ValidationException
-                  || exception.InnerException is ValidationException)
-            CreateValidationMap(error, new ValidationException(exception: exception.InnerException));
-          else if (exception.InnerException is NotFoundException notFoundException)
-            CreateNotFoundMap(error, notFoundException);
-          else if (exception.InnerException is UnauthorizedException innerException)
-            CreateUnauthorizedMap(error, innerException);
-          else if (exception.InnerException is ForbiddenException forbiddenException)
-            CreateForbiddenMap(error, forbiddenException);
-          else
-            CreateDefaultMap(error, exception.InnerException);
-        }
-      });
-    }
+			// map System.ComponentModel.DataAnnotations.ValidationException to Digipolis.Errors.Exceptions.ValidationException
+			CreateMap<System.ComponentModel.DataAnnotations.ValidationException>((error, exception) =>
+			{
+				CreateValidationMap(error, new ValidationException(exception: exception));
+			});
 
-    protected override void CreateNotFoundMap(Error error, NotFoundException exception)
-    {
-      base.CreateNotFoundMap(error, exception);
-      error.Identifier = GetIdentifier();
-      SetErrorTypeReferenceUri(error);
+			CreateMap<AutoMapperMappingException>((error, exception) =>
+			{
+				if (exception.InnerException?.Message == null)
+					CreateDefaultMap(error, exception);
+				else
+				{
+					if (exception.InnerException is System.ComponentModel.DataAnnotations.ValidationException
+					    || exception.InnerException is ValidationException)
+						CreateValidationMap(error, new ValidationException(exception: exception.InnerException));
+					else if (exception.InnerException is NotFoundException notFoundException)
+						CreateNotFoundMap(error, notFoundException);
+					else if (exception.InnerException is UnauthorizedException innerException)
+						CreateUnauthorizedMap(error, innerException);
+					else if (exception.InnerException is ForbiddenException forbiddenException)
+						CreateForbiddenMap(error, forbiddenException);
+					else
+						CreateDefaultMap(error, exception.InnerException);
+				}
+			});
+		}
 
-      _logger.LogWarning($"Not found: {exception.Message}", exception);
-    }
+		protected override void CreateNotFoundMap(Error error, NotFoundException exception)
+		{
+			base.CreateNotFoundMap(error, exception);
+			error.Identifier = GetIdentifier();
+			SetErrorTypeReferenceUri(error);
 
-    protected override void CreateUnauthorizedMap(Error error, UnauthorizedException exception)
-    {
-      base.CreateUnauthorizedMap(error, exception);
-      error.Identifier = GetIdentifier();
-      SetErrorTypeReferenceUri(error);
+			_logger.LogWarning($"Not found: {exception.Message}", exception);
+		}
 
-      _logger.LogWarning($"Access denied: {exception.Message}", exception);
-    }
+		protected override void CreateUnauthorizedMap(Error error, UnauthorizedException exception)
+		{
+			base.CreateUnauthorizedMap(error, exception);
+			error.Identifier = GetIdentifier();
+			SetErrorTypeReferenceUri(error);
 
-    protected override void CreateForbiddenMap(Error error, ForbiddenException exception)
-    {
-      base.CreateForbiddenMap(error, exception);
+			_logger.LogWarning($"Access denied: {exception.Message}", exception);
+		}
 
-      error.Identifier = GetIdentifier();
-      SetErrorTypeReferenceUri(error);
+		protected override void CreateForbiddenMap(Error error, ForbiddenException exception)
+		{
+			base.CreateForbiddenMap(error, exception);
 
-      _logger.LogWarning($"Forbidden: {exception.Message}", exception);
-    }
+			error.Identifier = GetIdentifier();
+			SetErrorTypeReferenceUri(error);
 
-    protected override void CreateTooManyRequestsMap(Error error, TooManyRequestsException exception)
-    {
-      base.CreateTooManyRequestsMap(error, exception);
+			_logger.LogWarning($"Forbidden: {exception.Message}", exception);
+		}
 
-      error.Identifier = GetIdentifier();
-      SetErrorTypeReferenceUri(error);
+		protected override void CreateTooManyRequestsMap(Error error, TooManyRequestsException exception)
+		{
+			base.CreateTooManyRequestsMap(error, exception);
 
-      _logger.LogWarning($"Too many requests: {exception.Message}", exception);
-    }
+			error.Identifier = GetIdentifier();
+			SetErrorTypeReferenceUri(error);
 
-    protected override void CreateDefaultMap(Error error, Exception exception)
-    {
-      error.Code = "SRVRER001";
-      error.Identifier = GetIdentifier();
-      SetErrorTypeReferenceUri(error);
+			_logger.LogWarning($"Too many requests: {exception.Message}", exception);
+		}
 
-      if (_environment.IsDevelopment() || _environment.IsLocal())
-      {
-        error.Status = (int)HttpStatusCode.InternalServerError;
-        error.Title = $"{exception.GetType().Name}: {exception.Message}";
-        AddInnerExceptions(error, exception);
-      }
-      else
-      {
-        error.Status = (int)HttpStatusCode.InternalServerError;
-        error.Title = "We are experiencing some technical difficulties.";
-      }
+		protected override void CreateDefaultMap(Error error, Exception exception)
+		{
+			error.Code = "SRVRER001";
+			error.Identifier = GetIdentifier();
+			SetErrorTypeReferenceUri(error);
 
-      _logger.LogError("Internal server error: {exceptionMessage}", exception.Message, exception);
-    }
+			if (_environment.IsDevelopment() || _environment.IsLocal())
+			{
+				error.Status = (int)HttpStatusCode.InternalServerError;
+				error.Title = $"{exception.GetType().Name}: {exception.Message}";
+				AddInnerExceptions(error, exception);
+			}
+			else
+			{
+				error.Status = (int)HttpStatusCode.InternalServerError;
+				error.Title = "We are experiencing some technical difficulties.";
+			}
 
-    protected override void CreateValidationMap(Error error, ValidationException exception)
-    {
-      base.CreateValidationMap(error, exception);
+			_logger.LogError("Internal server error: {exceptionMessage}: {exception}", exception.Message, exception);
+		}
 
-      error.Identifier = GetIdentifier();
-      error.Title = exception.Message;
-      SetErrorTypeReferenceUri(error);
+		protected override void CreateValidationMap(Error error, ValidationException exception)
+		{
+			base.CreateValidationMap(error, exception);
 
-      _logger.LogWarning($"Validation error: {exception.GetExceptionMessages()}, {exception}");
-    }
+			error.Identifier = GetIdentifier();
+			error.Title = exception.Message;
+			SetErrorTypeReferenceUri(error);
 
-    private void AddInnerExceptions(Error error, Exception exception, int level = 0)
-    {
-      if (exception.InnerException == null) return;
+			_logger.LogWarning($"Validation error: {exception.GetExceptionMessages()}, {exception}");
+		}
 
-      error.ExtraInfo[$"InnerException{level:00}"] = new[] { $"{exception.InnerException.GetType().Name}: {exception.InnerException.Message}" };
-      AddInnerExceptions(error, exception.InnerException, level++);
-    }
+		private void AddInnerExceptions(Error error, Exception exception, int level = 0)
+		{
+			if (exception.InnerException == null) return;
 
-    private Guid GetIdentifier()
-    {
-      if (!Guid.TryParse(_correlationService.GetContext().Id, out var identifier))
-      {
-        identifier = Guid.NewGuid();
-      }
+			error.ExtraInfo[$"InnerException{level:00}"] = new[]
+				{ $"{exception.InnerException.GetType().Name}: {exception.InnerException.Message}" };
+			AddInnerExceptions(error, exception.InnerException, level++);
+		}
 
-      return identifier;
-    }
+		private Guid GetIdentifier()
+		{
+			if (!Guid.TryParse(_correlationService.GetContext().Id, out var identifier))
+			{
+				identifier = Guid.NewGuid();
+			}
 
-    private void SetErrorTypeReferenceUri(Error error)
-    {
-      if (!string.IsNullOrWhiteSpace(_appSettings.ErrorReferenceUri))
-      {
-        error.Type = new Uri(_appSettings.ErrorReferenceUri);
-      }
-    }
-  }
+			return identifier;
+		}
+
+		private void SetErrorTypeReferenceUri(Error error)
+		{
+			if (!string.IsNullOrWhiteSpace(_appSettings.ErrorReferenceUri))
+			{
+				error.Type = new Uri(_appSettings.ErrorReferenceUri);
+			}
+		}
+	}
 }

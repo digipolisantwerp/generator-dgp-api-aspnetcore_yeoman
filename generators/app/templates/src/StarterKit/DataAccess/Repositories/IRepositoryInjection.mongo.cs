@@ -3,8 +3,8 @@ using StarterKit.Entities;
 
 namespace StarterKit.DataAccess.Repositories
 {
-  public interface IRepositoryInjectionMongo<TEntity, in TId> where TEntity : IEntityBase<TId>
-  {
-    void SetContext(ContextBase context);
-  }
+	public interface IRepositoryInjectionMongo<TEntity, in TId> where TEntity : IEntityBase<TId>
+	{
+		void SetContext(ContextBase context);
+	}
 }

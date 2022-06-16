@@ -3,33 +3,33 @@ using System.Linq.Expressions;
 
 namespace StarterKit.DataAccess.Query
 {
-  public class Filter<TEntity>
-  {
-    public Filter(Expression<Func<TEntity, bool>> expression)
-    {
-      Expression = expression;
-    }
+	public class Filter<TEntity>
+	{
+		public Filter(Expression<Func<TEntity, bool>> expression)
+		{
+			Expression = expression;
+		}
 
-    public Expression<Func<TEntity, bool>> Expression { get; private set; }
+		public Expression<Func<TEntity, bool>> Expression { get; private set; }
 
-    public void AddExpression(Expression<Func<TEntity, bool>> newExpression)
-    {
-      if (newExpression == null)
-        throw new ArgumentNullException(nameof(newExpression), $"{nameof(newExpression)} is null.");
+		public void AddExpression(Expression<Func<TEntity, bool>> newExpression)
+		{
+			if (newExpression == null)
+				throw new ArgumentNullException(nameof(newExpression), $"{nameof(newExpression)} is null.");
 
-      if (Expression == null) Expression = newExpression;
+			if (Expression == null) Expression = newExpression;
 
-      var parameter = System.Linq.Expressions.Expression.Parameter(typeof(TEntity));
+			var parameter = System.Linq.Expressions.Expression.Parameter(typeof(TEntity));
 
-      var leftVisitor = new ReplaceExpressionVisitor(newExpression.Parameters[0], parameter);
-      var left = leftVisitor.Visit(newExpression.Body);
+			var leftVisitor = new ReplaceExpressionVisitor(newExpression.Parameters[0], parameter);
+			var left = leftVisitor.Visit(newExpression.Body);
 
-      var rightVisitor = new ReplaceExpressionVisitor(Expression.Parameters[0], parameter);
-      var right = rightVisitor.Visit(Expression.Body);
+			var rightVisitor = new ReplaceExpressionVisitor(Expression.Parameters[0], parameter);
+			var right = rightVisitor.Visit(Expression.Body);
 
-      Expression =
-        System.Linq.Expressions.Expression.Lambda<Func<TEntity, bool>>(
-          System.Linq.Expressions.Expression.AndAlso(left, right), parameter);
-    }
-  }
+			Expression =
+				System.Linq.Expressions.Expression.Lambda<Func<TEntity, bool>>(
+					System.Linq.Expressions.Expression.AndAlso(left, right), parameter);
+		}
+	}
 }

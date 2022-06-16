@@ -7,48 +7,49 @@ using StarterKit.Entities;
 
 namespace StarterKit.DataAccess.Repositories
 {
-  public abstract class RepositoryBaseMongo<TEntity, TId> : IRepositoryInjectionMongo<TEntity, TId> where TEntity : IEntityBase<TId>
-  {
-    protected RepositoryBaseMongo(ILogger<DataAccess> logger, ContextBase context)
-    {
-      Logger = logger;
-      Context = context;
-      SetEntityCollection();
-    }
+	public abstract class RepositoryBaseMongo<TEntity, TId> : IRepositoryInjectionMongo<TEntity, TId>
+		where TEntity : IEntityBase<TId>
+	{
+		protected RepositoryBaseMongo(ILogger<DataAccess> logger, ContextBase context)
+		{
+			Logger = logger;
+			Context = context;
+			SetEntityCollection();
+		}
 
-    protected ILogger Logger { get; private set; }
-    public ContextBase Context { get; private set; }
+		protected ILogger Logger { get; private set; }
+		public ContextBase Context { get; private set; }
 
-    public IMongoCollection<TEntity> EntityCollection { get; private set; }
+		public IMongoCollection<TEntity> EntityCollection { get; private set; }
 
-    private void SetEntityCollection()
-    {
-      if (Context == null)
-      {
-        EntityCollection = null;
-        return;
-      }
+		public void SetContext(ContextBase context)
+		{
+			Context = context;
+			SetEntityCollection();
+		}
 
-      var collectionProperty = Context
-        .GetType()
-        .GetProperties()
-        .FirstOrDefault(
-        p => p.PropertyType == typeof(IMongoCollection<TEntity>)
-        );
+		private void SetEntityCollection()
+		{
+			if (Context == null)
+			{
+				EntityCollection = null;
+				return;
+			}
 
-      if (collectionProperty == null)
-      {
-        Logger.LogCritical($"No IMongoCollection {typeof(TEntity)} found on Mongo context {nameof(Context)}");
-        throw new Exception($"No IMongoCollection {typeof(TEntity)} found on Mongo context {nameof(Context)}");
-      }
+			var collectionProperty = Context
+				.GetType()
+				.GetProperties()
+				.FirstOrDefault(
+					p => p.PropertyType == typeof(IMongoCollection<TEntity>)
+				);
 
-      EntityCollection = collectionProperty.GetValue(Context) as IMongoCollection<TEntity>;
-    }
+			if (collectionProperty == null)
+			{
+				Logger.LogCritical($"No IMongoCollection {typeof(TEntity)} found on Mongo context {nameof(Context)}");
+				throw new Exception($"No IMongoCollection {typeof(TEntity)} found on Mongo context {nameof(Context)}");
+			}
 
-    public void SetContext(ContextBase context)
-    {
-      Context = context;
-      SetEntityCollection();
-    }
-  }
+			EntityCollection = collectionProperty.GetValue(Context) as IMongoCollection<TEntity>;
+		}
+	}
 }

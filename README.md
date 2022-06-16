@@ -1,6 +1,8 @@
+
+
 # generator-dgp-api-aspnetcore
 
-> Yeoman generator for an ASP.NET 5.0 API project with csproj and MSBuild.
+> Yeoman generator for an ASP.NET 6.0 API project with csproj and MSBuild.
 
 ## Installation
 
@@ -20,7 +22,7 @@ Install the generator :
 npm install generator-dgp-api-aspnetcore -g
 ```
 
-## Generate a new ASP.NET Core 5 API project
+## Generate a new ASP.NET Core 6 API project
 
 In a command prompt, navigate to the directory where you want to create the new project and type :
 
@@ -72,6 +74,91 @@ Only one instance is instantiated for the whole application.
 
 More info about the dependency injection in ASP.NET Core can be found at : https://docs.asp.net/en/latest/fundamentals/dependency-injection.html. 
 
+**Serviceagent injection (2 different ways)**
+
+***- Dynamic config injection based on serviceagents.json config file (currently only oauth2 support)***
+
+Serviceagents can be injected dynamically based on their configuration.
+Practical example:
+
+ 1. Add agent configuration to serviceagents.json
+
+``` json
+{
+  "ServiceAgents": {
+    "TestAgent": {
+      "FriendlyName": "ACPaaS-TestEngine",
+      "AuthScheme": "none",
+      "Headers": {
+        "apikey": "0991fe70-ef89-5a87e-9354-14be7cef7c35",
+        "accept": "application/hal+json"
+      },
+      "Host": "api-gw-o.antwerpen.be",
+      "Path": "acpaas/testengine/v3",
+      "Scheme": "https"
+    }
+  }
+}
+```
+
+ 2. Add class with corresponding name inheriting from ConfigInjectedAgentBase<>
+``` csharp
+    public class TestAgent: AgentBase<TestAgent>, ITestAgent
+    {
+        public TestAgent(ILogger<TestAgent> logger, HttpClient httpClient, IServiceProvider serviceProvider) : base(logger, httpClient, serviceProvider)
+        {
+        }
+    }
+```
+ 3. The serviceagent will be automatically configured with all the options provided in the config file and is ready to be injected.
+ ``` csharp
+   public ExamplesController(ITestAgent agent)
+   {
+   }
+```
+
+**Remark:** Currently only OAuth2 scheme is implemented. If you are planning to use serviceagents with Bearer or Basic authentication please fill in a feature request. (RequestHeaderHelper.cs).
+
+***- Manual registration in DI container and registration of delegating handlers***
+ 1. Add agent configuration to serviceagents.json
+
+``` json
+{
+  "ServiceAgents": {
+    "TestAgent": {
+      "FriendlyName": "ACPaaS-TestEngine",
+      "AuthScheme": "none",
+      "Headers": {
+        "apikey": "0991fe70-ef89-5a87e-9354-14be7cef7c35",
+        "accept": "application/hal+json"
+      },
+      "Host": "api-gw-o.antwerpen.be",
+      "Path": "acpaas/testengine/v3",
+      "Scheme": "https"
+    }
+  }
+}
+```
+ 2. Add class with corresponding name inheriting from AgentBase<>
+``` csharp
+    public class TestAgent: AgentBase<TestAgent>, ITestAgent
+    {
+        public TestAgent(ILogger<TestAgent> logger, HttpClient httpClient, IServiceProvider serviceProvider) : base(logger, httpClient, serviceProvider)
+        {
+        }
+    }
+```
+ 3. Add agent to DI container in DependencyRegistration.cs file. This way of registering gives you the opportunity to configure each agent separately with handler or custom headers.
+``` csharp
+    services.AddHttpClient(nameof(TestAgent))
+                .AddHttpMessageHandler<CorrelationIdHandler>()
+                .AddHttpMessageHandler<MediaTypeJsonHandler>()
+                .AddHttpMessageHandler<OutgoingRequestLogger>()
+                .AddTypedClient<ITestAgent, TestAgent>();
+```
+
+
+
 ### AutoMapperRegistration
 
 Use this class to register your AutoMapper mappings.
@@ -101,6 +188,4 @@ Pull requests are always welcome, however keep the following things in mind:
 - Fork this repo and issue your fix or new feature via a pull request.
 - Please make sure to update tests as appropriate. Also check possible linting errors and update the CHANGELOG if applicable.
 
-## Support
 
-Erik Seynaeve (<erik.seynaeve@digipolis.be>)

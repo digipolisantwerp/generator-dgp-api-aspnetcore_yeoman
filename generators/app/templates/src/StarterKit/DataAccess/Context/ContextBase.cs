@@ -3,43 +3,43 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace StarterKit.DataAccess.Context
 {
-  public class Context<TContext> : DbContext, IContext where TContext : DbContext
-  {
-    private IDbContextTransaction _transaction;
+	public class Context<TContext> : DbContext, IContext where TContext : DbContext
+	{
+		private IDbContextTransaction _transaction;
 
-    public Context(DbContextOptions<TContext> options) : base(options)
-    {
-    }
+		public Context(DbContextOptions<TContext> options) : base(options)
+		{
+		}
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-      modelBuilder.LowerCaseTablesAndFields();
+		public void BeginTransaction()
+		{
+			_transaction = Database.BeginTransaction();
+		}
 
-      base.OnModelCreating(modelBuilder);
-    }
+		public void Commit()
+		{
+			try
+			{
+				SaveChanges();
+				_transaction.Commit();
+			}
+			finally
+			{
+				_transaction.Dispose();
+			}
+		}
 
-    public void BeginTransaction()
-    {
-      _transaction = Database.BeginTransaction();
-    }
+		public void Rollback()
+		{
+			_transaction.Rollback();
+			_transaction.Dispose();
+		}
 
-    public void Commit()
-    {
-      try
-      {
-        SaveChanges();
-        _transaction.Commit();
-      }
-      finally
-      {
-        _transaction.Dispose();
-      }
-    }
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder.LowerCaseTablesAndFields();
 
-    public void Rollback()
-    {
-      _transaction.Rollback();
-      _transaction.Dispose();
-    }
-  }
+			base.OnModelCreating(modelBuilder);
+		}
+	}
 }
