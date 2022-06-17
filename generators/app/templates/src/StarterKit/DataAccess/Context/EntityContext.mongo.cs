@@ -2,7 +2,7 @@ using StarterKit.DataAccess.Options;
 
 namespace StarterKit.DataAccess.Context
 {
-	public class EntityContextMongo : ContextBase
+	public class EntityContextMongo : BaseContext
 	{
 		public EntityContextMongo(DataAccessSettingsMongo options) : base(options)
 		{

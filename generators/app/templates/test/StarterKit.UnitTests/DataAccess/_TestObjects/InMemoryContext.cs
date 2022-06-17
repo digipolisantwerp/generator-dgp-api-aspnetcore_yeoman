@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using StarterKit.DataAccess.Context;
 
 namespace StarterKit.UnitTests.DataAccess._TestObjects
 {
-  public class InMemoryContext : Context<InMemoryContext>
+  public class InMemoryContext : BaseContext<InMemoryContext>
   {
     public InMemoryContext(DbContextOptions<InMemoryContext> options)
       : base(options)

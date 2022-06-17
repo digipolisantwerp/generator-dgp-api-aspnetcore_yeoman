@@ -1,10 +1,10 @@
-﻿using MongoDB.Driver;
+using MongoDB.Driver;
 using StarterKit.DataAccess.Context;
 using StarterKit.DataAccess.Options;
 
 namespace StarterKit.UnitTests.DataAccess._TestObjects
 {
-  public class MongoContext : ContextBase
+  public class MongoContext : BaseContext
   {
     public MongoContext(DataAccessSettingsMongo options)
      : base (options)

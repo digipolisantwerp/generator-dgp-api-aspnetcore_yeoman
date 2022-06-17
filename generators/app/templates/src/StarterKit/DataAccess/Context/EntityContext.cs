@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace StarterKit.DataAccess.Context
 {
-	public class EntityContext : Context<EntityContext>
+	public class EntityContext : BaseContext<EntityContext>, IEntityContext
 	{
 		public EntityContext(DbContextOptions<EntityContext> options) : base(options)
 		{
@@ -12,6 +12,8 @@ namespace StarterKit.DataAccess.Context
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			base.OnModelCreating(modelBuilder);
+
 			modelBuilder.HasDefaultSchema(DataAccessDefaults.SchemaName); // Remove this if you are not using schema's
 
 			// Your modelBuilder code here

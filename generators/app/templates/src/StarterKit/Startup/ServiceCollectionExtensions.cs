@@ -1,24 +1,24 @@
-using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using StarterKit.DataAccess.Context;
 using StarterKit.DataAccess.Repositories;
+using System;
 
 namespace StarterKit.Startup
 {
 	public static class ServiceCollectionExtensions
 	{
 		public static IServiceCollection AddDataAccess<TEntityContext>(this IServiceCollection services)
-			where TEntityContext : Context<TEntityContext>
+			where TEntityContext : BaseContext<TEntityContext>
 		{
 			RegisterDataAccess<TEntityContext>(services);
 			return services;
 		}
 
 		private static void RegisterDataAccess<TEntityContext>(IServiceCollection services)
-			where TEntityContext : Context<TEntityContext>
+			where TEntityContext : BaseContext<TEntityContext>
 		{
-			services.TryAddScoped<IContext, TEntityContext>();
+			services.TryAddScoped<IContext, EntityContext>();
 			services.TryAddTransient(typeof(IRepository<,>), typeof(GenericEntityRepository<,>));
 		}
 

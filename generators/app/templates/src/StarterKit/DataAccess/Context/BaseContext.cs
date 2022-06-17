@@ -1,13 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace StarterKit.DataAccess.Context
 {
-	public class Context<TContext> : DbContext, IContext where TContext : DbContext
+	public abstract class BaseContext<TContext> : DbContext, IContext where TContext : DbContext
 	{
 		private IDbContextTransaction _transaction;
 
-		public Context(DbContextOptions<TContext> options) : base(options)
+		public BaseContext(DbContextOptions<TContext> options) : base(options)
 		{
 		}
 

@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace StarterKit.DataAccess.Repositories
 {
-	public abstract class RepositoryBase<TContext> : IRepositoryInjection where TContext : DbContext
+	public abstract class RepositoryBase<TContext, TLogContext> : IRepositoryInjection where TContext : DbContext
 	{
-		protected RepositoryBase(ILogger<DataAccess> logger, TContext context)
+		protected RepositoryBase(ILogger<TLogContext> logger, TContext context)
 		{
 			Logger = logger;
 			Context = context;

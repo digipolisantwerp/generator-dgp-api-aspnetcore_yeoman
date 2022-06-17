@@ -1,22 +1,22 @@
-﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using StarterKit.DataAccess.Context;
 using StarterKit.DataAccess.Repositories;
+using System;
 
 namespace StarterKit.Startup
 {
 	public static class ServiceCollectionExtensionsMongo
 	{
 		public static IServiceCollection AddDataAccess<TEntityContext>(this IServiceCollection services)
-			where TEntityContext : ContextBase
+			where TEntityContext : BaseContext
 		{
 			RegisterDataAccess<TEntityContext>(services);
 			return services;
 		}
 
 		private static void RegisterDataAccess<TEntityContext>(IServiceCollection services)
-			where TEntityContext : ContextBase
+			where TEntityContext : BaseContext
 		{
 			services.TryAddScoped<IContext, TEntityContext>();
 			services.TryAddTransient(typeof(IRepository<,>), typeof(GenericEntityRepositoryMongo<>));

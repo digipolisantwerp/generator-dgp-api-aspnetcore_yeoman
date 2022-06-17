@@ -10,23 +10,16 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\net5.0\StarterKit.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\net6.0\StarterKit.xml</DocumentationFile>
     <NoWarn>1701;1702;1705;1591</NoWarn>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Shared\Exceptions\Mapping\**" />
-    <Content Remove="Shared\Exceptions\Mapping\**" />
-    <EmbeddedResource Remove="Shared\Exceptions\Mapping\**" />
-    <None Remove="Shared\Exceptions\Mapping\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Startup\AutoMapperRegistration.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="_config\**\*;wwwroot\**\*;Views;Areas\**\Views">
+    <None Update="_config\**\*">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
   </ItemGroup>

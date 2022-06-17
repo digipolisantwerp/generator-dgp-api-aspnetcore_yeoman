@@ -12,7 +12,7 @@ using StarterKit.Shared.Exceptions.Models;
 
 namespace StarterKit.ServiceAgents._base.Handlers
 {
-	public class ServiceAgentErrorHandler<T> : DelegatingHandler
+	public class ServiceAgentErrorHandler : DelegatingHandler
 	{
 		private readonly JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings
 		{

@@ -1,15 +1,15 @@
-﻿using MongoDB.Driver;
+using MongoDB.Driver;
 using StarterKit.DataAccess.Options;
 
 namespace StarterKit.DataAccess.Context
 {
-	public class ContextBase : IContext
+	public class BaseContext : IContext
 	{
 		protected readonly MongoClient Client;
 		protected readonly IMongoDatabase Database;
 		private IClientSessionHandle _transactionSession;
 
-		public ContextBase(DataAccessSettingsMongo options)
+		public BaseContext(DataAccessSettingsMongo options)
 		{
 			Client = new MongoClient(options.GetConnectionString());
 			Database = Client.GetDatabase(options.DbName);

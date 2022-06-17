@@ -3,7 +3,7 @@ using StarterKit.DataAccess.Context;
 
 namespace StarterKit.UnitTests.DataAccess._TestObjects
 {
-  public class SqlLiteContext : Context<SqlLiteContext>
+  public class SqlLiteContext : BaseContext<SqlLiteContext>
   {
     public SqlLiteContext()
       : base(new DbContextOptions<SqlLiteContext>())

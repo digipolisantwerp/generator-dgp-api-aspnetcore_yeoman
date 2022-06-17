@@ -1,28 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 using Digipolis.Paging.Predicates;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using StarterKit.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace StarterKit.DataAccess.Repositories
 {
-	public abstract class EntityRepositoryBase<TContext, TEntity> : EntityRepositoryBase<TContext, TEntity, int>
+	public abstract class EntityRepositoryBase<TContext, TEntity, TLogContext> : EntityRepositoryBase<TContext, TEntity, TLogContext, int>
 		where TContext : DbContext where TEntity : class, IEntityBase<int>, new()
 	{
-		protected EntityRepositoryBase(ILogger<DataAccess> logger, TContext context) : base(logger, context)
+		protected EntityRepositoryBase(ILogger<TLogContext> logger, TContext context) : base(logger, context)
 		{
 		}
 	}
 
-	public abstract class EntityRepositoryBase<TContext, TEntity, TId> : RepositoryBase<TContext>,
+	public abstract class EntityRepositoryBase<TContext, TEntity, TLogContext, TId> : RepositoryBase<TContext, TLogContext>,
 		IRepository<TEntity, TId>
 		where TContext : DbContext where TEntity : class, IEntityBase<TId>, new()
 	{
-		protected EntityRepositoryBase(ILogger<DataAccess> logger, TContext context) : base(logger, context)
+		protected EntityRepositoryBase(ILogger<TLogContext> logger, TContext context) : base(logger, context)
 		{
 		}
 

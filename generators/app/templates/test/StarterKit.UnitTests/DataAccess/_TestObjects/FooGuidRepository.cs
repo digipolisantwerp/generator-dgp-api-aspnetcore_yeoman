@@ -1,13 +1,12 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using StarterKit.DataAccess.Repositories;
+using System;
 
 namespace StarterKit.UnitTests.DataAccess._TestObjects
 {
-  public class FooGuidRepository : EntityRepositoryBase<InMemoryContext, FooGuid, Guid>, IFooRepository
+	public class FooGuidRepository : EntityRepositoryBase<InMemoryContext, FooGuid, FooGuidRepository, Guid>, IFooRepository
   {
-    public FooGuidRepository(ILogger<StarterKit.DataAccess.DataAccess> logger, InMemoryContext context) : base(logger, context)
+    public FooGuidRepository(ILogger<FooGuidRepository> logger, InMemoryContext context) : base(logger, context)
     {
     }
   }

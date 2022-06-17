@@ -1,16 +1,16 @@
-﻿using System;
-using System.Linq;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using StarterKit.DataAccess.Context;
 using StarterKit.Entities;
+using System;
+using System.Linq;
 
 namespace StarterKit.DataAccess.Repositories
 {
 	public abstract class RepositoryBaseMongo<TEntity, TId> : IRepositoryInjectionMongo<TEntity, TId>
 		where TEntity : IEntityBase<TId>
 	{
-		protected RepositoryBaseMongo(ILogger<DataAccess> logger, ContextBase context)
+		protected RepositoryBaseMongo(ILogger<DataAccess> logger, BaseContext context)
 		{
 			Logger = logger;
 			Context = context;
@@ -18,11 +18,11 @@ namespace StarterKit.DataAccess.Repositories
 		}
 
 		protected ILogger Logger { get; private set; }
-		public ContextBase Context { get; private set; }
+		public BaseContext Context { get; private set; }
 
 		public IMongoCollection<TEntity> EntityCollection { get; private set; }
 
-		public void SetContext(ContextBase context)
+		public void SetContext(BaseContext context)
 		{
 			Context = context;
 			SetEntityCollection();

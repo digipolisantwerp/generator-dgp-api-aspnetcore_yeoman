@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 using Digipolis.Paging.Predicates;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using StarterKit.DataAccess.Context;
 using StarterKit.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace StarterKit.DataAccess.Repositories
 {
 	public abstract class EntityRepositoryBaseMongo<TEntity> : RepositoryBaseMongo<TEntity, string>
 		where TEntity : class, IEntityBase<string>, new()
 	{
-		protected EntityRepositoryBaseMongo(ILogger<DataAccess> logger, ContextBase context) : base(logger, context)
+		protected EntityRepositoryBaseMongo(ILogger<DataAccess> logger, BaseContext context) : base(logger, context)
 		{
 		}
 	}
@@ -24,7 +24,7 @@ namespace StarterKit.DataAccess.Repositories
 		IRepositoryMongo<TEntity, TId>
 		where TEntity : class, IEntityBase<TId>, new()
 	{
-		protected EntityRepositoryBaseMongo(ILogger<DataAccess> logger, ContextBase context) : base(logger, context)
+		protected EntityRepositoryBaseMongo(ILogger<DataAccess> logger, BaseContext context) : base(logger, context)
 		{
 		}
 
