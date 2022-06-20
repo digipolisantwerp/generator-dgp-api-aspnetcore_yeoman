@@ -104,7 +104,7 @@ namespace StarterKit.Shared.Extensions
 						}).AddHttpMessageHandler(provider =>
 						{
 							var logSettings = provider.GetService<IOptions<LogSettings>>();
-							return new OutgoingRequestLogger(logSettings, serviceAgent.Key);
+							return new RuntimeOutgoingRequestLogger(logSettings, serviceAgent.Key);
 						});
 
 						if (customRegistrations != null &&

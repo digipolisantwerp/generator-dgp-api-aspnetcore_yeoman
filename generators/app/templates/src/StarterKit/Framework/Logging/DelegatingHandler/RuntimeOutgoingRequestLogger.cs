@@ -13,15 +13,17 @@ using StarterKit.Shared.Options.Logging;
 
 namespace StarterKit.Framework.Logging.DelegatingHandler
 {
-	public class OutgoingRequestLogger<T> : System.Net.Http.DelegatingHandler
+	public class RuntimeOutgoingRequestLogger : System.Net.Http.DelegatingHandler
 	{
 		private readonly LogSettings _logSettings;
-		
-		public OutgoingRequestLogger(IOptions<LogSettings> logSettings)
+		private readonly string _serviceAgentName;
+
+		public RuntimeOutgoingRequestLogger(IOptions<LogSettings> logSettings, string serviceAgentName)
 		{
+			_serviceAgentName = serviceAgentName;
 			_logSettings = logSettings.Value ??
 			               throw new ArgumentNullException(
-				               $"{nameof(OutgoingRequestLogger<T>)}.Ctr parameter {nameof(logSettings)} cannot be null.");
+				               $"{nameof(RuntimeOutgoingRequestLogger)}.Ctr parameter {nameof(logSettings)} cannot be null.");
 		}
 
 		protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
@@ -56,7 +58,7 @@ namespace StarterKit.Framework.Logging.DelegatingHandler
 				.ForContext("Type", new[] { "application" })
 				.ForContext("Request", await GetRequestLog(request))
 				.ForContext("Response", await GetResponseLog(response, sw.ElapsedMilliseconds))
-				.Information($"{nameof(T)} outgoing API call response");
+				.Information($"{_serviceAgentName} outgoing API call response");
 		}
 
 		private static bool ShouldLogHeader(string name, IEnumerable<string> allowedHeaders)

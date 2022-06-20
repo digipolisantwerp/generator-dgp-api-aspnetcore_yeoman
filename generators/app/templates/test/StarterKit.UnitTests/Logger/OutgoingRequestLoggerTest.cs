@@ -10,7 +10,7 @@ using Xunit;
 
 namespace StarterKit.UnitTests.Logger
 {
-	public class OutgoingRequestLoggerTest
+	public class RuntimeOutgoingRequestLoggerTest
 	{
 		[Fact]
 		public void ShouldLogOutgoingRequest()
@@ -30,7 +30,7 @@ namespace StarterKit.UnitTests.Logger
 					}
 				});
 
-			var handler = new OutgoingRequestLogger(settings, nameof(DummyServiceAgent));
+			var handler = new RuntimeOutgoingRequestLogger(settings, nameof(DummyServiceAgent));
 			handler.InnerHandler = new HttpClientHandler();
 			var httpRequestMessage =
 				new HttpRequestMessage(HttpMethod.Get, "https://jsonplaceholder.typicode.com/todos/1");

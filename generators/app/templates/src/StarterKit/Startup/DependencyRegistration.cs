@@ -15,7 +15,7 @@ namespace StarterKit.Startup
 
 		public static void AddServiceAgentServices(this IServiceCollection services)
 		{
-			services.AddTransient<OutgoingRequestLogger>();
+			services.AddTransient<RuntimeOutgoingRequestLogger>();
 		}
 
 		public static void AddDataAccessServices(this IServiceCollection services)
