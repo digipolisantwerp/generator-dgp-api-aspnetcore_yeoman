@@ -40,8 +40,7 @@ namespace StarterKit.ServiceAgents._base
 		protected async Task<T> GetAsync<T>(string requestUri)
 		{
 			using var response = await Client.GetAsync(requestUri, DefaultHttpCompletionOption);
-			await using var stream = await response.Content.ReadAsStreamAsync();
-			return await Utf8Json.JsonSerializer.DeserializeAsync<T>(stream);
+			return await ParseResult<T>(response);
 		}
 
 		protected async Task<string> GetStringAsync(string requestUri)
