@@ -9,8 +9,10 @@ using Digipolis.Errors;
 using Digipolis.Errors.Exceptions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using StarterKit.ServiceAgents._base.Helper;
+using StarterKit.ServiceAgents._base.Settings;
 using StarterKit.Shared.Exceptions.Models;
 using BadGatewayException = StarterKit.Shared.Exceptions.Models.BadGatewayException;
 using GatewayTimeoutException = StarterKit.Shared.Exceptions.Models.GatewayTimeoutException;
@@ -19,10 +21,18 @@ namespace StarterKit.ServiceAgents._base
 {
 	public abstract class ConfigInjectedAgentBase<TAgent> : AgentBase<TAgent>, IDisposable where TAgent : class
 	{
-		private readonly IRequestHeaderHelper _requestHeaderHelper;
-		
+		protected readonly IRequestHeaderHelper _requestHeaderHelper;
+		protected readonly AgentSettingsBase Settings;
+
 		protected ConfigInjectedAgentBase(ILogger<TAgent> logger, HttpClient httpClient, IServiceProvider serviceProvider) : base(logger, httpClient, serviceProvider)
 		{
+			var settings = serviceProvider.GetRequiredService<IOptions<ServiceAgentSettings>>();
+			if (settings.Value == null)
+				throw new ArgumentNullException(nameof(ServiceAgentSettings),
+					$"{nameof(ServiceAgentSettings)} cannot be null.");
+
+			Settings = settings.Value.GetServiceSettings(typeof(TAgent)?.Name);
+
 			_requestHeaderHelper = serviceProvider.GetRequiredService<IRequestHeaderHelper>();	
 		}
 
@@ -188,32 +198,5 @@ namespace StarterKit.ServiceAgents._base
 			};
 		}
 
-		protected static T DeserializeJsonFromStream<T>(Stream stream)
-		{
-			if (stream == null || stream.CanRead == false)
-				return default;
-
-			using var streamReader = new StreamReader(stream);
-			using var jsonReader = new JsonTextReader(streamReader);
-			var serializer = new JsonSerializer();
-			return serializer.Deserialize<T>(jsonReader);
-		}
-
-		protected static async Task<string> StreamToStringAsync(Stream stream)
-		{
-			if (stream == null) return null;
-			using var streamReader = new StreamReader(stream);
-			var content = await streamReader.ReadToEndAsync();
-			return content;
-		}
-
-		private HttpContent CreateContentFromObject<T>(T item)
-		{
-			HttpContent contentPost = new StringContent(JsonConvert.SerializeObject(item, JsonSerializerSettings),
-				Encoding.UTF8, "application/json");
-			if (contentPost.Headers.ContentType != null) contentPost.Headers.ContentType.CharSet = string.Empty;
-
-			return contentPost;
-		}
 	}
 }
