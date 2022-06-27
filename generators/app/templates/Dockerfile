@@ -27,7 +27,7 @@ WORKDIR /app/src/StarterKit
 RUN dotnet publish -c Release -o out
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
 WORKDIR /app
 COPY --from=build-env /app/src/StarterKit/out .
 
