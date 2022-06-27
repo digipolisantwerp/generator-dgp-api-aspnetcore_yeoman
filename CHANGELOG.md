@@ -1,5 +1,8 @@
 # generator-dgp-api-aspnetcore
 
+## 11.0.0
+- Updated project to .net 6.0
+
 ## 10.0.1
 - increase Digipolis.Errors toolbox and exception mapping logic for "Too many requests (429)" exception
 
