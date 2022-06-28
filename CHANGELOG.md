@@ -1,5 +1,8 @@
 # generator-dgp-api-aspnetcore
 
+## 11.0.1
+- downgrade some node modules used in the yeoman generator scripts to still allow use of require-statement for now instead of ESM dynamic import
+
 ## 11.0.0
 - Updated project to .net 6.0
 

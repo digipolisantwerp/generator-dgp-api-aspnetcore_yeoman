@@ -1,6 +1,6 @@
 {
   "name": "generator-dgp-api-aspnetcore",
-  "version": "11.0.0",
+  "version": "11.0.1",
   "description": "Generator for an ASP.NET Core API project.",
   "homepage": "https://github.com/digipolisantwerp/generator-dgp-api-aspnetcore_yeoman",
   "author": {
@@ -19,11 +19,11 @@
   ],
   "dependencies": {
     "@ljharb/eslint-config": "^21.0.0",
-    "chalk": "^5.0.1",
+    "chalk": "^4.1.0",
     "del": "^6.1.1",
     "node-dir": "^0.1.17",
     "rimraf": "^3.0.2",
-    "update-notifier": "^6.0.2",
+    "update-notifier": "^5.1.0",
     "uuid": "8.3.2",
     "yeoman-generator": "^5.6.1",
     "yeoman-test": "^6.3.0",
