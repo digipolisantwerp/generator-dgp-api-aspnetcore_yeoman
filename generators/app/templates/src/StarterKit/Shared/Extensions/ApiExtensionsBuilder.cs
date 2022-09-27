@@ -1,3 +1,4 @@
+using System;
 using Digipolis.Errors;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,6 +37,18 @@ namespace StarterKit.Shared.Extensions
 				RequireHeaderSymmetry = true,
 				ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedHost |
 				                   Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto
+			});
+
+			app.Use(async (context, next) =>
+			{
+				// This line reads the X-Forwarded-Proto header sent by NgInx
+				// The first request is sent over HTTP/1 protocol and therefore it is needed to convert the scheme to HTTPS
+				var xForwardedProto = context.Request.Headers["X-Forwarded-Proto"].ToString();
+				if (xForwardedProto != null && xForwardedProto.StartsWith(Uri.UriSchemeHttps, StringComparison.InvariantCultureIgnoreCase))
+				{
+					context.Request.Scheme = Uri.UriSchemeHttps;
+				}
+				await next();
 			});
 		}
 	}
