@@ -23,7 +23,7 @@
     "del": "^6.1.1",
     "node-dir": "^0.1.17",
     "rimraf": "^3.0.2",
-    "update-notifier": "^5.1.0",
+    "update-notifier": "^6.0.2",
     "uuid": "8.3.2",
     "yeoman-generator": "^5.6.1",
     "yeoman-test": "^6.3.0",
