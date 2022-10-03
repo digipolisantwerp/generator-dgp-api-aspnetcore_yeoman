@@ -1,5 +1,8 @@
 # generator-dgp-api-aspnetcore
 
+## 11.0.3
+- set scheme to HTTPS from X-Forwarded-Proto header before first call is handled to allow correct scheme and try-out functionality in swagger-UI
+
 ## 11.0.2
 - use mcr.microsoft.com/dotnet/aspnet:6.0 as docker runtime image instead of alpine version
 
