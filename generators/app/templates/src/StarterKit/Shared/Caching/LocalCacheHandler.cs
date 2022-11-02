@@ -60,6 +60,14 @@ namespace StarterKit.Shared.Caching
 			return Task.CompletedTask;
 		}
 
+		public Task SaveToCacheAsync<T>(string key, T value, TimeSpan expirationTimeSpan, CancellationToken cancellationToken = default)
+			where T : class
+		{
+			_cache.Set(key, value, expirationTimeSpan);
+
+			return Task.CompletedTask;
+		}
+
 		public async Task<(bool succeeded, T value)> RefreshCacheValue<T>(string key, Func<Task<T>> GetValueFunc)
 			where T : class
 		{

@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using StarterKit.ServiceAgents._base.Settings;
 using StarterKit.Shared.Caching;
+using StarterKit.Shared.Options;
 
 namespace StarterKit.ServiceAgents._base.Auth
 {
@@ -39,7 +40,7 @@ namespace StarterKit.ServiceAgents._base.Auth
 
 				if (cacheExpiration > 0)
 				{
-					await _cache.SaveToCacheAsync(cacheKey, tokenReplyResult);
+					await _cache.SaveToCacheAsync(cacheKey, tokenReplyResult, new TimeSpan(hours: 0, minutes: cacheExpiration, seconds: 0));
 				}
 			}
 
