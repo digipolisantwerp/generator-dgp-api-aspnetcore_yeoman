@@ -1,5 +1,8 @@
 # generator-dgp-api-aspnetcore
 
+## 11.0.5
+- OutgoingRequestLogger: read response body of non-successfull calls via byte buffer to capture invalid responses (ex. invalid content-lenght) 
+
 ## 11.0.4
 - base expiration of the OAuth access token on the expires_in property of TokenReply instead of a own chosen timespan
 
