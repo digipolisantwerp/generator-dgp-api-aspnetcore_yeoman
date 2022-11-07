@@ -1,6 +1,3 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Digipolis.Errors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +5,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using StarterKit.Shared.Options.Logging;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace StarterKit.Shared.Exceptions.Handler
 {

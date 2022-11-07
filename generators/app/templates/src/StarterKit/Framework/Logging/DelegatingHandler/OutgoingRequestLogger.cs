@@ -1,15 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using Serilog;
 using StarterKit.Shared.Options.Logging;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace StarterKit.Framework.Logging.DelegatingHandler
 {
@@ -141,7 +143,55 @@ namespace StarterKit.Framework.Logging.DelegatingHandler
 				return "Logging of multipart content body disabled";
 			}
 
-			return await response.Content.ReadAsStringAsync();
+			try
+			{
+				if (response.IsSuccessStatusCode)
+				{
+					return await response.Content?.ReadAsStringAsync();
+				}
+				else
+				{
+					// read response buffered to also try to read invalid responses (ex. invalid content-length header, ...)
+					return await GetReponseContenBufferedAsync(response);
+				}
+			}
+			catch (Exception ex)
+			{
+				return $"Unable to read {response.StatusCode}-response body for logging ({ex}).";
+			}
+		}
+
+		private async Task<string> GetReponseContenBufferedAsync(HttpResponseMessage response)
+		{
+			using var contentStream = await response.Content.ReadAsStreamAsync();
+
+			var bufferSize = 2048;
+			var buffer = new byte[bufferSize];
+			var responseContent = new List<byte>();
+
+			try
+			{
+				var readBytes = 0;
+				while ((readBytes = contentStream.Read(buffer)) != 0)
+				{
+					for (int i = 0; i < readBytes; i++)
+					{
+						responseContent.Add(buffer[i]);
+					}
+				}
+			}
+			catch (IOException ex)
+			{
+				if (!ex.Message.StartsWith("The response ended prematurely"))
+				{
+					throw;
+				}
+			}
+
+			UTF8Encoding encoding = new UTF8Encoding();
+			string contentString = encoding.GetString(responseContent.ToArray());
+
+			return contentString;
 		}
 
 		private async Task<Dictionary<string, object>> GetResponseLog(HttpResponseMessage response, long durationInMs)

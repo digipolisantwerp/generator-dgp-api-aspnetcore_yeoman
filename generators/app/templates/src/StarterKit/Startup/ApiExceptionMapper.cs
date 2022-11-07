@@ -1,5 +1,3 @@
-using System;
-using System.Net;
 using AutoMapper;
 using Digipolis.Correlation;
 using Digipolis.Errors;
@@ -8,6 +6,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using StarterKit.Framework.Extensions;
+using System;
+using System.Net;
 
 namespace StarterKit.Startup
 {

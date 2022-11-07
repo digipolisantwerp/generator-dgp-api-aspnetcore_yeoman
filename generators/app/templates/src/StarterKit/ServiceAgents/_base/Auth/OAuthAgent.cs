@@ -1,10 +1,9 @@
+using StarterKit.ServiceAgents._base.Settings;
+using StarterKit.Shared.Caching;
 using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using StarterKit.ServiceAgents._base.Settings;
-using StarterKit.Shared.Caching;
-using StarterKit.Shared.Options;
 
 namespace StarterKit.ServiceAgents._base.Auth
 {
