@@ -52,7 +52,7 @@
     <!--EndEfSpecificPackage-->
     <!--StartMongoSpecificPackage-->
     <PackageReference Include="MongoDB.Bson" Version="2.16.1" />
-    <PackageReference Include="MongoDB.Driver" Version="2.16.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.19.0" />
     <!--EndMongoSpecificPackage-->
     <!--StartMsSpecificPackage-->
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.6" />
