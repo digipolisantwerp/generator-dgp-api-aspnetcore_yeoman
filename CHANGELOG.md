@@ -1,5 +1,8 @@
 # generator-dgp-api-aspnetcore
 
+## 11.0.6
+- resolve generator error due to version of update-notifier package
+
 ## 11.0.5
 - OutgoingRequestLogger: read response body of non-successfull calls via byte buffer to capture invalid responses (ex. invalid content-lenght) 
 
