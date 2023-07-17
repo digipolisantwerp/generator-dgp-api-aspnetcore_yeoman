@@ -1,5 +1,9 @@
 # generator-dgp-api-aspnetcore
 
+## 12.0.0
+- Updated project to .net 7.0
+- change Serilog initialization in program.cs
+
 ## 11.0.6
 - resolve generator error due to version of update-notifier package
 

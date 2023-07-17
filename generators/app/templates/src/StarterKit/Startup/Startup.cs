@@ -16,6 +16,7 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using Serilog;
 using StarterKit.Framework.Logging;
 using StarterKit.Framework.Logging.Middleware;
 using StarterKit.Shared.Constants;
@@ -72,7 +73,7 @@ namespace StarterKit.Startup
 
 			#region Logging
 
-			services.AddLogging(Configuration, Environment);
+			services.AddLoggingServices(Configuration, Environment);
 
 			#endregion
 
@@ -159,12 +160,14 @@ namespace StarterKit.Startup
 		}
 
 		public void Configure(IApplicationBuilder app,
-			IApiVersionDescriptionProvider versionProvider,
-			ILoggerFactory loggerFactory, IHostApplicationLifetime appLifetime)
+							IApiVersionDescriptionProvider versionProvider,
+							ILoggerFactory loggerFactory,
+							IHostApplicationLifetime appLifetime)
 		{
-			loggerFactory.UseLogging(app, appLifetime, Configuration, Environment);
+			// logging
+			appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);
 
-			// Enable Serilog selflogging to console.
+			// enable Serilog selflogging to console.
 			Serilog.Debugging.SelfLog.Enable(Console.Out);
 
 			app.UseMiddleware<IncomingRequestLogger>();

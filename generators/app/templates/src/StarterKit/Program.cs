@@ -1,8 +1,11 @@
+using Digipolis.Serilog.Startup;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
+using Serilog.Settings.Configuration;
 using StarterKit.Framework.Logging;
 using StarterKit.Shared.Constants;
 using System;
@@ -21,21 +24,23 @@ namespace StarterKit
 			var loggingConfig = new ConfigurationBuilder().SetBasePath(configPath).AddJsonFile(JsonFilesKey.LoggingJson)
 				.Build();
 
-			// set up our preliminary logger to console so logs can be picked up by an external system. Fe: FileBeat
+			// set up our preliminary "bootstrap" logger to console so logs can be picked up by an external system.
+			// The initial "bootstrap" logger is able to log errors during start-up. It's completely replaced by the
+			// logger configured in `UseSerilog()` below, once configuration and dependency-injection have both been set up successfully.
 			Log.Logger = new LoggerConfiguration()
 				.MinimumLevel.Debug()
 				.MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-				.ReadFrom.Configuration(loggingConfig, ConfigurationSectionKey.Serilog)
+				.ReadFrom.Configuration(loggingConfig)  // by default Serilog looks for Serilog section in configuration
 				.Enrich.FromLogContext()
 				.Filter.ByExcluding(l => l.Properties.Any(p => p.Value.ToString().Contains("/status/")))
-				.CreateLogger();
+				.CreateBootstrapLogger();
 
 			try
 			{
-				Log.Information("Application started.");
-				Log.Information("Starting web host...");
+				Log.Information("Application started. Starting web host...");
 
 				await CreateWebHostBuilder(args).Build().RunAsync();
+				Log.Information("Application stopped successfully.");
 			}
 			catch (Exception e)
 			{
@@ -48,7 +53,7 @@ namespace StarterKit
 			}
 		}
 
-		public static IWebHostBuilder ConfigureWebHostBuilder(string[] args, string configPath)
+		public static IHostBuilder ConfigureWebHostBuilder(string[] args, string configPath)
 		{
 			var hostingConfig = new ConfigurationBuilder()
 				.SetBasePath(configPath)
@@ -60,30 +65,51 @@ namespace StarterKit
 				? envVars[AppSettingsConfigKey.ServerUrls]?.ToString()
 				: hostingConfig.GetValue<string>(AppSettingsConfigKey.LocalServerUrls);
 
-			return WebHost.CreateDefaultBuilder(args)
-				.UseStartup<Startup.Startup>()
-				.UseDefaultServiceProvider(options => options.ValidateScopes = false)
-				.ConfigureAppConfiguration((hostingContext, config) =>
-				{
-					// delete all default configuration providers
-					config.Sources.Clear();
+			var builder = Host.CreateDefaultBuilder(args);
 
-					var env = hostingContext.HostingEnvironment;
-					config.SetBasePath(configPath);
-					config.AddLoggingConfiguration(env);
-					config.AddJsonFile(JsonFilesKey.AppJson);
-					config.AddJsonFile(JsonFilesKey.ServiceAgentsJson);
-					//--dataaccess-config--
-					//--authorization-config--
-					config.AddEnvironmentVariables();
-				})
-				.CaptureStartupErrors(true)
-				.UseSerilog()
-				.UseConfiguration(hostingConfig)
-				.UseUrls(serverUrls);
+			builder.ConfigureWebHostDefaults(webHostBuilder =>
+				{
+					webHostBuilder.UseStartup<Startup.Startup>();
+					webHostBuilder.UseDefaultServiceProvider(options => options.ValidateScopes = false);
+					webHostBuilder.ConfigureAppConfiguration((hostingContext, config) =>
+					{
+						// delete all default configuration providers
+						config.Sources.Clear();
+
+						var env = hostingContext.HostingEnvironment;
+						config.SetBasePath(configPath);
+						config.AddLoggingConfiguration(env);
+						config.AddJsonFile(JsonFilesKey.AppJson);
+						config.AddJsonFile(JsonFilesKey.ServiceAgentsJson);
+						//--dataaccess-config--
+						//--authorization-config--
+						config.AddEnvironmentVariables();
+					});
+					webHostBuilder.CaptureStartupErrors(true);
+					webHostBuilder.UseConfiguration(hostingConfig);
+					webHostBuilder.UseUrls(serverUrls);
+				}
+			);
+
+			builder.UseSerilog((hostingContext, serviceProvider, loggerConfiguration) =>
+			{
+				var logSection = hostingContext.HostingEnvironment.EnvironmentName == Environments.Development
+									? ConfigurationSectionKey.SerilogDev
+									: ConfigurationSectionKey.Serilog;
+
+				var options = new ConfigurationReaderOptions { SectionName = logSection };
+
+				loggerConfiguration
+				.ReadFrom.Configuration(hostingContext.Configuration, options)
+				.ReadFrom.Services(serviceProvider)
+				.Enrich.WithRegisteredEnrichers(serviceProvider)
+				.Filter.ByExcluding(l => l.Properties.Any(p => p.Value.ToString().Contains("/status/")));
+			});
+
+			return builder;
 		}
 
-		public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+		public static IHostBuilder CreateWebHostBuilder(string[] args)
 		{
 			var configPath = Path.Combine(Directory.GetCurrentDirectory(), JsonFilesKey.JsonFilesPath);
 			return ConfigureWebHostBuilder(args, configPath);

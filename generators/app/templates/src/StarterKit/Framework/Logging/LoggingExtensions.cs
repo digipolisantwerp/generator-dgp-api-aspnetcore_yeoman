@@ -20,7 +20,7 @@ namespace StarterKit.Framework.Logging
 		/// <summary>
 		/// configure logging services in Startup
 		/// </summary>
-		public static void AddLogging(this IServiceCollection services,
+		public static void AddLoggingServices(this IServiceCollection services,
 			IConfiguration config,
 			IHostEnvironment Environment)
 		{
@@ -28,40 +28,12 @@ namespace StarterKit.Framework.Logging
 			LogSettings.RegisterConfiguration(services, config.GetSection(ConfigurationSectionKey.LogSettings),
 				Environment);
 
-			// add serilog enrichers
+			// add serilog enrichers to services
 			services.AddSerilogExtensions(options =>
 			{
 				options.AddAuthServiceEnricher();
 				options.AddCorrelationEnricher();
 			});
-		}
-
-		/// <summary>
-		/// configure logging in Startup: initialize serilog
-		/// </summary>
-		public static void UseLogging(this ILoggerFactory loggerFactory,
-			IApplicationBuilder app,
-			IHostApplicationLifetime appLifetime,
-			IConfiguration config,
-			IHostEnvironment hostingEnv)
-		{
-			// SERILOG - initialize
-			var enrich = app.ApplicationServices.GetServices<ILogEventEnricher>().ToArray();
-
-			var logSection = hostingEnv.EnvironmentName == Environments.Development
-				? ConfigurationSectionKey.SerilogDev
-				: ConfigurationSectionKey.Serilog;
-
-			Log.Logger = new LoggerConfiguration()
-				.Enrich.With(enrich)
-				.Enrich.With(new TypeEnricher())
-				.ReadFrom.Configuration(config, logSection)
-				.Filter.ByExcluding(l => l.Properties.Any(p => p.Value.ToString().Contains("/status/")))
-				.CreateLogger();
-
-			loggerFactory.AddSerilog(dispose: true);
-
-			appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);
 		}
 
 		/// <summary>
@@ -86,7 +58,8 @@ namespace StarterKit.Framework.Logging
 					"Serilog:MinimumLevel:Override:Microsoft", environmentDict);
 			}
 
-			// load in this order so that json-settings will be overridden with environment settings when getting the configuration section
+			// load in this order so that json-settings will be overridden with environment settings when getting the configuration section;
+			// IOptions<ApplicationLogSettings> are set in StartUp	> services.AddLoggingServices(Configuration, Environment);
 			configurationBuilder.AddJsonFile(JsonFilesKey.LoggingJson);
 			configurationBuilder.AddInMemoryCollection(environmentDict);
 		}
