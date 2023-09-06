@@ -6,8 +6,10 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 using Serilog.Settings.Configuration;
+using StarterKit.DataAccess.Options;
 using StarterKit.Framework.Logging;
 using StarterKit.Shared.Constants;
+using StarterKit.Shared.Options;
 using System;
 using System.IO;
 using System.Linq;
@@ -79,7 +81,7 @@ namespace StarterKit
 						var env = hostingContext.HostingEnvironment;
 						config.SetBasePath(configPath);
 						config.AddLoggingConfiguration(env);
-						config.AddJsonFile(JsonFilesKey.AppJson);
+						config.AddAppSettingsConfiguration(env);
 						config.AddJsonFile(JsonFilesKey.ServiceAgentsJson);
 						//--dataaccess-config--
 						//--authorization-config--

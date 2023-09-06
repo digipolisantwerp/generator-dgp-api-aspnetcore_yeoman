@@ -1,6 +1,3 @@
-using System;
-using System.Linq;
-using System.Reflection;
 using Digipolis.ApplicationServices;
 using Digipolis.Correlation;
 using Digipolis.Swagger.Startup;
@@ -22,6 +19,9 @@ using StarterKit.Framework.Logging.Middleware;
 using StarterKit.Shared.Constants;
 using StarterKit.Shared.Extensions;
 using StarterKit.Shared.Options;
+using System;
+using System.Linq;
+using System.Reflection;
 //--authorization-startupImports--
 
 //--dataaccess-startupImports--
@@ -43,20 +43,15 @@ namespace StarterKit.Startup
 		{
 			#region Read settings
 
-			// Check out ExampleController to find out how these configs are injected into other classes
-			AppSettings.RegisterConfiguration(services, Configuration.GetSection(ConfigurationSectionKey.AppSettings),
-				Environment);
-			//--dataaccess-registerConfiguration--
-
-			AppSettings appSettings;
+			// instantiate settings directly from configuration section for use in startup (avoid building serviceProvider in Startup)
+			var appSettings = AppSettings.GetConfigurationSection(Configuration).Get<AppSettings>();
 			//--dataaccess-variable--
 
-			using (var provider = services.BuildServiceProvider())
-			{
-				appSettings = provider.GetService<IOptions<AppSettings>>().Value;
-				//--dataaccess-getService--
-			}
-
+			// configure options for use in DI container;
+			// check out ExampleController to find out how these configs are injected into other classes
+			AppSettings.RegisterConfiguration(services, Configuration);				
+			//--dataaccess-registerConfiguration--
+			
 			#endregion
 
 			#region Add Correlation and application services

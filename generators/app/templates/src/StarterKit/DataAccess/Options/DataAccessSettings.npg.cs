@@ -1,9 +1,11 @@
-using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StarterKit.Shared;
 using StarterKit.Shared.Constants;
+using StarterKit.Shared.Options;
+using System;
+using System.Collections.Generic;
 
 namespace StarterKit.DataAccess.Options
 {
@@ -21,16 +23,7 @@ namespace StarterKit.DataAccess.Options
 		public bool RunScripts { get; set; }
 		public bool MarkAllAsExecuted { get; set; }
 		public bool DryRun { get; set; }
-
-		public static void RegisterConfiguration(IServiceCollection services, IConfigurationSection section,
-			IHostEnvironment environment)
-		{
-			services.Configure<DataAccessSettingsNpg>(settings =>
-			{
-				settings.LoadFromConfigSection(section);
-				settings.OverrideFromEnvironmentVariables(environment);
-			});
-		}
+		
 
 		public string GetConnectionString()
 		{
@@ -49,23 +42,57 @@ namespace StarterKit.DataAccess.Options
 			return connectionString.ToString();
 		}
 
-		private void LoadFromConfigSection(IConfiguration section)
+		public static IConfigurationSection GetConfigurationSection(IConfiguration Configuration)
 		{
-			section.Bind(this);
+			return Configuration.GetSection(ConfigurationSectionKey.DataAccess).GetSection(ConfigurationSectionKey.ConnectionString);
 		}
 
-		private void OverrideFromEnvironmentVariables(IHostEnvironment environment)
+		public static void RegisterConfiguration(IServiceCollection services, IConfiguration configuration)
 		{
-			Host = GetValue(Host, DataAccessSettingsConfigKeyNpg.Host, environment);
-			Port = GetValue(Port, DataAccessSettingsConfigKeyNpg.Port, environment);
-			DbName = GetValue(DbName, DataAccessSettingsConfigKeyNpg.DbName, environment);
-			User = GetValue(User, DataAccessSettingsConfigKeyNpg.User, environment);
-			Password = GetValue(Password, DataAccessSettingsConfigKeyNpg.PassWord, environment);
-
-			DryRun = GetValue(DryRun, DataAccessSettingsConfigKeyNpg.DryRun, environment);
-			MarkAllAsExecuted = GetValue(MarkAllAsExecuted, DataAccessSettingsConfigKeyNpg.MarkAllAsExecuted, environment);
-			RunScripts = GetValue(RunScripts, DataAccessSettingsConfigKeyNpg.RunScripts, environment);
+			// dataAccess settings from json are already overridden by environment variables in Program.cs
+			services.Configure<DataAccessSettingsNpg>(GetConfigurationSection(configuration));
 		}
 	}
-	
+
+	public static class DataAccessExtensionsNpg
+	{
+
+		/// <summary>
+		/// load appsettings from json and overwrite necessary params from environment variables
+		/// </summary>
+		/// <param name="configurationBuilder"></param>
+		/// <param name="hostingEnv"></param>
+		/// <returns></returns>
+		public static IConfigurationBuilder AddDataAccessConfiguration(this IConfigurationBuilder configurationBuilder,
+																	   IHostEnvironment hostingEnv)
+		{
+			// load in this order so that json-settings will be overridden with environment settings when getting the configuration section;
+			configurationBuilder.AddJsonFile(JsonFilesKey.DataAccessJson);
+			configurationBuilder.AddInMemoryCollection(GetEnvironmentVariablesDict(hostingEnv));
+
+			return configurationBuilder;
+		}
+
+		private static Dictionary<string, string> GetEnvironmentVariablesDict(IHostEnvironment hostingEnv)
+		{
+			var environmentDict = new Dictionary<string, string>();
+
+			// overwrite settings from environment variables;
+			// if overwriting the json-file value from environment variables isn't necesarry, omit the variable declaration in appconfig and beneath
+			if (hostingEnv.EnvironmentName != RuntimeEnvironment.Local)
+			{
+				ConfigUtil.FillFromEnvironment(DataAccessSettingsConfigKeyNpg.Host, "DataAccess:ConnectionString:Host", environmentDict);
+				ConfigUtil.FillFromEnvironment(DataAccessSettingsConfigKeyNpg.Port, "DataAccess:ConnectionString:Port", environmentDict);
+				ConfigUtil.FillFromEnvironment(DataAccessSettingsConfigKeyNpg.DbName, "DataAccess:ConnectionString:DbName", environmentDict);
+				ConfigUtil.FillFromEnvironment(DataAccessSettingsConfigKeyNpg.User, "DataAccess:ConnectionString:User", environmentDict);
+				ConfigUtil.FillFromEnvironment(DataAccessSettingsConfigKeyNpg.PassWord, "DataAccess:ConnectionString:Password", environmentDict);
+
+				ConfigUtil.FillFromEnvironment(DataAccessSettingsConfigKeyNpg.DryRun, "DataAccess:ConnectionString:DryRun", environmentDict);
+				ConfigUtil.FillFromEnvironment(DataAccessSettingsConfigKeyNpg.MarkAllAsExecuted, "DataAccess:ConnectionString:MarkAllAsExecuted", environmentDict);
+				ConfigUtil.FillFromEnvironment(DataAccessSettingsConfigKeyNpg.RunScripts, "DataAccess:ConnectionString:RunScripts", environmentDict);
+			}
+
+			return environmentDict;
+		}
+	}
 }

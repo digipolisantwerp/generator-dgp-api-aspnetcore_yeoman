@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using Serilog.Core;
 using Serilog.Events;
+using System.Collections.Generic;
 
 namespace StarterKit.Framework.Logging
 {

@@ -126,9 +126,12 @@ module.exports = class extends Generator {
           .replace(/StarterKit/g, projectName)
           .replace(/starterkit/g, lowerProjectName)
           .replace(/DataAccessSettingsNpg/g, 'DataAccessSettings')
+		  .replace(/DataAccessExtensionsNpg/g, 'DataAccessExtensions')
 		  .replace(/\/\/\/\//g, '')
           .replace(/DataAccessSettingsMs/g, 'DataAccessSettings')
+		  .replace(/DataAccessExtensionsMs/g, 'DataAccessExtensions')
           .replace(/DataAccessSettingsMongo/g, 'DataAccessSettings')
+		  .replace(/DataAccessExtensionsMongo/g, 'DataAccessExtensions')
           .replace(/EntityRepositoryBaseMongo/g, 'EntityRepositoryBase')
           .replace(/GenericEntityRepositoryMongo/g, 'GenericEntityRepository')
           .replace(/IRepositoryMongo/g, 'IRepository')
@@ -207,7 +210,6 @@ module.exports = class extends Generator {
             dataProvider.registerConfiguration
           )
           .replace(/\/\/--dataaccess-variable--/g, dataProvider.variable)
-          .replace(/\/\/--dataaccess-getService--/g, dataProvider.getService)
           .replace(/\/\/--dataaccess-config--/g, dataProvider.programConfig)
 		  .replace(/\/\/--authorization-config--/g, oauthConfig.programConfig)
           .replace(/<!-- dataaccess-tools -->/g, dataProvider.tools);
@@ -500,13 +502,10 @@ function getDataProvider(input, projectName) {
 	var mongoUsings = 'using StarterKit.DataAccess;\nusing StarterKit.DataAccess.Options;\nusing StarterKit.DataAccess.Context;'.replace(/StarterKit/g, projectName);
   
 	// code - various
-	var programConfig = 'config.AddJsonFile(JsonFilesKey.DataAccessJson);';
-	var registerConfiguration =
-		'DataAccessSettings.RegisterConfiguration(services, Configuration.GetSection(Shared.Constants.ConfigurationSectionKey.DataAccess), Environment);';
-	var variable = 'DataAccessSettings dataAccessSettings;';
-	var getService =
-		'dataAccessSettings = provider.GetService<IOptions<DataAccessSettings>>().Value;';
-  
+	var programConfig = 'config.AddDataAccessConfiguration(env);';
+	var registerConfiguration = 'DataAccessSettings.RegisterConfiguration(services, Configuration);';
+	var variable = 'var dataAccessSettings = DataAccessSettings.GetConfigurationSection(Configuration).Get<DataAccessSettings>();';
+	
 
   var dataProvider = {
     input: input,
@@ -517,8 +516,7 @@ function getDataProvider(input, projectName) {
     connString: '',
     tools: '',
     registerConfiguration: '',
-    variable: '',
-    getService: ''
+    variable: ''
   };
 
   if (input.toLowerCase() === 'p') {
@@ -537,7 +535,6 @@ function getDataProvider(input, projectName) {
     dataProvider.tools = tools;
     dataProvider.registerConfiguration = registerConfiguration;
     dataProvider.variable = variable;
-    dataProvider.getService = getService;
   } else if (input.toLowerCase() === 'ms') {
     dataProvider.package = efCorePackage + sqlServerPackage;
     dataProvider.startupServices =
@@ -551,7 +548,6 @@ function getDataProvider(input, projectName) {
     dataProvider.tools = tools;
     dataProvider.registerConfiguration = registerConfiguration;
     dataProvider.variable = variable;
-    dataProvider.getService = getService;
   } else if (input.toLowerCase() === 'mo') {
     dataProvider.package = mongoPackages;
     dataProvider.startupServices =
@@ -561,7 +557,6 @@ function getDataProvider(input, projectName) {
     dataProvider.programConfig = programConfig;
     dataProvider.registerConfiguration = registerConfiguration;
     dataProvider.variable = variable;
-    dataProvider.getService = getService;
   }
 
   return dataProvider;

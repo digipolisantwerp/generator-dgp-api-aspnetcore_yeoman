@@ -1,3 +1,8 @@
+using Serilog.Events;
+using Serilog.Formatting;
+using Serilog.Formatting.Json;
+using Serilog.Parsing;
+using StarterKit.Framework.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,11 +10,6 @@ using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using Serilog.Events;
-using Serilog.Formatting;
-using Serilog.Formatting.Json;
-using Serilog.Parsing;
-using StarterKit.Framework.Extensions;
 
 namespace StarterKit.Framework.Logging
 {

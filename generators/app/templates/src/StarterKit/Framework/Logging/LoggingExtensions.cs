@@ -1,17 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Digipolis.Serilog;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Serilog;
-using Serilog.Core;
 using StarterKit.Shared.Constants;
 using StarterKit.Shared.Options;
 using StarterKit.Shared.Options.Logging;
+using System.Collections.Generic;
 
 namespace StarterKit.Framework.Logging
 {
