@@ -1,5 +1,11 @@
 # generator-dgp-api-aspnetcore
 
+## 12.0.2
+- avoid initializing serviceProvider in Startup for appsettings en dataaccess settings
+
+## 12.0.1
+- Update project nuget packages
+
 ## 12.0.0
 - Updated project to .net 7.0
 - change Serilog initialization in program.cs
